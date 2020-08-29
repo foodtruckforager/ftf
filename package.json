@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "pretest": "/node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
   "husky": {
     "hooks": {
