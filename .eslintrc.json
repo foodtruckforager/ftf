@@ -1,22 +1,22 @@
 {
   "env": {
     "browser": true,
-    "es2020": true,
+    "es6": true,
     "node": true
   },
   "extends": ["airbnb"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true,
-      "tsx": true,
-      "json": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
-  },
-  "plugins": ["react", "@typescript-eslint"],
+  "parser": "babel-eslint",
+  "plugins": ["react"],
   "rules": {
+    "import/extensions": [
+      "error",
+      {
+        "jsx": "always",
+        "tsx": "always",
+        "json": "always"
+      }
+    ],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/jsx-one-expression-per-line": 0,
     "space-before-function-paren": ["error", "never"],
     "react/button-has-type": 0,
