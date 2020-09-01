@@ -1,8 +1,10 @@
 import * as Google from 'expo-google-app-auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Button } from 'react-native';
 
-export default function GoogleSignIn() {
+export default function GoogleLogIn() {
+  const [accessToken, setAccessToken] = useState('');
+
   const userConfig = {
     iosClientId: process.env.EXPO_iosClientId,
     androidClientId: process.env.EXPO_androidClientId,
@@ -15,10 +17,11 @@ export default function GoogleSignIn() {
     scopes: ['profile', 'email'],
   };
 
-  async function signInWithGoogleAsync(configuration) {
+  async function signInWithGoogleAsync(configuration: Object) {
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {
+        setAccessToken(result.accessToken);
         return result.accessToken;
       }
       return { cancelled: true };
@@ -34,6 +37,17 @@ export default function GoogleSignIn() {
     signInWithGoogleAsync(truckConfig);
   };
 
+  const logOut = async() => {
+    const logOutConfig = {
+      iosClientId: process.env.EXPO_iosClientId,
+      androidClientId: process.env.EXPO_androidClientId,
+    };
+
+    await Google.logOutAsync({ accessToken, ...logOutConfig });
+    setAccessToken('');
+    console.log('you have been logged out');
+  };
+
   return (
     <View>
       <View>
@@ -41,6 +55,9 @@ export default function GoogleSignIn() {
       </View>
       <View>
         <Button title="Google Truck Owner Sign In" onPress={truckSignIn} />
+      </View>
+      <View>
+        <Button title="logout" onPress={logOut} />
       </View>
     </View>
   );
