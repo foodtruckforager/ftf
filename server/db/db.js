@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const UserModel = require('./models/User');
 const TruckModel = require('./models/Truck');
@@ -5,13 +7,14 @@ const ReviewModel = require('./models/Review');
 const PostModel = require('./models/Post');
 const PhotoModel = require('./models/Photo');
 
-const user = 'postgres';
-const host = 'localhost';
-const database = 'foodtruckdb';
-const password = 'ludwig';
-const port = 5432;
+const user = process.env.DB_USERNAME;
+const host = process.env.DB_HOST;
+const database = process.env.DB_DBNAME;
+const password = process.env.DB_PASSWORD;
+const port = process.env.DB_PORT;
+
 const sequelize = new Sequelize(
-  `postgres://${user}:${password}@${host}:${port}/${database}`
+  `postgres://${user}:${password}@${host}:${port}/${database}`,
 );
 
 const User = UserModel(sequelize, Sequelize);

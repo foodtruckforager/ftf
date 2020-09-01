@@ -15,7 +15,7 @@ export default function GoogleSignIn() {
     scopes: ['profile', 'email'],
   };
 
-  async function signInWithGoogleAsync(configuration) {
+  async function signInWithGoogleAsync(configuration: Object) {
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {

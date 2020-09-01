@@ -1,4 +1,4 @@
-const { truckRouter } = require('express').Router();
+const truckRouter = require('express').Router();
 
 // TODO: replace truck splash page info
 truckRouter.get('/', (req, res) => {
