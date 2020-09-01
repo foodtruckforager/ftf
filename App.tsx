@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import GoogleSignIn from './GoogleSignIn';
+import GoogleLogIn from './client/components/GoogleLogIn';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <GoogleSignIn />
+      <GoogleLogIn />
       <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style='auto' />
     </View>
