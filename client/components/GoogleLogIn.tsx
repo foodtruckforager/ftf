@@ -5,6 +5,13 @@ import { View, Button } from 'react-native';
 export default function GoogleLogIn() {
   const [accessToken, setAccessToken] = useState('');
 
+  // const hitServer = () => {
+  //   fetch('http://10.0.0.240:5000/truck/')
+  //     .then(response => response.json())
+  //     .then(jsonResponse => console.log(jsonResponse))
+  //     .catch(err => console.log(err));
+  // }
+
   const userConfig = {
     iosClientId: process.env.EXPO_iosClientId,
     androidClientId: process.env.EXPO_androidClientId,
@@ -59,6 +66,9 @@ export default function GoogleLogIn() {
       <View>
         <Button title="logout" onPress={logOut} />
       </View>
+      {/* <View>
+        <Button title='server' onPress={hitServer} />
+      </View> */}
     </View>
   );
 }
