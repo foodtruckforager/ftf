@@ -23,7 +23,7 @@ const Review = ReviewModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Photo = PhotoModel(sequelize, Sequelize);
 
-const connection = async () => {
+const connection = async() => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
@@ -31,7 +31,7 @@ const connection = async () => {
     console.error('Unable to connect to the database:', error);
   }
 };
-const syncModels = async () => {
+const syncModels = async() => {
   try {
     await sequelize.sync();
     console.log('Models have been synced successfully.');
