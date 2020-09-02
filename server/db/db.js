@@ -14,7 +14,9 @@ const password = process.env.DB_PASSWORD;
 const port = process.env.DB_PORT;
 
 const sequelize = new Sequelize(
-  `postgres://${user}:${password}@${host}:${port}/${database}`,
+  `postgres://${user}:${password}@${host}:${port}/${database}`, {
+    logging: false,
+  },
 );
 
 const User = UserModel(sequelize, Sequelize);
@@ -56,15 +58,15 @@ const syncModels = async() => {
 
 //   const newReview = await Review.create({
 //     review_title: 'I LOVE Rolling Fatties THEYRE INCREDIBLE!!!!',
-//     id_user: 14,
-//     id_truck: 4,
+//     id_user: 1,
+//     id_truck: 1,
 //   });
 //   const foundReview = await Review.findAll({
-//     where: { id_user: 14 },
+//     where: { id_user: 1 },
 //     // where: { id_user: 14, id_truck: 4 },
 //   });
 //   if (foundReview === null) return;
-//   console.log('FOUND REVIEW:')
+//   console.log('FOUND REVIEW:');
 //   console.log(foundReview);
 // }
 connection();
