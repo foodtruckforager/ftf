@@ -5,6 +5,7 @@ import { createAppContainer } from 'react-navigation';
 import TrackerStack from './trackerStack';
 import Search from '../screens/search';
 import Profile from '../screens/profile';
+import Accordion from '../../Accordion';
 
 const RootDrawerNavigator = createDrawerNavigator({
   Tracker: {
@@ -18,6 +19,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   // },
   Profile: {
     screen: Profile,
+  },
+  UserProfile: {
+    screen: Accordion,
   },
 });
 
