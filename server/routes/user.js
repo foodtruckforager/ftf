@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const {
-  Truck, Photo, Review, Post,
-} = require('../db/db');
+// const {
+//   Truck, Photo, Review, Post,
+// } = require('../db/db');
 
 const userRouter = Router();
 
@@ -12,10 +12,10 @@ userRouter.get('/:id', (req, res) => {
   res.send('hello');
 });
 
-// TODO: 
+// TODO:
 // route to add new truck review
 userRouter.post('/review/new/:truckId/:userId', (req, res) => {
-  const { truckId, userId } = req.params;
+  // const { truckId, userId } = req.params;
   res.send('hello');
   // Review.findOrCreate({
 
