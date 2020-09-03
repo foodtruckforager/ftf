@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
 const truckRouter = require('express').Router();
-const { Truck, Photo } = require('../db/db');
+const {
+  Truck, Photo, Review, Post,
+} = require('../db/db');
 
 // TODO: replace truck splash page info
 truckRouter.get('/', (req, res) => {
@@ -17,9 +19,9 @@ truckRouter.get('/', (req, res) => {
 });
 
 // get specific truck by id
-truckRouter.get('/:id', (req, res) => {
-  const { id } = req.params;
-  Truck.findByPk(id)
+truckRouter.get('/:truckId', (req, res) => {
+  const { truckId } = req.params;
+  Truck.findByPk(truckId)
     .then((foundtruck) => {
       console.log(foundtruck);
       res.send(foundtruck);
@@ -48,42 +50,109 @@ truckRouter.get('/photo/:truckId', (req, res) => {
     });
 });
 
-// truckRouter.get('/photo/:id', (req, res) => {
-
-// });
-
-// truckRouter.get('/review/:id', (req, res) => {
-
-// });
+// TODO: still need to test this route
 
 // find all reviews by specific truck
-truckRouter.get('/review/:id', (req, res) => {
-  res.send('hello');
+truckRouter.get('/review/:truckId', (req, res) => {
+  const { truckId } = req.params;
+  Review.findAll({
+    where: {
+      id_truck: truckId,
+    },
+  })
+    .then((truckReview) => {
+      console.log(truckReview);
+      res.send(truckReview);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
 });
 
-// TODO: Add rest of properties**
+// route to get all truck posts
+truckRouter.get('/truckpost/:truckId', (req, res) => {
+  const { truckId } = req.params;
+  Post.findAll({
+    where: {
+      id_truck: truckId,
+    },
+  })
+    .then((truckPosts) => {
+      console.log(truckPosts);
+      res.send(truckPosts);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
 
 // route to create new truck
 truckRouter.post('/create', (req, res) => {
-  const { full_name } = req.body;
-  Truck.findOrCreate({ where: { full_name } })
+  const {
+    fullName,
+    phoneNumber,
+    googleId,
+    qrCode,
+    logo,
+    foodGenre,
+    blurb,
+    openTime,
+    closeTime,
+    latitude,
+    longitude,
+  } = req.body;
+
+  Truck.findOrCreate({
+    where:
+    {
+      full_name: fullName,
+      phone_number: phoneNumber,
+      google_id: googleId,
+      qr_code: qrCode,
+      logo,
+      foode_genre: foodGenre,
+      blurb,
+      open_time: openTime,
+      close_time: closeTime,
+      latitude,
+      longitude,
+    },
+  })
     .then((newTruck) => {
       res.status(201).send(newTruck);
     })
     .catch((err) => {
-      console.lerror('err');
+      console.error('err');
       res.status(500).send(err);
     });
 });
 
 // route for truck to make a new post
-truckRouter.post('/post/:id', (req, res) => {
-  const { id } = req.params;
-  res.send(id);
+truckRouter.post('/truckpost/new/:truckId', (req, res) => {
+  const { truckId } = req.params;
+  const { title, message, photo } = req.body;
+  Post.findOrCreate({
+    where: {
+      id_truck: truckId,
+      title,
+      message,
+      photo,
+    },
+  })
+    .then((newTruckPost) => {
+      console.log(newTruckPost);
+      res.status(201).send(newTruckPost);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
 });
 
 // route to create new truck photo
-truckRouter.post('/photo/post/:truckId', (req, res) => {
+truckRouter.post('/post/photo/:truckId', (req, res) => {
   const { truckId } = req.params;
   const { url } = req.body;
   Photo.findOrCreate({
@@ -103,40 +172,95 @@ truckRouter.post('/photo/post/:truckId', (req, res) => {
 });
 
 // update truck profile settings by specific id
-truckRouter.put('/update/:id', (req, res) => {
-  const { id } = req.params;
-  res.send(id);
+truckRouter.put('/update/:truckId', (req, res) => {
+  const { truckId } = req.params;
+
+  const {
+    fullName,
+    phoneNumber,
+    logo,
+    foodGenre,
+    blurb,
+    openTime,
+    closeTime,
+    latitude,
+    longitude,
+  } = req.body;
+
+  Truck.update({
+    full_name: fullName,
+    phone_number: phoneNumber,
+    logo,
+    foode_genre: foodGenre,
+    blurb,
+    open_time: openTime,
+    close_time: closeTime,
+    latitude,
+    longitude,
+  }, {
+    where: {
+      id: truckId,
+    },
+  })
+    .then((updatedTruck) => {
+      if (updatedTruck) {
+        console.log('truck updated successfully');
+        res.status(204).send('truck updated successfully');
+        return;
+      }
+      res.status(404).send('truck not found');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('there was an error processing request', err);
+    });
+});
+
+// delete specific photo from specific truck
+truckRouter.delete('/delete/photo/:truckId/:photoId', (req, res) => {
+  const { photoId, truckId } = req.params;
+  Photo.destroy({
+    where: {
+      id: photoId,
+      id_truck: truckId,
+    },
+  })
+    .then((removedTruck) => {
+      if (removedTruck) {
+        console.log(removedTruck);
+        res.send('photo was deleted');
+        return;
+      }
+      res.status(404).send('photo not found');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err, 'there was an error processing request');
+    });
+});
+
+// delete truck account
+truckRouter.delete('/delete/:truckId', (req, res) => {
+  const { truckId } = req.params;
+  Truck.destroy({
+    where: {
+      id: truckId,
+    },
+  })
+    .then((deletedTruck) => {
+      if (deletedTruck) {
+        console.log(deletedTruck);
+        res.send('truck was deleted');
+        return;
+      }
+      res.status(404).send('truck not found');
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('there was an error processing request', err);
+    });
 });
 
 module.exports = {
   truckRouter,
 };
-
-// Truck GET
-// /truck/:id
-
-// Truck.findOne // get truck info
-
-// Truck Reviews GET
-// /truck/review/:id
-
-// User_Truck.findOne // get truck reviews
-
-// /photo/:id
-// Photo.findOne // get photo info
-
-// Truck Profile Settings
-// /truck/update
-
-// Truck.findandupdate
-// truck updating username, phone number, logo, genre, blurb, photos,
-// business hours, latitude, longitude
-
-// Truck makes a new post
-// /truck/post
-
-// Truck.create // Title, comment, photo optional
-// where id_user is
-// where id_truck is
-// if exists add to it
-// if doesn’t, create it
