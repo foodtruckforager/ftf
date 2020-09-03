@@ -33,10 +33,10 @@ export interface FavoriteTruck {
 }
 
 interface ListProps {
-  list: List;
+  favoriteTrucks: FavoriteTruck;
 }
 
-export default ({ list }: ListProps) => {
+export default ({ favoriteTrucks }: ListProps) => {
   const [open, setOpen] = useState(false);
   const transition = useTransition(
     open,
@@ -48,7 +48,7 @@ export default ({ list }: ListProps) => {
   const height = bInterpolate(
     transition,
     0,
-    LIST_ITEM_HEIGHT * list.items.length
+    LIST_ITEM_HEIGHT * favoriteTrucks.items.length
   );
   const bottomRadius = interpolate(transition, {
     inputRange: [0, 16 / 400],
@@ -71,8 +71,11 @@ export default ({ list }: ListProps) => {
         </Animated.View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, { height }]}>
-        {list.items.map((item, key) => (
-          <Item {...{ item, key }} isLast={key === list.items.length - 1} />
+        {favoriteTrucks.items.map((item, key) => (
+          <Item
+            {...{ item, key }}
+            isLast={key === favoriteTrucks.items.length - 1}
+          />
         ))}
       </Animated.View>
     </>

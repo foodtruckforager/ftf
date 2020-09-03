@@ -5,14 +5,27 @@ import FavoriteTruck, {
   FavoriteTruck as ListModelFavoriteTruck,
 } from './FavoriteTruck';
 import Badges, { Badges as ListModelBadges } from './Badges';
+import Settings, { Settings as ListModelSettings } from './Settings';
+import UserPosts, { UserPosts as ListModelUserPosts } from './UserPosts';
 
-const list: ListModelFavoriteTruck = {
+const favoriteTrucks: ListModelFavoriteTruck = {
   name: 'User Profile Demo',
   items: [{ name: 'Food Truck Demo 1', points: 'Favorites To Go Here' }],
 };
-const list2: ListModelBadges = {
+
+const badges: ListModelBadges = {
   name: 'Demo 2',
-  items: [{ name: 'Boop', points: 'Badges to go here' }],
+  items: [{ name: 'Badges', points: 'Badges to go here' }],
+};
+
+const settings: Settings = {
+  name: 'Settings',
+  items: [{ name: 'Profile', points: 'Settings to go here' }],
+};
+
+const userPosts: UserPosts = {
+  name: 'User Posts',
+  items: [{ name: 'User Posts', points: 'User Posts Go Here' }],
 };
 
 const styles = StyleSheet.create({
@@ -31,8 +44,10 @@ export default () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>User Profile</Text>
-      <FavoriteTruck {...{ list }} />
-      <Badges {...{ list2 }} />
+      <FavoriteTruck {...{ favoriteTrucks }} />
+      <Badges {...{ badges }} />
+      <Settings {...{ settings }} />
+      <UserPosts {...{ userPosts }} />
     </ScrollView>
   );
 };

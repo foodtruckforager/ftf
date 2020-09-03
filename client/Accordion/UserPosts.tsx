@@ -27,16 +27,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export interface Badges {
+export interface UserPosts {
   name: string;
   items: ListItem[];
 }
 
 interface ListProps {
-  badges: Badges;
+  userPosts: UserPosts;
 }
 
-export default ({ badges }: ListProps) => {
+export default ({ userPosts }: ListProps) => {
   const [open, setOpen] = useState(false);
   const transition = useTransition(
     open,
@@ -48,7 +48,7 @@ export default ({ badges }: ListProps) => {
   const height = bInterpolate(
     transition,
     0,
-    LIST_ITEM_HEIGHT * badges.items.length
+    LIST_ITEM_HEIGHT * userPosts.items.length
   );
   const bottomRadius = interpolate(transition, {
     inputRange: [0, 16 / 400],
@@ -66,13 +66,16 @@ export default ({ badges }: ListProps) => {
             },
           ]}
         >
-          <Text style={styles.title}>Badges</Text>
+          <Text style={styles.title}>Your Posts!</Text>
           <Chevron {...{ transition }} />
         </Animated.View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, { height }]}>
-        {badges.items.map((item, key) => (
-          <Item {...{ item, key }} isLast={key === badges.items.length - 1} />
+        {userPosts.items.map((item, key) => (
+          <Item
+            {...{ item, key }}
+            isLast={key === userPosts.items.length - 1}
+          />
         ))}
       </Animated.View>
     </>
