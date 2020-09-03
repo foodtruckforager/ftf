@@ -44,7 +44,7 @@ export default function GoogleLogIn() {
     signInWithGoogleAsync(truckConfig);
   };
 
-  const logOut = async() => {
+  const logOut = async () => {
     const logOutConfig = {
       iosClientId: process.env.EXPO_iosClientId,
       androidClientId: process.env.EXPO_androidClientId,
@@ -58,13 +58,13 @@ export default function GoogleLogIn() {
   return (
     <View>
       <View>
-        <Button title="Google User Sign In" onPress={userSignIn} />
+        <Button title='Google User Sign In' onPress={userSignIn} />
       </View>
       <View>
-        <Button title="Google Truck Owner Sign In" onPress={truckSignIn} />
+        <Button title='Google Truck Owner Sign In' onPress={truckSignIn} />
       </View>
       <View>
-        <Button title="logout" onPress={logOut} />
+        <Button title='logout' onPress={logOut} />
       </View>
       {/* <View>
         <Button title='server' onPress={hitServer} />
