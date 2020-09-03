@@ -18,12 +18,12 @@ const badges: ListModelBadges = {
   items: [{ name: 'Badges', points: 'Badges to go here' }],
 };
 
-const settings: Settings = {
+const settings: ListModelSettings = {
   name: 'Settings',
   items: [{ name: 'Profile', points: 'Settings to go here' }],
 };
 
-const userPosts: UserPosts = {
+const userPosts: ListModelUserPosts = {
   name: 'User Posts',
   items: [{ name: 'User Posts', points: 'User Posts Go Here' }],
 };
