@@ -12,3 +12,4 @@ before_script:
 script:
   - npm ci
   - npx jest --ci
+  - npm run travis

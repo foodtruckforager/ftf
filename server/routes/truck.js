@@ -5,7 +5,7 @@ const {
   Truck, Photo, Review, Post,
 } = require('../db/db');
 
-// TODO: replace truck splash page info
+// route to get all trucks
 truckRouter.get('/', (req, res) => {
   Truck.findAll()
     .then((trucks) => {
@@ -49,8 +49,6 @@ truckRouter.get('/photo/:truckId', (req, res) => {
       res.status(500).send(err);
     });
 });
-
-// TODO: still need to test this route
 
 // find all reviews by specific truck
 truckRouter.get('/review/:truckId', (req, res) => {

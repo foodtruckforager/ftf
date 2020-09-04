@@ -10,11 +10,12 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
+    "travis": "node server/test/test.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretest"
+      "pre-commit": "npm run travis && npm run pretest"
     }
   },
   "dependencies": {

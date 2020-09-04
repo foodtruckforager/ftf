@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const { Review, User, Upvote } = require('../db/db');
@@ -62,6 +63,7 @@ userRouter.post('/new', (req, res) => {
 // route to add new truck review
 userRouter.post('/review/new/:truckId/:userId', (req, res) => {
   const { truckId, userId } = req.params;
+
   const {
     favorite,
     reviewTitle,
@@ -71,6 +73,7 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
     upvotes,
     reviewDate,
   } = req.body;
+
   Review.findOrCreate({
     where: {
       id_user: userId,
@@ -93,7 +96,7 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
     });
 });
 
-// TODO: add functionality to update User Profile
+// route to update user
 userRouter.put('/update/:userId', (req, res) => {
   const { userId } = req.params;
 
@@ -144,7 +147,7 @@ userRouter.put('/update/badge/:userId', (req, res) => {
     });
 });
 
-// TODO: upvote route
+// upvote route, same user cant vote twice, user can't vote for own review
 userRouter.put('/update/upvote/:userId/:reviewId', (req, res) => {
   const { userId, reviewId } = req.params;
 
