@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('users', {
     type: DataTypes.STRING,
   },
   badge: {
-    type: DataTypes.INTEGER, // TODO: refactor to JSON
+    type: DataTypes.JSON,
   },
   profile_photo_url: {
     type: DataTypes.STRING,
