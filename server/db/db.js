@@ -46,35 +46,6 @@ const syncModels = async() => {
 
 connection();
 syncModels();
-async function doStuffWithUserModel() {
-  const newUser = await User.create({
-    full_name: 'John Smith',
-  });
-  const foundUser = await User.findOne({ where: { full_name: 'John Smith' } });
-  if (foundUser === null) return;
-
-  const newTruck = await Truck.create({
-    full_name: 'Rolling Fatties',
-  });
-  const foundTruck = await Truck.findOne({
-    where: { full_name: 'Rolling Fatties' },
-  });
-  if (foundTruck === null) return;
-
-  const newReview = await Review.create({
-    review_title: 'I LOVE Rolling Fatties THEYRE INCREDIBLE!!!!',
-    id_user: 1,
-    id_truck: 1,
-    upvotes: 0,
-  });
-  const foundReview = await Review.findAll({
-    where: { id_user: 1 },
-  });
-  if (foundReview === null) return;
-  console.log('FOUND REVIEW:');
-  console.log(foundReview);
-}
-doStuffWithUserModel();
 
 module.exports = {
   User,
