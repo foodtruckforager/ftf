@@ -124,7 +124,7 @@ truckRouter.post('/create', (req, res) => {
       res.status(201).send(newTruck);
     })
     .catch((err) => {
-      console.error('err');
+      console.error(err);
       res.status(500).send(err);
     });
 });
