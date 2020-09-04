@@ -6,6 +6,7 @@ const TruckModel = require('./models/Truck');
 const ReviewModel = require('./models/Review');
 const PostModel = require('./models/Post');
 const PhotoModel = require('./models/Photo');
+const UpvoteModel = require('./models/Upvote');
 
 const user = process.env.DB_USERNAME;
 const host = process.env.DB_HOST;
@@ -24,6 +25,7 @@ const Truck = TruckModel(sequelize, Sequelize);
 const Review = ReviewModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Photo = PhotoModel(sequelize, Sequelize);
+const Upvote = UpvoteModel(sequelize, Sequelize);
 
 const connection = async() => {
   try {
@@ -41,6 +43,9 @@ const syncModels = async() => {
     console.error('Unable to sync models:', error);
   }
 };
+
+connection();
+syncModels();
 // async function doStuffWithUserModel() {
 //   const newUser = await User.create({
 //     full_name: 'John Smith',
@@ -60,17 +65,15 @@ const syncModels = async() => {
 //     review_title: 'I LOVE Rolling Fatties THEYRE INCREDIBLE!!!!',
 //     id_user: 1,
 //     id_truck: 1,
+//     upvotes: 0,
 //   });
 //   const foundReview = await Review.findAll({
 //     where: { id_user: 1 },
-//     // where: { id_user: 14, id_truck: 4 },
 //   });
 //   if (foundReview === null) return;
 //   console.log('FOUND REVIEW:');
 //   console.log(foundReview);
 // }
-connection();
-syncModels();
 // doStuffWithUserModel();
 
 module.exports = {
@@ -79,4 +82,5 @@ module.exports = {
   Review,
   Post,
   Photo,
+  Upvote,
 };

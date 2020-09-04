@@ -26,6 +26,11 @@ CREATE TABLE "trucks" (
   "created_at" timestamp
 );
 
+CREATE TABLE "upvotes" (
+  "id_review" int,
+  "id_user" int
+);
+
 CREATE TABLE "posts" (
   "id" SERIAL PRIMARY KEY,
   "id_truck" int,
