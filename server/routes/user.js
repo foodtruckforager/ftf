@@ -123,11 +123,11 @@ userRouter.put('/update/:userId', (req, res) => {
 // TODO: add functionality to require badge // incorporate QR code
 userRouter.put('/update/badge/:userId', (req, res) => {
   const { userId } = req.params;
+  const { body } = req;
 
-  const { badge } = req.body;
   User.update(
     {
-      badge, // TODO: refactor to JSON
+      badge: body,
     },
     {
       where: {
