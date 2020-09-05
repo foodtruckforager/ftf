@@ -6,6 +6,7 @@ import {
 import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
 import { Text, View } from '../themes/Themed';
 import CustomCallout from './CustomCallout';
+import InfoWindow from './InfoWindow';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -14,6 +15,21 @@ const LONGITUDE = -90.0852767;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
+const currentTruck = {
+  id: 4,
+  full_name: 'Rolling Fatties',
+  phone_number: null,
+  google_id: null,
+  qr_code: null,
+  logo: 'https://reactnative.dev/img/tiny_logo.png',
+  food_genre: null,
+  blurb: 'rolling fatties is the best',
+  star_average: 5,
+  open_time: null,
+  close_time: null,
+  latitude: null,
+  longitude: null,
+};
 
 export default function Map({ provider }) {
   const [count, setCount] = useState(0);
@@ -124,15 +140,16 @@ export default function Map({ provider }) {
             style={styles.customView}
           >
             <CustomCallout>
-              <Text>{`Rollin Fatties, visited ${count} times`}</Text>
-              <CalloutSubview
+              <InfoWindow currentTruck={currentTruck} />
+              {/* <Text>{`Rollin Fatties, visited ${count} times`}</Text> */}
+              {/* <CalloutSubview
                 onPress={() => {
                   setCount(count + 1);
                 }}
                 style={[styles.calloutButton]}
               >
                 <Text>Click me</Text>
-              </CalloutSubview>
+              </CalloutSubview> */}
             </CustomCallout>
           </Callout>
         </Marker>
