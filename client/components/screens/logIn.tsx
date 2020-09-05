@@ -7,7 +7,7 @@ export default function LogIn() {
   //     navigation.navigate('TruckReviews');
   //   };
   return (
-    <View style={StyleSheet.container}>
+    <View style={style.container}>
       <GoogleLogIn />
     </View>
   );
