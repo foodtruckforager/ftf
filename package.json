@@ -43,7 +43,10 @@
     "react-navigation": "^4.4.0",
     "react-navigation-drawer": "^2.5.0",
     "react-navigation-stack": "^2.8.2",
-    "sequelize": "^6.3.4"
+    "sequelize": "^6.3.4",
+    "react-native-maps": "0.27.1",
+    "expo-web-browser": "~8.3.1",
+    "expo-constants": "~9.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

@@ -6,7 +6,7 @@ import TruckDetails from './client/components/screens/truckDetails';
 import TruckPosts from './client/components/screens/truckPosts';
 import TruckReviews from './client/components/screens/truckReviews';
 import RootDrawerNavigator from './client/components/routes/drawer';
-import ogInStack from './client/components/routes/loginStack';
+import LogInStack from './client/components/routes/loginStack';
 
 export default function App() {
   return (
