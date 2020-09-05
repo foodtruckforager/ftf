@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  Button, StyleSheet, Dimensions, TouchableOpacity, Alert,
+} from 'react-native';
 
-import { Text, View } from '../themes/Themed';
 import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
+import { Text, View } from '../themes/Themed';
 import CustomCallout from './CustomCallout';
 
 const { width, height } = Dimensions.get('window');
@@ -62,6 +64,17 @@ export default function Map({ provider }) {
       ref: null,
     },
   ]);
+
+  useEffect(() => {
+    fetch(`${process.env.EXPO_LocalLan}/truck/`)
+      .then((response) => response.json())
+      .then((jsonResponse) => {
+        console.log(jsonResponse);
+        // setMarkers([jsonResponse]);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <View style={styles.container}>
       <MapView
@@ -72,7 +85,7 @@ export default function Map({ provider }) {
       >
         <Marker
           ref={(ref) => {
-            let updateRef = markerRefs;
+            const updateRef = markerRefs;
             updateRef[0].ref = ref;
             setMarkerRefs(updateRef);
           }}
@@ -92,7 +105,7 @@ export default function Map({ provider }) {
           calloutOffset={{ x: -8, y: 28 }}
           calloutAnchor={{ x: 0.5, y: 0.4 }}
           ref={(ref) => {
-            let updateRef = markerRefs;
+            const updateRef = markerRefs;
             updateRef[1].ref = ref;
             setMarkerRefs(updateRef);
           }}
@@ -102,10 +115,10 @@ export default function Map({ provider }) {
             tooltip
             onPress={(e) => {
               if (
-                e.nativeEvent.action === 'marker-inside-overlay-press' ||
-                e.nativeEvent.action === 'callout-inside-press'
+                e.nativeEvent.action === 'marker-inside-overlay-press'
+                || e.nativeEvent.action === 'callout-inside-press'
               ) {
-                return;
+
               }
             }}
             style={styles.customView}
@@ -125,7 +138,7 @@ export default function Map({ provider }) {
         </Marker>
         <Marker
           ref={(ref) => {
-            let updateRef = markerRefs;
+            const updateRef = markerRefs;
             updateRef[3].ref = ref;
             setMarkerRefs(updateRef);
           }}

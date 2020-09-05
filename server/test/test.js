@@ -14,6 +14,16 @@ async function doStuffWithUserModel() {
 
   await Truck.create({
     full_name: 'Rolling Fatties',
+    phone_number: '9999999',
+    google_id: '1',
+    qr_code: 'qrCode',
+    logo: 'sweet logo',
+    foode_genre: 'mexican',
+    blurb: 'we are phat',
+    open_time: '9',
+    close_time: '9',
+    latitude: 29.9510660269581,
+    longitude: -90.0715321674943,
   })
     .then((newTruck) => console.log(newTruck))
     .catch((err) => console.error(err));
