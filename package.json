@@ -20,12 +20,15 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "axios": "^0.20.0",
     "babel-plugin-inline-dotenv": "^1.6.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "expo": "~38.0.8",
+    "expo-constants": "~9.1.1",
     "expo-google-app-auth": "^8.1.2",
     "expo-status-bar": "^1.0.2",
+    "expo-web-browser": "~8.3.1",
     "express": "^4.17.1",
     "husky": "^4.2.5",
     "nodemon": "^2.0.4",
@@ -34,6 +37,7 @@
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-maps": "0.27.1",
     "react-native-masked-view": "^0.2.0",
     "react-native-reanimated": "~1.9.0",
     "react-native-redash": "^8.0.0",
@@ -43,10 +47,7 @@
     "react-navigation": "^4.4.0",
     "react-navigation-drawer": "^2.5.0",
     "react-navigation-stack": "^2.8.2",
-    "sequelize": "^6.3.4",
-    "react-native-maps": "0.27.1",
-    "expo-web-browser": "~8.3.1",
-    "expo-constants": "~9.1.1"
+    "sequelize": "^6.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

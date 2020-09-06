@@ -14,7 +14,7 @@ const favoriteTrucks: ListModelFavoriteTruck = {
 };
 
 const badges: ListModelBadges = {
-  name: 'Demo 2',
+  name: 'Badges',
   items: [{ name: 'Badges', points: 'Badges to go here' }],
 };
 
