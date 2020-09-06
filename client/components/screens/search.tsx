@@ -8,8 +8,8 @@ export default function Search({ navigation }) {
     navigation.navigate('SearchResults', { value: value });
   };
 
-  const [value, onChangeText] = React.useState('Search For Food Here');
-  console.log(value);
+  const [value, onChangeText] = React.useState('');
+
   return (
     <View>
       <Text> Search Screen </Text>

@@ -18,6 +18,21 @@ truckRouter.get('/', (req, res) => {
     });
 });
 
+// route to search by food genre
+// TO DO: Flesh out with genre or food truck name
+truckRouter.get('/search/:food_genre', (req, res) => {
+  const { food_genre } = req.params;
+  Truck.findAll({
+    where: {
+      food_genre,
+    },
+  })
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((err) => console.log(err));
+});
+
 // get specific truck by id
 truckRouter.get('/:truckId', (req, res) => {
   const { truckId } = req.params;
@@ -103,8 +118,7 @@ truckRouter.post('/create', (req, res) => {
   } = req.body;
 
   Truck.findOrCreate({
-    where:
-    {
+    where: {
       full_name: fullName,
       phone_number: phoneNumber,
       google_id: googleId,
@@ -185,21 +199,24 @@ truckRouter.put('/update/:truckId', (req, res) => {
     longitude,
   } = req.body;
 
-  Truck.update({
-    full_name: fullName,
-    phone_number: phoneNumber,
-    logo,
-    foode_genre: foodGenre,
-    blurb,
-    open_time: openTime,
-    close_time: closeTime,
-    latitude,
-    longitude,
-  }, {
-    where: {
-      id: truckId,
+  Truck.update(
+    {
+      full_name: fullName,
+      phone_number: phoneNumber,
+      logo,
+      foode_genre: foodGenre,
+      blurb,
+      open_time: openTime,
+      close_time: closeTime,
+      latitude,
+      longitude,
     },
-  })
+    {
+      where: {
+        id: truckId,
+      },
+    },
+  )
     .then((updatedTruck) => {
       if (updatedTruck) {
         console.log('truck updated successfully');
