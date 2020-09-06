@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet, Dimensions,
-} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+import axios from 'axios';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { View } from '../themes/Themed';
@@ -25,13 +24,16 @@ export default function Map({ provider }) {
   const [truckMarkers, setTruckMarkers] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.EXPO_LocalLan}/truck/`)
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        setTruckMarkers(jsonResponse);
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/`)
+      .then((response) => {
+        const { data } = response;
+        setTruckMarkers(data);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 
   return (
     <View style={styles.container}>
