@@ -76,7 +76,8 @@ expo start                      // runs compiler for Expo
 psql -U root                    // log in to postgreSQL with your password
 CREATE DATABASE foodtruckdb;    // create postgreSQL database
 \c foodtruckdb;                 // connect to foodtruckdb database
-npm run server-start            // starts development server
+npm run server                  // starts development server
+npm run test-db                 // tests database commands and populates w/ sample data
 ```
 
 # Environment Variables

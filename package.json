@@ -4,22 +4,23 @@
     "extends": "universe/native"
   },
   "scripts": {
-    "server-start": "nodemon server/index.js",
+    "server": "nodemon server/index.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
-    "travis": "node server/test/test.js"
+    "test-db": "node server/test/test.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run travis && npm run pretest"
+      "pre-commit": "npm run test-db && npm run pretest"
     }
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "axios": "^0.20.0",
     "babel-plugin-inline-dotenv": "^1.6.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -29,7 +30,6 @@
     "expo-status-bar": "^1.0.2",
     "expo-web-browser": "~8.3.1",
     "express": "^4.17.1",
-    "husky": "^4.2.5",
     "nodemon": "^2.0.4",
     "pg": "^8.3.3",
     "react": "~16.11.0",
@@ -61,7 +61,8 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "husky": "^4.2.5"
   },
   "private": true
 }
