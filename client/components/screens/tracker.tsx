@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 
 export default function Tracker({ navigation }) {
   const pressHandler = () => {
-    navigation.navigate('SearchResults');
+    navigation.navigate('Search');
   };
   return (
     <View style={style.container}>
