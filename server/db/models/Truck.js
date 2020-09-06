@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
     type: DataTypes.STRING,
   },
   blurb: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   star_average: {
     type: DataTypes.DECIMAL,

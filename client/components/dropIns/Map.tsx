@@ -41,7 +41,7 @@ export default function Map({ provider }) {
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers && truckMarkers.map((currentTruck, index) => (
+        {truckMarkers && truckMarkers.map((currentTruck) => (
           <View key={currentTruck.id}>
             <Marker coordinate={{
               latitude: +currentTruck.latitude,

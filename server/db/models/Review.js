@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define(
       type: DataTypes.STRING,
     },
     review_description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     review_star: {
       type: DataTypes.INTEGER,
