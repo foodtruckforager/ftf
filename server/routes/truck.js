@@ -110,7 +110,7 @@ truckRouter.post('/create', (req, res) => {
       google_id: googleId,
       qr_code: qrCode,
       logo,
-      foode_genre: foodGenre,
+      food_genre: foodGenre,
       blurb,
       open_time: openTime,
       close_time: closeTime,
