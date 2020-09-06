@@ -3,11 +3,11 @@ import { View, Image, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 0,
   },
   tinyLogo: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
   },
   logo: {
     width: 66,
