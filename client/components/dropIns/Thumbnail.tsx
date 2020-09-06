@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   tinyLogo: {
-    width: 40,
-    height: 40,
+    width: 90,
+    height: 70,
   },
   logo: {
     width: 66,

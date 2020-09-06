@@ -14,8 +14,8 @@ export default function InfoWindow({ currentTruck }) {
     <View>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
           alignItems: 'center',
         }}
       >
@@ -24,12 +24,11 @@ export default function InfoWindow({ currentTruck }) {
           full_name,
           28,
           ''
-        )}`}</Text>
+        )}`}
+        </Text>
+        <Text>{`${truncate(blurb, 38, '...')}`}</Text>
       </View>
-      <View>
-        <Text>{`${truncate(blurb, 30, '...')}`}</Text>
-      </View>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         <Text style={{ color: 'orange' }}>
           {String.fromCharCode(9733).repeat(Math.floor(star_average))}
         </Text>
@@ -37,7 +36,7 @@ export default function InfoWindow({ currentTruck }) {
           {String.fromCharCode(9733).repeat(5 - Math.floor(star_average))}
         </Text>
       </View>
-      <View>
+      <View style={{flexDirection: 'row', justifyContent: 'center' }}>
         <Text>{`${star_average} stars`}</Text>
       </View>
     </View>

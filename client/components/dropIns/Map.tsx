@@ -43,23 +43,21 @@ export default function Map({ provider }) {
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers &&
-          truckMarkers.map((currentTruck, index) => (
-            <View key={currentTruck.id}>
-              <Marker
-                coordinate={{
-                  latitude: +currentTruck.latitude,
-                  longitude: +currentTruck.longitude,
-                }}
-              >
-                <Callout style={styles.customView}>
-                  <View>
-                    <InfoWindow currentTruck={currentTruck} />
-                  </View>
-                </Callout>
-              </Marker>
-            </View>
-          ))}
+        {truckMarkers && truckMarkers.map((currentTruck) => (
+          <View key={currentTruck.id}>
+            <Marker coordinate={{
+              latitude: +currentTruck.latitude,
+              longitude: +currentTruck.longitude,
+            }}
+            >
+              <Callout style={styles.customView}>
+                <View>
+                  <InfoWindow currentTruck={currentTruck} />
+                </View>
+              </Callout>
+            </Marker>
+          </View>
+        ))}
       </MapView>
     </View>
   );
