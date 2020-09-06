@@ -12,10 +12,36 @@ async function doStuffWithUserModel() {
   const foundUser = await User.findOne({ where: { full_name: 'John Smith' } });
   if (foundUser === null) return;
 
-  await Truck.create({
-    full_name: 'Rolling Fatties',
-  })
-    .then((newTruck) => console.log(newTruck))
+  // await Truck.create({
+  //   full_name: 'Rolling Fatties',
+  //   phone_number: '9999999',
+  //   google_id: '1',
+  //   qr_code: 'qrCode',
+  //   logo: 'sweet logo',
+  //   food_genre: 'mexican',
+  //   blurb: 'we are phat',
+  //   open_time: '9',
+  //   close_time: '9',
+  //   latitude: 29.9510660269581,
+  //   longitude: -90.0715321674943,
+  //   star_average: 5,
+  // }).then((newTruck) => console.log(newTruck))
+  //   .catch((err) => console.error(err));
+
+    await Truck.create({
+    full_name: 'Rolling Fatts',
+    phone_number: '99999995555',
+    google_id: '7',
+    qr_code: 'qrCode',
+    logo: 'sweet logo',
+    food_genre: 'mexican',
+    blurb: 'we are phatssssss',
+    open_time: '9',
+    close_time: '9',
+    latitude: 29.9511661269581,
+    longitude: -90.0715321674943,
+    star_average: 5,
+  }).then((newTruck) => console.log(newTruck))
     .catch((err) => console.error(err));
 
   const foundTruck = await Truck.findOne({
@@ -42,4 +68,23 @@ async function doStuffWithUserModel() {
     .catch((err) => console.error(err));
 }
 
+const secondInsert = async() => {
+    await Truck.create({
+    full_name: 'fooodd',
+    phone_number: '99999995555',
+    google_id: '4',
+    qr_code: 'qrCode',
+    logo: 'sweet logo',
+    food_genre: 'mexican',
+    blurb: 'we are phatssssss',
+    open_time: '9',
+    close_time: '9',
+    latitude: 29.9511661269581,
+    longitude: -90.0715321674943,
+    star_average: 5,
+  }).then((newTruck) => console.log(newTruck))
+    .catch((err) => console.error(err));
+};
+
+secondInsert();
 doStuffWithUserModel();
