@@ -9,7 +9,7 @@ export default function MapSearch({ search, setSearch }) {
   return (
     <View>
       <SearchBar
-        placeholder="Search Food Trucks..."
+        placeholder="Search by food type..."
         onChangeText={(text) => setSearch(text)}
         value={search}
         lightTheme={true}
