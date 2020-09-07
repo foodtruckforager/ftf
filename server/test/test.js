@@ -155,7 +155,7 @@ async function doStuffWithUserModel() {
     qr_code: 'qrCode5',
     logo:
       'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/8504/55204a00-dc28-4386-9930-178146204482.jpg',
-    food_genre: 'cajun',
+    food_genre: 'southern',
     blurb:
       'Kennys Cajun & Creole Mobile Kitchen is makin those eats from down South available on the streets. That is, if you happen to be in New Orleans, LA. If you are, lucky you, because thats where youll find this food truck, full of delectable meals to sink your teeth into.',
     open_time: '9',
@@ -224,7 +224,7 @@ async function doStuffWithUserModel() {
     qr_code: 'qrCode8',
     logo:
       'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/26241/5d5b4325-1780-41a9-b937-0174ac120003.jpg',
-    food_genre: 'creole',
+    food_genre: 'southern',
     blurb:
       'For Frank, food is a means of communication. Specifically, with Creole Tomateaux, Frank’s trying to express his love for the New Orleans, LA community via homemade cajun cooking. This trailer whips up all things zesty on the daily. We could tell you food is just plain better when it’s made with passion (and we’d be right), but if that’s too corny for you know this – Frank’s got over 20 years of restaurant experience. So, that doesn’t hurt the quality of these eats either.',
     open_time: '9',
@@ -247,7 +247,7 @@ async function doStuffWithUserModel() {
     qr_code: 'qrCode8',
     logo:
       'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/26241/5d5b4325-1780-41a9-b937-0174ac120003.jpg',
-    food_genre: 'creole',
+    food_genre: 'southern',
     blurb:
       'For Frank, food is a means of communication. Specifically, with Creole Tomateaux, Frank’s trying to express his love for the New Orleans, LA community via homemade cajun cooking. This trailer whips up all things zesty on the daily. We could tell you food is just plain better when it’s made with passion (and we’d be right), but if that’s too corny for you know this – Frank’s got over 20 years of restaurant experience. So, that doesn’t hurt the quality of these eats either.',
     open_time: '9',
@@ -316,7 +316,7 @@ async function doStuffWithUserModel() {
     qr_code: 'qrCode11',
     logo:
       'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/6576/57719077-4ca8-4463-b2a0-3f3d46204482.jpg',
-    food_genre: 'cajun',
+    food_genre: 'southern',
     blurb:
       'Chef Johnson’s Truck is serving the streets of New Orleans his acclaimed selection of Cajun cuisine that’s cooked slow and served quick.',
     open_time: '9',
