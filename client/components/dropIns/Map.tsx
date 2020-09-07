@@ -13,7 +13,13 @@ const LONGITUDE = -90.0852767;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-export default function Map({ provider }) {
+export default function Map({
+  provider,
+  truckMarkers,
+  setTruckMarkers,
+  search,
+  setSearch,
+}) {
   const [region, setRegion] = useState({
     latitude: LATITUDE,
     longitude: LONGITUDE,
@@ -21,9 +27,7 @@ export default function Map({ provider }) {
     longitudeDelta: LONGITUDE_DELTA,
   });
 
-  const [truckMarkers, setTruckMarkers] = useState([]);
-
-  useEffect(() => {
+  const getAllTrucks = () => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {
@@ -33,7 +37,30 @@ export default function Map({ provider }) {
       .catch((err) => {
         console.error(err);
       });
-  });
+  };
+  useEffect(() => {
+    getAllTrucks();
+  }, []);
+
+  // search bar search
+  useEffect(() => {
+    if (search !== '') {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/truck/search/${search}`)
+        .then((response) => {
+          const { data } = response;
+          if (data.length) {
+            setTruckMarkers([]);
+            setTruckMarkers(data);
+          } else {
+            getAllTrucks();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [search]);
 
   return (
     <View style={styles.container}>
@@ -43,21 +70,23 @@ export default function Map({ provider }) {
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers && truckMarkers.map((currentTruck) => (
-          <View key={currentTruck.id}>
-            <Marker coordinate={{
-              latitude: +currentTruck.latitude,
-              longitude: +currentTruck.longitude,
-            }}
-            >
-              <Callout style={styles.customView}>
-                <View>
-                  <InfoWindow currentTruck={currentTruck} />
-                </View>
-              </Callout>
-            </Marker>
-          </View>
-        ))}
+        {truckMarkers &&
+          truckMarkers.map((currentTruck) => (
+            <View key={currentTruck.id}>
+              <Marker
+                coordinate={{
+                  latitude: +currentTruck.latitude,
+                  longitude: +currentTruck.longitude,
+                }}
+              >
+                <Callout style={styles.customView}>
+                  <View>
+                    <InfoWindow currentTruck={currentTruck} />
+                  </View>
+                </Callout>
+              </Marker>
+            </View>
+          ))}
       </MapView>
     </View>
   );
@@ -81,7 +110,7 @@ const styles = StyleSheet.create({
   },
   bubble: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(70,70,70,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20,

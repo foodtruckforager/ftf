@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import Map from '../dropIns/Map';
+import MapSearch from '../dropIns/MapSearch';
 import Constants from 'expo-constants';
 
 export default function Tracker({ navigation }) {
-  const pressHandler = () => {
-    navigation.navigate('Search');
-  };
+  const [truckMarkers, setTruckMarkers] = useState([]);
+  const [search, setSearch] = useState('');
+
   return (
     <View style={style.container}>
       <View style={style.search}>
-        <Button title="Go To Search Results" onPress={pressHandler}></Button>
+        <MapSearch search={search} setSearch={setSearch} />
       </View>
       <View style={style.map}>
-        <Map />
+        <Map
+          search={search}
+          setSearch={setSearch}
+          truckMarkers={truckMarkers}
+          setTruckMarkers={setTruckMarkers}
+        />
       </View>
     </View>
   );
