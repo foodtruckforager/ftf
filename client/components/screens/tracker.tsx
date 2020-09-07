@@ -10,7 +10,7 @@ export default function Tracker({ navigation }) {
   return (
     <View style={style.container}>
       <View style={style.search}>
-        <Button title="Go To Search Results" onPress={pressHandler}></Button>
+        <Button title="Search" onPress={pressHandler}></Button>
       </View>
       <View style={style.map}>
         <Map />
