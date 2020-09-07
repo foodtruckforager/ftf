@@ -32,35 +32,42 @@ export default function Map({
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {
         const { data } = response;
-        setTruckMarkers(data);
+        const filteredMarkers = data.filter((truck: Object) => truck.food_genre === search);
+        if (filteredMarkers.length) {
+          setTruckMarkers(filteredMarkers);
+        } else {
+          setTruckMarkers(data);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
   };
+
   useEffect(() => {
     getAllTrucks();
-  }, []);
+  }, [search]);
 
   // search bar search
-  useEffect(() => {
-    if (search !== '') {
-      axios
-        .get(`${process.env.EXPO_LocalLan}/truck/search/${search}`)
-        .then((response) => {
-          const { data } = response;
-          if (data.length) {
-            setTruckMarkers([]);
-            setTruckMarkers(data);
-          } else {
-            getAllTrucks();
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, [search]);
+
+  // useEffect(() => {
+  //   if (search !== '') {
+  //     axios
+  //       .get(`${process.env.EXPO_LocalLan}/truck/search/${search}`)
+  //       .then((response) => {
+  //         const { data } = response;
+  //         if (data.length) {
+  //           // setTruckMarkers([]);
+  //           setTruckMarkers(data);
+  //         } else {
+  //           getAllTrucks();
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+  // }, [search]);
 
   return (
     <View style={styles.container}>
