@@ -22,6 +22,7 @@ const foodIcons = {
   french: 'http://www.myiconfinder.com/uploads/iconsets/64-64-6b0328c200de412cca7196d0e552b6fe.png',
   barbecue: 'http://www.myiconfinder.com/uploads/iconsets/64-64-01d44b233ea2287e8b8776a5e7fec0d3.png',
   mediterranean: 'http://www.myiconfinder.com/uploads/iconsets/64-64-1ac2c860f7eaf21a46cdbf3c203e220c-grapes.png',
+  chinese: 'http://www.myiconfinder.com/uploads/iconsets/64-64-32d3874f0eff8680107e101e2b2ad64d.png'
 }
 export default function Map({
   provider,
