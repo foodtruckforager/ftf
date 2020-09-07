@@ -1,18 +1,15 @@
-import { SearchBar, Input } from 'react-native-elements';
-import axios from 'axios';
-
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
+import { Input } from 'react-native-elements';
 
 export default function MapSearch({ search, setSearch }) {
-
   return (
     <View>
       <Input
-        placeholder="Search by food type..."
+        placeholder="Search by Type of Food..."
         onChangeText={(text) => setSearch(text)}
         value={search}
-        leftIcon={{ type: 'font-awesome', name: 'search' }}
+        leftIcon={{ type: 'material', name: 'search' }}
       />
     </View>
   );
