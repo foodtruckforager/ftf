@@ -1,4 +1,4 @@
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Input } from 'react-native-elements';
 import axios from 'axios';
 
 import React, { useState } from 'react';
@@ -8,11 +8,11 @@ export default function MapSearch({ search, setSearch }) {
 
   return (
     <View>
-      <SearchBar
+      <Input
         placeholder="Search by food type..."
         onChangeText={(text) => setSearch(text)}
         value={search}
-        lightTheme={true}
+        leftIcon={{ type: 'font-awesome', name: 'search' }}
       />
     </View>
   );
