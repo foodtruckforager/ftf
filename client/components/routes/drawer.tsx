@@ -6,6 +6,7 @@ import TrackerStack from './trackerStack';
 import Search from '../screens/search';
 import Profile from '../screens/profile';
 import Accordion from '../../Accordion';
+import GoogleLogin from '../dropIns/GoogleLogIn';
 
 const RootDrawerNavigator = createDrawerNavigator({
   Tracker: {
@@ -22,6 +23,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   UserProfile: {
     screen: Accordion,
+  },
+  LogOut: {
+    screen: GoogleLogin,
   },
 });
 
