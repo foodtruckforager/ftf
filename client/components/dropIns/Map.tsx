@@ -4,7 +4,6 @@ import axios from 'axios';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { View } from '../themes/Themed';
 import InfoWindow from './InfoWindow';
-
 import foodIcons from '../../../assets/mapIcons.js';
 
 const { width, height } = Dimensions.get('window');
@@ -27,13 +26,27 @@ export default function Map({
     longitudeDelta: LONGITUDE_DELTA,
   });
 
+  String.prototype.fuzzySearch = function (s: String) {
+    let hay = this.toLowerCase(),
+      i = 0,
+      n = -1,
+      l;
+    s = s.toLowerCase();
+    for (; (l = s[i++]); ) if (!~(n = hay.indexOf(l, n + 1))) return false;
+    return true;
+  };
+
   const getAllTrucks = () => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {
         const { data } = response;
-        const filteredMarkers = data.filter((truck: Object) => truck.food_genre === search);
-        if (filteredMarkers.length) {
+        const filteredMarkers = data.filter(
+          (truck: Object) =>
+            truck.food_genre.fuzzySearch(search) ||
+            truck.full_name.fuzzySearch(search)
+        );
+        if (filteredMarkers.length && search.length) {
           setTruckMarkers(filteredMarkers);
         } else {
           setTruckMarkers(data);
@@ -47,26 +60,9 @@ export default function Map({
   useEffect(() => {
     getAllTrucks();
   }, [search]);
-
-  const searchTrucks = () => {
-    if (search.length) {
-    axios
-      .get(`${process.env.EXPO_LocalLan}/truck/search/${search}`)
-      .then((response) => {
-        const { data } = response;
-        setTruckMarkers([]);
-        setTruckMarkers(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    } else {
-      getAllTrucks();
-    }
-  };
   useEffect(() => {
-    searchTrucks();
-  }, [search]);
+    getAllTrucks();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -76,15 +72,8 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers
-          && (truckMarkers.filter(
-            (truck) => truck.full_name === search || truck.food_genre === search,
-          ).length
-            ? truckMarkers.filter(
-              (truck) => truck.full_name === search || truck.food_genre === search,
-            )
-            : truckMarkers
-          ).map((currentTruck) => (
+        {truckMarkers &&
+          truckMarkers.map((currentTruck) => (
             <View key={currentTruck.id}>
               <Marker
                 coordinate={{
