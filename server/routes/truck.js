@@ -2,7 +2,9 @@
 /* eslint-disable no-console */
 
 const truckRouter = require('express').Router();
-const { Truck, Photo, Review, Post } = require('../db/db');
+const {
+  Truck, Photo, Review, Post,
+} = require('../db/db');
 
 // route to get all trucks
 truckRouter.get('/', (req, res) => {
@@ -183,7 +185,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       where: {
         id: truckId,
       },
-    }
+    },
   )
     .then((updatedTruck) => {
       if (updatedTruck) {
