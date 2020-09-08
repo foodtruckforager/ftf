@@ -1,14 +1,17 @@
 import * as Google from 'expo-google-app-auth';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
+import axios from 'axios';
 
 export default function GoogleLogIn({
-  isUserLoggedIn,
   setIsUserLoggedIn,
-  isTruckOwnerLoggedIn,
-  setIsTruckOwnerLoggedIn
+  setIsTruckOwnerLoggedIn,
 }) {
   const [accessToken, setAccessToken] = useState('');
+
+  useEffect(() => {
+    console.log(accessToken);
+  }, [accessToken]);
 
   const userConfig = {
     iosClientId: process.env.EXPO_iosClientId,
@@ -22,11 +25,22 @@ export default function GoogleLogIn({
     scopes: ['profile', 'email'],
   };
 
-  async function signInWithGoogleAsync(configuration: Object) {
+  async function signUserInWithGoogleAsync(configuration: Object) {
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {
         setAccessToken(result.accessToken);
+        setIsUserLoggedIn(true);
+
+        axios.post(`${process.env.EXPO_LocalLan}/user/new`, {
+          fullName: result.user.name,
+          googleId: result.user.id,
+          profilePhotoUrl: result.user.photoUrl,
+        })
+          .then((response) => {
+            console.log('response.data', response.data);
+          })
+          .catch((err) => console.error(err));
         return result.accessToken;
       }
       return { cancelled: true };
@@ -34,14 +48,28 @@ export default function GoogleLogIn({
       return { error: true };
     }
   }
+
+  async function signTruckInWithGoogleAsync(configuration: Object) {
+    try {
+      const result = await Google.logInAsync(configuration);
+      if (result.type === 'success') {
+        setAccessToken(result.accessToken);
+        setIsTruckOwnerLoggedIn(true);
+
+        return result.accessToken;
+      }
+      return { cancelled: true };
+    } catch (e) {
+      return { error: true };
+    }
+  }
+
   const userSignIn = () => {
-    signInWithGoogleAsync(userConfig);
-    setIsUserLoggedIn(true);
+    signUserInWithGoogleAsync(userConfig);
   };
 
   const truckSignIn = () => {
-    signInWithGoogleAsync(truckConfig);
-    setIsTruckOwnerLoggedIn(true);
+    signTruckInWithGoogleAsync(truckConfig);
   };
 
   const logOut = async() => {
@@ -51,6 +79,7 @@ export default function GoogleLogIn({
     };
 
     await Google.logOutAsync({ accessToken, ...logOutConfig });
+    console.log(accessToken);
     setAccessToken('');
     setIsUserLoggedIn(false);
     setIsTruckOwnerLoggedIn(false);
@@ -60,13 +89,13 @@ export default function GoogleLogIn({
   return (
     <View style={styles.container}>
       <View>
-        <Button title='Google User Sign In' onPress={userSignIn} />
+        <Button title="Google User Sign In" onPress={userSignIn} />
       </View>
       <View>
-        <Button title='Google Truck Owner Sign In' onPress={truckSignIn} />
+        <Button title="Google Truck Owner Sign In" onPress={truckSignIn} />
       </View>
       <View>
-        <Button title='logout' onPress={logOut} />
+        <Button title="logout" onPress={logOut} />
       </View>
     </View>
   );
