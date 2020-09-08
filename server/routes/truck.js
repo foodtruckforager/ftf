@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
-const { Op } = require('sequelize');
 
 const truckRouter = require('express').Router();
 const {
@@ -11,79 +10,12 @@ const {
 truckRouter.get('/', (req, res) => {
   Truck.findAll()
     .then((trucks) => {
-      // console.log(trucks);
       res.send(trucks);
     })
     .catch((err) => {
-      // console.error(err);
       res.status(500).send(err);
     });
 });
-
-// route to search by food genre or truck name
-// TO DO: Flesh out with genre or food truck name
-truckRouter.get('/search/:searchQuery', (req, res) => {
-  const { searchQuery } = req.params;
-  const searchLowerCase = searchQuery.toLowerCase();
-  console.log(searchLowerCase);
-  const searchResults = [];
-  Truck.findAll({
-    where: {
-      food_genre: { [Op.iLike]: `%${searchLowerCase}%` },
-      // food_genre: searchLowerCase,
-    },
-  })
-    .then((genreResults) => {
-      console.log('first then');
-      console.log(genreResults);
-      searchResults.push(...genreResults);
-      Truck.findAll({
-        where: {
-          full_name: { [Op.iLike]: `%${searchLowerCase}%` },
-          // full_name: searchLowerCase,
-        },
-      })
-        .then((nameResults) => {
-          console.log('second then');
-          console.log(nameResults);
-          searchResults.push(...nameResults);
-          const uniq = [...new Set(searchResults)];
-          res.send(uniq);
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
-    });
-});
-
-// // route to search by food genre
-// truckRouter.get('/search/genre/:food_genre', (req, res) => {
-//   const { food_genre } = req.params;
-//   Truck.findAll({
-//     where: {
-//       food_genre,
-//     },
-//   })
-//     .then((results) => {
-//       res.send(results);
-//     })
-//     .catch((err) => console.log(err));
-// });
-// get specific truck by id
-// truckRouter.get('/:truckId', (req, res) => {
-//   const { truckId } = req.params;
-//   Truck.findByPk(truckId)
-//     .then((foundtruck) => {
-//       console.log(foundtruck);
-//       res.send(foundtruck);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send(err);
-//     });
-// });
 
 // get all truck photos for specific truck
 truckRouter.get('/photo/:truckId', (req, res) => {
