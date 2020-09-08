@@ -6,6 +6,7 @@ import { View } from '../themes/Themed';
 import InfoWindow from './InfoWindow';
 
 import foodIcons from '../../../assets/mapIcons.js';
+
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE = 29.9990674;
@@ -55,14 +56,13 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers &&
-          (truckMarkers.filter(
-            (truck) => truck.full_name === search || truck.food_genre === search
+        {truckMarkers
+          && (truckMarkers.filter(
+            (truck) => truck.full_name === search || truck.food_genre === search,
           ).length
             ? truckMarkers.filter(
-                (truck) =>
-                  truck.full_name === search || truck.food_genre === search
-              )
+              (truck) => truck.full_name === search || truck.food_genre === search,
+            )
             : truckMarkers
           ).map((currentTruck) => (
             <View key={currentTruck.id}>

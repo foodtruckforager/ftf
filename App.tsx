@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import GoogleLogIn from './client/components/dropIns/GoogleLogIn';
 import TruckDetails from './client/components/screens/truckDetails';
@@ -7,16 +7,29 @@ import TruckPosts from './client/components/screens/truckPosts';
 import TruckReviews from './client/components/screens/truckReviews';
 import RootDrawerNavigator from './client/components/routes/drawer';
 import LogInStack from './client/components/routes/loginStack';
+import TruckOwnerProfile from './client/components/screens/truckOwnerProfile';
 
 export default function App() {
-  return (
-    <RootDrawerNavigator />
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
 
-    // <View style={styles.container}>
-    //   <LogInStack />
-    //   <Text>Open up App.tsx to start working on your app!</Text>
-    //   <StatusBar style='auto' />
-    // </View>
+  return (
+    <>
+      <>
+        { (!isUserLoggedIn && !isTruckOwnerLoggedIn) && (
+        <GoogleLogIn
+          isUserLoggedIn={isUserLoggedIn}
+          setIsUserLoggedIn={setIsUserLoggedIn}
+          isTruckOwnerLoggedIn={isTruckOwnerLoggedIn}
+          setIsTruckOwnerLoggedIn={setIsTruckOwnerLoggedIn}
+        />
+        )}
+      </>
+      <>
+        { isUserLoggedIn && <RootDrawerNavigator /> }
+        { isTruckOwnerLoggedIn && <TruckOwnerProfile /> }
+      </>
+    </>
   );
 }
 
