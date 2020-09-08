@@ -41,6 +41,26 @@ export default function Map({
     getAllTrucks();
   }, []);
 
+  const searchTrucks = () => {
+    if (search.length) {
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/search/${search}`)
+      .then((response) => {
+        const { data } = response;
+        setTruckMarkers([]);
+        setTruckMarkers(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    } else {
+      getAllTrucks();
+    }
+  };
+  useEffect(() => {
+    searchTrucks();
+  }, [search]);
+
   return (
     <View style={styles.container}>
       <MapView
