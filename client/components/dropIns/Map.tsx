@@ -5,6 +5,7 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import { View } from '../themes/Themed';
 import InfoWindow from './InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
+import FuzzySearch from 'fuzzy-search';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -26,28 +27,25 @@ export default function Map({
     longitudeDelta: LONGITUDE_DELTA,
   });
 
-  String.prototype.fuzzySearch = function (s: String) {
-    let hay = this.toLowerCase(),
-      i = 0,
-      n = -1,
-      l;
-    s = s.toLowerCase();
-    for (; (l = s[i++]); ) if (!~(n = hay.indexOf(l, n + 1))) return false;
-    return true;
-  };
-
   const getAllTrucks = () => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {
         const { data } = response;
-        const filteredMarkers = data.filter(
-          (truck: Object) =>
-            truck.food_genre.fuzzySearch(search) ||
-            truck.full_name.fuzzySearch(search)
-        );
-        if (filteredMarkers.length && search.length) {
-          setTruckMarkers(filteredMarkers);
+        if (data.length && search.length) {
+          const searcher = new FuzzySearch(data, ['full_name', 'food_genre']);
+          const filteredMarkers = searcher.search(search);
+          const filteredArr = filteredMarkers.reduce((sum, curr) => {
+            const x = sum.find((currentTruck) => currentTruck.id === curr.id);
+            if (!x) {
+              return sum.concat([curr]);
+            } else {
+              return sum;
+            }
+          }, []);
+          if (filteredArr.length) {
+            setTruckMarkers(filteredArr);
+          }
         } else {
           setTruckMarkers(data);
         }
@@ -60,9 +58,6 @@ export default function Map({
   useEffect(() => {
     getAllTrucks();
   }, [search]);
-  useEffect(() => {
-    getAllTrucks();
-  }, []);
 
   return (
     <View style={styles.container}>
