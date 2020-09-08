@@ -1,16 +1,14 @@
 import * as Google from 'expo-google-app-auth';
 import React, { useState } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, StyleSheet } from 'react-native';
 
-export default function GoogleLogIn() {
+export default function GoogleLogIn({
+  isUserLoggedIn,
+  setIsUserLoggedIn,
+  isTruckOwnerLoggedIn,
+  setIsTruckOwnerLoggedIn
+}) {
   const [accessToken, setAccessToken] = useState('');
-
-  // const hitServer = () => {
-  //   fetch('http://10.0.0.240:5000/truck/')
-  //     .then(response => response.json())
-  //     .then(jsonResponse => console.log(jsonResponse))
-  //     .catch(err => console.log(err));
-  // }
 
   const userConfig = {
     iosClientId: process.env.EXPO_iosClientId,
@@ -38,13 +36,15 @@ export default function GoogleLogIn() {
   }
   const userSignIn = () => {
     signInWithGoogleAsync(userConfig);
+    setIsUserLoggedIn(true);
   };
 
   const truckSignIn = () => {
     signInWithGoogleAsync(truckConfig);
+    setIsTruckOwnerLoggedIn(true);
   };
 
-  const logOut = async () => {
+  const logOut = async() => {
     const logOutConfig = {
       iosClientId: process.env.EXPO_iosClientId,
       androidClientId: process.env.EXPO_androidClientId,
@@ -52,11 +52,13 @@ export default function GoogleLogIn() {
 
     await Google.logOutAsync({ accessToken, ...logOutConfig });
     setAccessToken('');
+    setIsUserLoggedIn(false);
+    setIsTruckOwnerLoggedIn(false);
     console.log('you have been logged out');
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Button title='Google User Sign In' onPress={userSignIn} />
       </View>
@@ -66,9 +68,15 @@ export default function GoogleLogIn() {
       <View>
         <Button title='logout' onPress={logOut} />
       </View>
-      {/* <View>
-        <Button title='server' onPress={hitServer} />
-      </View> */}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

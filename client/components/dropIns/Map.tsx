@@ -6,6 +6,7 @@ import { View } from '../themes/Themed';
 import InfoWindow from './InfoWindow';
 
 import foodIcons from '../../../assets/mapIcons.js';
+
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE = 29.9990674;
@@ -31,15 +32,41 @@ export default function Map({
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {
         const { data } = response;
-        setTruckMarkers(data);
+        const filteredMarkers = data.filter((truck: Object) => truck.food_genre === search);
+        if (filteredMarkers.length) {
+          setTruckMarkers(filteredMarkers);
+        } else {
+          setTruckMarkers(data);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
   };
+
   useEffect(() => {
     getAllTrucks();
-  }, []);
+  }, [search]);
+
+  const searchTrucks = () => {
+    if (search.length) {
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/search/${search}`)
+      .then((response) => {
+        const { data } = response;
+        setTruckMarkers([]);
+        setTruckMarkers(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    } else {
+      getAllTrucks();
+    }
+  };
+  useEffect(() => {
+    searchTrucks();
+  }, [search]);
 
   return (
     <View style={styles.container}>
@@ -49,14 +76,13 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers &&
-          (truckMarkers.filter(
-            (truck) => truck.full_name === search || truck.food_genre === search
+        {truckMarkers
+          && (truckMarkers.filter(
+            (truck) => truck.full_name === search || truck.food_genre === search,
           ).length
             ? truckMarkers.filter(
-                (truck) =>
-                  truck.full_name === search || truck.food_genre === search
-              )
+              (truck) => truck.full_name === search || truck.food_genre === search,
+            )
             : truckMarkers
           ).map((currentTruck) => (
             <View key={currentTruck.id}>
