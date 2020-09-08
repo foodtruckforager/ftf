@@ -22,13 +22,11 @@ truckRouter.get('/', (req, res) => {
 // TO DO: Flesh out with genre or food truck name
 truckRouter.get('/search/:searchQuery', (req, res) => {
   const { searchQuery } = req.params;
-  const searchLowerCase = searchQuery.toLowerCase();
-  console.log(searchLowerCase);
   const searchResults = [];
   Truck.findAll({
     where: {
-      food_genre: { [Op.iLike]: `%${searchLowerCase}%` },
-      // food_genre: searchLowerCase,
+      food_genre: { [Op.iLike]: `%${searchQuery}%` },
+      // food_genre: searchQuery,
     },
   })
     .then((genreResults) => {
@@ -37,8 +35,7 @@ truckRouter.get('/search/:searchQuery', (req, res) => {
       searchResults.push(...genreResults);
       Truck.findAll({
         where: {
-          full_name: { [Op.iLike]: `%${searchLowerCase}%` },
-          // full_name: searchLowerCase,
+          full_name: { [Op.iLike]: `%${searchQuery}%` },
         },
       })
         .then((nameResults) => {
