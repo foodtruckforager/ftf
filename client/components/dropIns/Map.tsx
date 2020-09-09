@@ -57,7 +57,28 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
+    updateTrucksFromGooglePlaces(region.latitude || LATITUDE, region.longitude || LONGITUDE)
   }, [search]);
+
+  const updateTrucksFromGooglePlaces = (lat, lng) => {
+    const strungLat = lat.toString();
+    const strungLng = lng.toString();
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/api/google`, {
+        params: {
+          lat: strungLat,
+          lon: strungLng,
+        },
+      })
+      .then(({ data }) => {
+        if (data.length) {
+          // setTruckMarkers(data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <View style={styles.container}>
