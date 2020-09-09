@@ -67,7 +67,7 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
         showsUserLocation={true}
-        followsUserLocation={true}
+        followsUserLocation={false}
       >
         {truckMarkers &&
           truckMarkers.map((currentTruck) => (
