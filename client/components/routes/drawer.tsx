@@ -4,6 +4,8 @@ import { createAppContainer } from 'react-navigation';
 
 import TrackerStack from './trackerStack';
 import Search from '../screens/search';
+import ScanQRCode from '../screens/ScanQRCode';
+import GenerateQRCode from '../screens/GenerateQRCode';
 import Profile from '../screens/profile';
 import Accordion from '../../Accordion';
 import LogIn from '../screens/LogIn';
@@ -13,7 +15,7 @@ const RootDrawerNavigator = createDrawerNavigator({
     screen: TrackerStack,
   },
   Search: {
-    screen: TrackerStack,
+    screen: Search,
   },
   // Trucks: {
   //   screen: 'Something',
@@ -23,6 +25,12 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   UserProfile: {
     screen: Accordion,
+  },
+  ScanQRCode: {
+    screen: ScanQRCode,
+  },
+  GenerateQRCode: {
+    screen: GenerateQRCode,
   },
   LogOut: {
     screen: LogIn,
