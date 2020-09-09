@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
+
 const truckRouter = require('express').Router();
 const {
   Truck, Photo, Review, Post,
@@ -9,40 +10,9 @@ const {
 truckRouter.get('/', (req, res) => {
   Truck.findAll()
     .then((trucks) => {
-      console.log(trucks);
       res.send(trucks);
     })
     .catch((err) => {
-      console.error(err);
-      res.status(500).send(err);
-    });
-});
-
-// route to search by food genre
-// TO DO: Flesh out with genre or food truck name
-truckRouter.get('/search/:food_genre', (req, res) => {
-  const { food_genre } = req.params;
-  Truck.findAll({
-    where: {
-      food_genre,
-    },
-  })
-    .then((results) => {
-      res.send(results);
-    })
-    .catch((err) => console.log(err));
-});
-
-// get specific truck by id
-truckRouter.get('/:truckId', (req, res) => {
-  const { truckId } = req.params;
-  Truck.findByPk(truckId)
-    .then((foundtruck) => {
-      console.log(foundtruck);
-      res.send(foundtruck);
-    })
-    .catch((err) => {
-      console.error(err);
       res.status(500).send(err);
     });
 });

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import axios from 'axios';
-
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { View } from '../themes/Themed';
 import InfoWindow from './InfoWindow';
+import foodIcons from '../../../assets/mapIcons.js';
+import FuzzySearch from 'fuzzy-search';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -13,7 +14,12 @@ const LONGITUDE = -90.0852767;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-export default function Map({ provider }) {
+export default function Map({
+  provider,
+  truckMarkers,
+  setTruckMarkers,
+  search,
+}) {
   const [region, setRegion] = useState({
     latitude: LATITUDE,
     longitude: LONGITUDE,
@@ -21,19 +27,37 @@ export default function Map({ provider }) {
     longitudeDelta: LONGITUDE_DELTA,
   });
 
-  const [truckMarkers, setTruckMarkers] = useState([]);
-
-  useEffect(() => {
+  const getAllTrucks = () => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {
         const { data } = response;
-        setTruckMarkers(data);
+        if (data.length && search.length) {
+          const searcher = new FuzzySearch(data, ['full_name', 'food_genre']);
+          const filteredMarkers = searcher.search(search);
+          const filteredArr = filteredMarkers.reduce((sum, curr) => {
+            const x = sum.find((currentTruck) => currentTruck.id === curr.id);
+            if (!x) {
+              return sum.concat([curr]);
+            } else {
+              return sum;
+            }
+          }, []);
+          if (filteredArr.length) {
+            setTruckMarkers(filteredArr);
+          }
+        } else {
+          setTruckMarkers(data);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
-  });
+  };
+
+  useEffect(() => {
+    getAllTrucks();
+  }, [search]);
 
   return (
     <View style={styles.container}>
@@ -43,21 +67,24 @@ export default function Map({ provider }) {
         initialRegion={region}
         zoomTapEnabled={false}
       >
-        {truckMarkers && truckMarkers.map((currentTruck) => (
-          <View key={currentTruck.id}>
-            <Marker coordinate={{
-              latitude: +currentTruck.latitude,
-              longitude: +currentTruck.longitude,
-            }}
-            >
-              <Callout style={styles.customView}>
-                <View>
-                  <InfoWindow currentTruck={currentTruck} />
-                </View>
-              </Callout>
-            </Marker>
-          </View>
-        ))}
+        {truckMarkers &&
+          truckMarkers.map((currentTruck) => (
+            <View key={currentTruck.id}>
+              <Marker
+                coordinate={{
+                  latitude: +currentTruck.latitude,
+                  longitude: +currentTruck.longitude,
+                }}
+                image={foodIcons[currentTruck.food_genre]}
+              >
+                <Callout style={styles.customView}>
+                  <View>
+                    <InfoWindow currentTruck={currentTruck} />
+                  </View>
+                </Callout>
+              </Marker>
+            </View>
+          ))}
       </MapView>
     </View>
   );
@@ -81,7 +108,7 @@ const styles = StyleSheet.create({
   },
   bubble: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(70,70,70,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20,

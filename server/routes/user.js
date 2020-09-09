@@ -40,14 +40,13 @@ userRouter.get('/review/:userId', (req, res) => {
 // create a new user
 userRouter.post('/new', (req, res) => {
   const {
-    fullName, googleId, badge, profilePhotoUrl,
+    fullName, googleId, profilePhotoUrl,
   } = req.body;
-
+  console.log(req.body);
   User.findOrCreate({
     where: {
       full_name: fullName,
       google_id: googleId,
-      badge,
       profile_photo_url: profilePhotoUrl,
     },
   })

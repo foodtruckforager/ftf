@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
     allowNull: false,
   },
   phone_number: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   google_id: {
     type: DataTypes.STRING,
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
     type: DataTypes.DECIMAL(10, 8),
   },
   longitude: {
-    type: DataTypes.DECIMAL(11, 8), // {alter: true in index.js}
+    type: DataTypes.DECIMAL(11, 8),
   },
 }, {
   freezeTableName: true,
