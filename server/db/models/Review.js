@@ -15,9 +15,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define(
         key: 'id',
       },
     },
-    favorite: {
-      type: DataTypes.BOOLEAN,
-    },
     review_title: {
       type: DataTypes.STRING,
     },

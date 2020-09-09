@@ -66,7 +66,6 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
   const { truckId, userId } = req.params;
 
   const {
-    favorite,
     reviewTitle,
     reviewDescription,
     reviewStar,
@@ -79,7 +78,6 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
     where: {
       id_user: userId,
       id_truck: truckId,
-      favorite,
       review_title: reviewTitle,
       review_description: reviewDescription,
       review_star: reviewStar,
