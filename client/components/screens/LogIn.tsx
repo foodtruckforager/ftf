@@ -8,6 +8,7 @@ import PushNotifications from '../dropIns/PushNotifications';
 export default function LogIn() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
 
   return (
     <><><PushNotifications /></>
@@ -18,11 +19,18 @@ export default function LogIn() {
           setIsUserLoggedIn={setIsUserLoggedIn}
           isTruckOwnerLoggedIn={isTruckOwnerLoggedIn}
           setIsTruckOwnerLoggedIn={setIsTruckOwnerLoggedIn}
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
         />
         )}
       </>
       <>
-        { isUserLoggedIn && <RootDrawerNavigator /> }
+        { isUserLoggedIn && (
+        <RootDrawerNavigator
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
+        />
+        ) }
         { isTruckOwnerLoggedIn && <TruckOwnerProfile /> }
       </>
     </>
