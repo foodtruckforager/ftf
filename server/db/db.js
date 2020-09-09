@@ -29,6 +29,11 @@ const Photo = PhotoModel(sequelize, Sequelize);
 const Upvote = UpvoteModel(sequelize, Sequelize);
 const Favorite = FavoriteModel(sequelize, Sequelize);
 
+User.hasMany(Favorite, { foreignKey: 'id_user' });
+Truck.hasMany(Favorite, { foreignKey: 'id_truck' });
+Favorite.belongsTo(User, { foreignKey: 'id_user' });
+Favorite.belongsTo(Truck, { foreignKey: 'id_truck' });
+
 const connection = async() => {
   try {
     await sequelize.authenticate();

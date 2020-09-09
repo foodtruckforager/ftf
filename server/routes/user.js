@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const {
-  Review, User, Upvote, Favorite,
+  Review, User, Upvote, Favorite, Truck,
 } = require('../db/db');
 
 const userRouter = Router();
@@ -35,6 +35,28 @@ userRouter.get('/review/:userId', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      res.status(500).send(err);
+    });
+});
+
+// get all user's favorite trucks
+userRouter.get('/favorites/:userId', (req, res) => {
+  const { userId } = req.params;
+  Favorite.findAll({
+    where: {
+      id_user: userId,
+    },
+    include: [{
+      model: Truck,
+      required: true,
+    }],
+  })
+    .then((favoriteTrucks) => {
+      console.log(favoriteTrucks);
+      res.send(favoriteTrucks);
+    })
+    .catch((err) => {
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -95,6 +117,25 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
     });
 });
 
+// update route to add/ a user's favorite truck
+userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
+  const { userId, truckId } = req.params;
+  Favorite.findOrCreate({
+    where: {
+      id_user: userId,
+      id_truck: truckId,
+      favorite: true,
+    },
+  })
+    .then((newFavorited) => {
+      console.log(newFavorited);
+      res.status(201).send('favorite added');
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
 // route to update user
 userRouter.put('/update/:userId', (req, res) => {
   const { userId } = req.params;
@@ -118,25 +159,6 @@ userRouter.put('/update/:userId', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send(err);
-    });
-});
-
-// update route to add/ a user's favorite truck
-userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
-  const { userId, truckId } = req.params;
-  Favorite.findOrCreate({
-    where: {
-      id_user: userId,
-      id_truck: truckId,
-      favorite: true,
-    },
-  })
-    .then((newFavorited) => {
-      console.log(newFavorited);
-      res.status(201).send('favorite added');
-    })
-    .catch((err) => {
       res.status(500).send(err);
     });
 });
