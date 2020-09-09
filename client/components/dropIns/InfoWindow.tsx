@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import Thumbnail from './Thumbnail';
 
-export default function InfoWindow({ currentTruck }) {
+export default function InfoWindow({ currentTruck, navigation }) {
   const truncate = (elem: string, limit: number, after: string) => {
     if (!elem || !limit) return;
     let content = elem.trim();

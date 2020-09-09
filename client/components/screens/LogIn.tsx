@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import GoogleLogIn from '../dropIns/GoogleLogIn';
 import RootDrawerNavigator from '../routes/drawer';
 import TruckOwnerProfile from './truckOwnerProfile';
+import PushNotifications from '../dropIns/PushNotifications';
 
 export default function LogIn() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
 
   return (
-    <>
+    <><><PushNotifications /></>
       <>
         { (!isUserLoggedIn && !isTruckOwnerLoggedIn) && (
         <GoogleLogIn
@@ -17,11 +19,18 @@ export default function LogIn() {
           setIsUserLoggedIn={setIsUserLoggedIn}
           isTruckOwnerLoggedIn={isTruckOwnerLoggedIn}
           setIsTruckOwnerLoggedIn={setIsTruckOwnerLoggedIn}
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
         />
         )}
       </>
       <>
-        { isUserLoggedIn && <RootDrawerNavigator /> }
+        { isUserLoggedIn && (
+        <RootDrawerNavigator
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
+        />
+        ) }
         { isTruckOwnerLoggedIn && <TruckOwnerProfile /> }
       </>
     </>
