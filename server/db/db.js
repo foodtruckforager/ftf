@@ -7,6 +7,7 @@ const ReviewModel = require('./models/Review');
 const PostModel = require('./models/Post');
 const PhotoModel = require('./models/Photo');
 const UpvoteModel = require('./models/Upvote');
+const FavoriteModel = require('./models/Favorite');
 
 const user = process.env.DB_USERNAME;
 const host = process.env.DB_HOST;
@@ -26,6 +27,7 @@ const Review = ReviewModel(sequelize, Sequelize);
 const Post = PostModel(sequelize, Sequelize);
 const Photo = PhotoModel(sequelize, Sequelize);
 const Upvote = UpvoteModel(sequelize, Sequelize);
+const Favorite = FavoriteModel(sequelize, Sequelize);
 
 const connection = async() => {
   try {
@@ -54,4 +56,5 @@ module.exports = {
   Post,
   Photo,
   Upvote,
+  Favorite,
 };

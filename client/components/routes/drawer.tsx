@@ -9,15 +9,15 @@ import Profile from '../screens/profile';
 import Accordion from '../../Accordion';
 import LogOut from '../screens/LogOut';
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
-export default function RootDrawerNavigator() {
-  return (
-    <NavigationContainer>
+// export default function RootDrawerNavigator() {
+//   return (
+//     <NavigationContainer>
 
-    </NavigationContainer>
-  );
-}
+//     </NavigationContainer>
+//   );
+// }
 const RootDrawerNavigator = createDrawerNavigator({
   Tracker: {
     screen: TrackerStack,
@@ -38,7 +38,5 @@ const RootDrawerNavigator = createDrawerNavigator({
     screen: LogOut,
   },
 });
-
-
 
 export default createAppContainer(RootDrawerNavigator);

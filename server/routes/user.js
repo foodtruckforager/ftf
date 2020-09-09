@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 const { Router } = require('express');
 const sequelize = require('sequelize');
-const { Review, User, Upvote } = require('../db/db');
+const {
+  Review, User, Upvote, Favorite,
+} = require('../db/db');
 
 const userRouter = Router();
 
@@ -118,6 +120,43 @@ userRouter.put('/update/:userId', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      res.status(500).send(err);
+    });
+});
+
+// update route to add/ a user's favorite truck
+userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
+  const { userId, truckId } = req.params;
+  Favorite.findOrCreate({
+    where: {
+      id_user: userId,
+      id_truck: truckId,
+      favorite: true,
+    },
+  })
+    .then((newFavorited) => {
+      console.log(newFavorited);
+      res.status(201).send('favorite added');
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
+userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
+  const { userId, truckId } = req.params;
+  Favorite.update({
+    favorite: false,
+  }, {
+    where: {
+      id_user: userId,
+      id_truck: truckId,
+    },
+  })
+    .then(() => {
+      res.status(201).send('favorite was removed');
+    })
+    .catch((err) => {
       res.status(500).send(err);
     });
 });
