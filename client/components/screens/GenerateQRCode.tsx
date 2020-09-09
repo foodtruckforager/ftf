@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { QRCode as CustomQRCode } from 'react-native-custom-qr-codes-expo';
 
 export default function GenerateQRCode() {
-  let logoFromFile = require('../../../assets/favicon.png');
+  let logoFromFile = require('../../../assets/foodtruckstill.png');
   return (
     <View style={styles.container}>
       <CustomQRCode
