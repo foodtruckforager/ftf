@@ -1,10 +1,48 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
-
+const axios = require('axios');
 const truckRouter = require('express').Router();
-const {
-  Truck, Photo, Review, Post,
-} = require('../db/db');
+const { Truck, Photo, Review, Post } = require('../db/db');
+
+// Google Places API Route
+truckRouter.get('/api/google', (req, res) => {
+  const { lat, lon } = req.query;
+  axios({
+    method: 'get',
+    url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&rankby=distance&type=restaurant&key=${process.env.GOOGLE_PLACES_API_KEY}&keyword=truck`,
+  })
+    .then((response) => {
+      const { data } = response;
+      const { results } = data;
+      console.log(results);
+      res.send(results);
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+});
+
+// Google Geocode Lat/Lon for Addresses API Route
+truckRouter.get('/api/geocode', (req, res) => {
+  const { vicinity, truck } = req.query;
+  let truckWithLocation = truck;
+  axios({
+    method: 'get',
+    url: `https://maps.google.com/maps/api/geocode/json?address=${vicinity}&key=${process.env.GOOGLE_PLACES_API_KEY}`,
+  })
+    .then((response) => {
+      const { data } = response;
+      const { results } = data;
+      truckWithLocation.location = results[0].geometry.location;
+      // TODO: add truck with lat lon coordinates to database
+      res.send(truckWithLocation);
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+});
 
 // route to get all trucks
 truckRouter.get('/', (req, res) => {
@@ -185,7 +223,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       where: {
         id: truckId,
       },
-    },
+    }
   )
     .then((updatedTruck) => {
       if (updatedTruck) {

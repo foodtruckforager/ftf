@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import TrackerStack from './trackerStack';
 import Search from '../screens/search';
+import ScanQRCode from '../screens/ScanQRCode';
+import GenerateQRCode from '../screens/GenerateQRCode';
 import Profile from '../screens/profile';
 import Accordion from '../../Accordion';
 import LogOut from '../screens/LogOut';
@@ -23,7 +25,7 @@ const RootDrawerNavigator = createDrawerNavigator({
     screen: TrackerStack,
   },
   Search: {
-    screen: TrackerStack,
+    screen: Search,
   },
   // Trucks: {
   //   screen: 'Something',
@@ -33,6 +35,12 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   UserProfile: {
     screen: Accordion,
+  },
+  ScanQRCode: {
+    screen: ScanQRCode,
+  },
+  GenerateQRCode: {
+    screen: GenerateQRCode,
   },
   LogOut: {
     screen: LogOut,
