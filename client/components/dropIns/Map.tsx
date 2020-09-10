@@ -26,6 +26,15 @@ export default function Map({
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [followsUserLocation, setFollowsUserLocation] = useState(true);
+
+  useEffect(() => {
+    if (followsUserLocation) {
+      setTimeout(() => {
+        setFollowsUserLocation(false);
+      }, 3000);
+    }
+  }, [search]);
 
   const getAllTrucks = () => {
     axios
@@ -57,7 +66,83 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
+    updateTrucksFromGooglePlaces(
+      region.latitude || LATITUDE,
+      region.longitude || LONGITUDE
+    );
   }, [search]);
+
+  const updateTrucksFromGooglePlaces = (lat, lng) => {
+    const strungLat = lat.toString();
+    const strungLng = lng.toString();
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/api/google`, {
+        params: {
+          lat: strungLat,
+          lon: strungLng,
+        },
+      })
+      .then(({ data }) => {
+        if (data.length) {
+          // convert "vicinity" to lat/lon coordinates with Google's Geocoding API
+          let trucks = data;
+          trucks.forEach((truck: object) => {
+            const { vicinity } = truck;
+            axios
+              .get(`${process.env.EXPO_LocalLan}/truck/api/geocode`, {
+                params: {
+                  vicinity,
+                  truck,
+                },
+              })
+              .then((response) => {
+                const { data } = response;
+                // console.log(data);
+                const {
+                  business_status,
+                  name,
+                  rating,
+                  user_ratings_total,
+                  geometry,
+                  is_open,
+                } = data;
+                if (business_status === 'OPERATIONAL' && geometry && name) {
+                  const { location } = geometry;
+                  const { lat, lng } = location;
+                  axios
+                    .post(`${process.env.EXPO_LocalLan}/truck/create`, {
+                      fullName: name,
+                      phoneNumber: '0',
+                      googleId: '0',
+                      qrCode: '',
+                      logo:
+                        'https://lh3.googleusercontent.com/8FaT-koA90SslM5ZQsUTM-tRI7l0qfEnqlM8tGjTTvMSCILw3UHm5c1efQnZnWurWw',
+                      foodGenre: 'google',
+                      blurb: `This truck was automatically imported from Google`,
+                      openStatus: is_open,
+                      openTime: 0,
+                      closeTime: 0,
+                      latitude: lat,
+                      longitude: lng,
+                      starRating: rating,
+                      numberOfReviews: user_ratings_total,
+                    })
+                    .then(() => {
+                      getAllTrucks();
+                    })
+                    .catch((err) => console.error(err));
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -67,11 +152,11 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
         showsUserLocation={true}
-        followsUserLocation={true}
+        followsUserLocation={followsUserLocation}
       >
         {truckMarkers &&
           truckMarkers.map((currentTruck) => (
-            <View key={currentTruck.id}>
+            <View key={currentTruck.id || currentTruck.place_id}>
               <Marker
                 coordinate={{
                   latitude: +currentTruck.latitude,
