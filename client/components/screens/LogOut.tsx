@@ -32,11 +32,11 @@ const LogOut = ({
       androidClientId: process.env.EXPO_androidClientId,
     };
 
-    await Google.logOutAsync({ accessToken, ...logOutConfig });
     console.log(accessToken);
+    await Google.logOutAsync({ accessToken, ...logOutConfig });
     // setAccessToken('');
-    setIsUserLoggedIn(false);
-    setIsTruckOwnerLoggedIn(false);
+    // setIsUserLoggedIn(false);
+    // setIsTruckOwnerLoggedIn(false);
     console.log('you have been logged out');
     // console.log('accessToken after logout', accessToken);
   };
