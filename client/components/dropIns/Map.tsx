@@ -57,7 +57,48 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
+    updateTrucksFromGooglePlaces(
+      region.latitude || LATITUDE,
+      region.longitude || LONGITUDE
+    );
   }, [search]);
+
+  const updateTrucksFromGooglePlaces = (lat, lng) => {
+    const strungLat = lat.toString();
+    const strungLng = lng.toString();
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/api/google`, {
+        params: {
+          lat: strungLat,
+          lon: strungLng,
+        },
+      })
+      .then(({ data }) => {
+        if (data.length) {
+          // convert "vicinity" to lat/lon coordinates with Google's Geocoding API
+          let trucks = data;
+          trucks.forEach((truck: object) => {
+            const { vicinity } = truck;
+            axios
+              .get(`${process.env.EXPO_LocalLan}/truck/api/geocode`, {
+                params: {
+                  vicinity,
+                  truck,
+                },
+              })
+              .then((response) => {
+                const { data } = response;
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -67,11 +108,11 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
         showsUserLocation={true}
-        followsUserLocation={true}
+        followsUserLocation={false} // change this to false after initial render?
       >
         {truckMarkers &&
           truckMarkers.map((currentTruck) => (
-            <View key={currentTruck.id}>
+            <View key={currentTruck.id || currentTruck.place_id}>
               <Marker
                 coordinate={{
                   latitude: +currentTruck.latitude,
