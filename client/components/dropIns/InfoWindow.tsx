@@ -47,27 +47,6 @@ export default function InfoWindow({ currentTruck }) {
     return content;
   };
   const { full_name, blurb, logo, star_average, phone_number, food_genre, number_of_reviews, open_status } = currentTruck;
-  // name, thumbnail, phone number, genre, distance, food pic, blurb, stars
-  // for calling
-  const tele = phone_number;
-  // for display
-
-  // let teleDisplay = phone_number
-  //   if (tele.length === 7) {
-  //     teleDisplay = `1 (225) ${teleDisplay.slice(0, 3)}-${teleDisplay.slice(3, 6)}`;
-  //   } else if (tele.length === 10) {
-  //     teleDisplay = `1 (${teleDisplay.slice(0, 3)}) ${teleDisplay.slice(3, 6)}-${teleDisplay.slice(7)}`;
-  //   }
-
-  // function dialCall() {
-  //   let phoneNumber = tele;
-  //   if (Platform.OS === 'android') {
-  //     phoneNumber = `tel:${phoneNumber}`;
-  //   } else {
-  //     phoneNumber = `telprompt:${phoneNumber}`;
-  //   }
-  //   Linking.openURL(phoneNumber);
-  // }
   const openBadge = () => {
     if (open_status) {
       return (
@@ -81,6 +60,15 @@ export default function InfoWindow({ currentTruck }) {
         <Badge value=" " status="error" />
       </View>
     );
+  };
+  const makeCall = () => {
+    let phoneNumber = phone_number;
+    if (Platform.OS === 'android') {
+      phoneNumber = 'tel:${phoneNumber}';
+    } else {
+      phoneNumber = 'telprompt:${phoneNumber}';
+    }
+    Linking.openURL(phoneNumber);
   };
   return (
     <View>
@@ -104,9 +92,11 @@ export default function InfoWindow({ currentTruck }) {
             )}`}
             </Text>
             {/* <Icon name="phone" size={30} color="#900" /> */}
-            <Text>
-              {String.fromCharCode(9990)}{phone_number}
-            </Text>
+            <TouchableOpacity onPress={makeCall}>
+              <Text>
+                {String.fromCharCode(9990)}{phone_number}
+              </Text>
+            </TouchableOpacity>
             <Text>
               {food_genre.charAt(0).toUpperCase()}{food_genre.slice(1)}
             </Text>
@@ -118,7 +108,7 @@ export default function InfoWindow({ currentTruck }) {
                 {String.fromCharCode(9733).repeat(5 - Math.floor(star_average))}
               </Text>
               <Text style={styles.reviews}>
-                {number_of_reviews} reviews
+                {number_of_reviews} Reviews
               </Text>
             </View>
           </View>
@@ -128,12 +118,6 @@ export default function InfoWindow({ currentTruck }) {
             </Text>
 
           </View>
-          {/* phone_number
-            food_genre */}
-        </View>
-        <View style={styles.middleDistanceLine}>
-
-          {/* <Text>Distance</Text> */}
         </View>
       </View>
       <Text style={styles.blurb}>{`${truncate(blurb, 80, '...')}`}</Text>
