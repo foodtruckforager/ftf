@@ -29,7 +29,6 @@ export default function Settings({ navigation }) {
           googleData = googleData.user;
           // console.log(googleData);
           return googleData;
-          alert(value);
         }
       } catch (error) {
         // Error retrieving data
@@ -56,21 +55,6 @@ export default function Settings({ navigation }) {
     navigation.navigate('Profile');
   };
 
-  const retrieveData = async () => {
-    try {
-      let value = await AsyncStorage.getItem('userData');
-      if (value !== null) {
-        // We have data!!
-        value = JSON.parse(value);
-        console.log('hello', value.user);
-        alert(value);
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.error(error);
-    }
-  };
-
   if (profile) {
     return (
       <View style={styles.container}>
@@ -91,10 +75,7 @@ export default function Settings({ navigation }) {
         })}
 
         <View style={styles.bodyContent}>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={retrieveData}
-          >
+          <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
             <Text style={styles.editProfile}>Edit Profile</Text>
           </TouchableOpacity>
         </View>
