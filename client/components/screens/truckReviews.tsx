@@ -1,12 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
-export default function TruckReviews({ navigation }) {
+export default function TruckReviews({ currentTruck, id, navigation }) {
   const pressHandler = () => {
-    navigation.navigate('TruckDetails');
+    navigation.navigate(`TruckDetails`, {
+      params: { currentTruck, id, navigation, onDetails: true },
+    });
   };
   const pressHandlerPost = () => {
-    navigation.navigate('TruckPosts');
+    navigation.navigate(`TruckPosts`, {
+      params: { currentTruck, id, navigation, onDetails: true },
+    });
   };
   return (
     <View style={StyleSheet.container}>

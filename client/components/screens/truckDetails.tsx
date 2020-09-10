@@ -35,10 +35,14 @@ export default function TruckDetails({ navigation }) {
   };
 
   const pressHandler = () => {
-    navigation.navigate('TruckReviews');
+    navigation.navigate(`TruckReviews`, {
+      params: { currentTruck, id, navigation },
+    });
   };
   const pressHandlerPost = () => {
-    navigation.navigate('TruckPosts');
+    navigation.navigate(`TruckPosts`, {
+      params: { currentTruck, id, navigation },
+    });
   };
   return (
     <View style={style.container}>

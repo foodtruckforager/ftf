@@ -3,10 +3,14 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 
 export default function TruckPosts({ navigation }) {
   const pressHandler = () => {
-    navigation.navigate('TruckReviews');
+    navigation.navigate(`TruckReviews`, {
+      params: { currentTruck, id, navigation, onDetails: true },
+    });
   };
   const pressHandlerDetails = () => {
-    navigation.navigate('TruckDetails');
+    navigation.navigate(`TruckDetails`, {
+      params: { currentTruck, id, navigation, onDetails: true },
+    });
   };
   return (
     <View style={StyleSheet.container}>
