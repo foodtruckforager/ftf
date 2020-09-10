@@ -19,6 +19,7 @@ CREATE TABLE "trucks" (
   "food_genre" varchar,
   "blurb" varchar,
   "star_average" int,
+  "number_of_reviews" int,
   "open_time" datetime,
   "close_time" datetime,
   "latitude" "decimal(10, 8)",

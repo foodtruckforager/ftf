@@ -351,6 +351,7 @@ function doStuffWithUserModel() {
       latitude: 29.96326,
       longitude: -90.074096,
       star_average: 4,
+      number_of_reviews: 25,
     },
   })
     .then((newTruck) => {

@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
   star_average: {
     type: DataTypes.DECIMAL,
   },
+  number_of_reviews: {
+    type: DataTypes.INTEGER,
+  },
   open_time: {
     type: DataTypes.INTEGER,
   },
