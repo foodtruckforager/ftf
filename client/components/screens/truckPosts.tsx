@@ -4,11 +4,16 @@ import axios from 'axios';
 
 export default function TruckPosts({ navigation }) {
   const [currentTruckPosts, setCurrentTruckPosts] = useState('');
+  const currentTruckId = navigation.state.params.params.navigation.state.params.params.currentTruck.id;
+  console.log('currentTruckId', currentTruckId);
+  // console.log(navigation.state.params.params);
+  // console.log(navigation);
+  // console.log(currentTruckId);
 
   useEffect(() => {
-    axios.get(`${EXPO_LocalLan}/truck/truckpost/1`)
+    axios.get(`${process.env.EXPO_LocalLan}/truck/truckpost/${currentTruckId}`)
       .then((response) => {
-        console.log(response);
+        console.log('response.data', response.data);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -17,7 +22,7 @@ export default function TruckPosts({ navigation }) {
     navigation.navigate('TruckReviews');
   };
   const pressHandlerDetails = () => {
-    navigation.navigate('TruckDetails');
+    navigation.navigate('TruckDetails', );
   };
 
   return (
@@ -31,6 +36,7 @@ export default function TruckPosts({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 24,
   },
 });

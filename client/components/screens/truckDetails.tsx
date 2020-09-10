@@ -20,7 +20,7 @@ export default function TruckDetails( { navigation }) {
     navigation.navigate('TruckReviews');
   };
   const pressHandlerPost = () => {
-    navigation.navigate('TruckPosts');
+    navigation.navigate('TruckPosts', { params: { navigation } });
   };
   return (
     <View style={style.container}>
