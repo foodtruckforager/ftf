@@ -223,7 +223,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       where: {
         id: truckId,
       },
-    }
+    },
   )
     .then((updatedTruck) => {
       if (updatedTruck) {

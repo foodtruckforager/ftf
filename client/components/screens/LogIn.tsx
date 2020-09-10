@@ -6,19 +6,25 @@ import RootDrawerNavigator from '../routes/drawer';
 import TruckOwnerProfile from './truckOwnerProfile';
 import PushNotifications from '../dropIns/PushNotifications';
 
-export default function LogIn() {
+export default function LogIn(props) {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
+  const [cameFromLogOut, setCameFromLogOut] = useState(null);
 
   useEffect(() => {
+    if (Object.keys(props).length) {
+      setCameFromLogOut(props.navigation.state.params.previous_screen);
+    }
     retrieveData();
     setIsUserLoggedIn(false);
     setIsTruckOwnerLoggedIn(false);
   }, []);
 
   useEffect(() => {
-    handleLogout();
+    if (cameFromLogOut === 'LogOut') {
+      handleLogout();
+    }
   }, [accessToken]);
 
   const retrieveData = async() => {
@@ -44,6 +50,7 @@ export default function LogIn() {
 
     await Google.logOutAsync({ accessToken, ...logOutConfig });
     await AsyncStorage.removeItem('userData');
+    await AsyncStorage.removeItem('ownerData');
     setAccessToken('');
     console.log('you have been logged out');
   };

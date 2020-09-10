@@ -45,6 +45,7 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   LogOut: {
     screen: LogIn,
+    params: { previous_screen: 'LogOut' },
   },
 });
 

@@ -61,6 +61,7 @@ export default function GoogleLogIn({
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {
+        storeData('ownerData', JSON.stringify(result));
         setAccessToken(result.accessToken);
         setIsTruckOwnerLoggedIn(true);
 
