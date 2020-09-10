@@ -72,6 +72,17 @@ export default function Map({
       })
       .then(({ data }) => {
         if (data.length) {
+          // convert "vicinity" to lat/lon coordinates with Google's Geocoding API
+          let trucks = data;
+          trucks.forEach((truck: object) => {
+            const { vicinity } = truck;
+            axios.get(`https://maps.google.com/maps/api/geocode/json?address=${vicinity}&key=${process.env.GOOGLE_PLACES_API_KEY}`).then(res => {
+              console.log(res.data.results[0].geometry.location)
+              // truck.geometry.(res.result.geometry.location)
+              // console.log(truck);
+            });
+ 
+          })
           // setTruckMarkers(data);
         }
       })
@@ -88,11 +99,11 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
         showsUserLocation={true}
-        followsUserLocation={true}
+        followsUserLocation={false} // change this to false after initial render?
       >
         {truckMarkers &&
           truckMarkers.map((currentTruck) => (
-            <View key={currentTruck.id}>
+            <View key={currentTruck.id || currentTruck.place_id}>
               <Marker
                 coordinate={{
                   latitude: +currentTruck.latitude,
