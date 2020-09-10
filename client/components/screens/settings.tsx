@@ -44,13 +44,6 @@ export default function Settings({ navigation }) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${process.env.EXPO_LocalLan}/user/${googleData.id}`)
-  //     .then((response) => {
-  //       setGetUser(response.data);
-  //     });
-  // }, []);
   const pressHandler = () => {
     navigation.navigate('Profile');
   };
