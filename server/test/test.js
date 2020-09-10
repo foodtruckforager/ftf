@@ -48,6 +48,7 @@ function doStuffWithUserModel() {
         'Cheese, Butter and Bread are Frencheeze’s three loves in life. Since you already share a lot in common, Frencheeze Food Truck will most likely be your fourth love in life. As far as these gourmet grilled cheese sandwiches, sliders and frites go, you’re destined to experience love at first bite. Ask anyone in New Orleans who’s had the pleasure of eating these gloriously cheesy offerings for breakfast, lunch, or dinner, and you’ll be told what a special treat you’re in forJust one glance at their menu and youre confronted with some tough choices. Do you stay true to your inner child with the classic 4th Grader- simple cheddar cheese on toast? Or since youve adulted thus far, do you honor your maturity with the Molly-fresh avocado slices, heirloom tomato, bacon, pesto, spinach, and goat cheese on a croissant? But what about the fried Mac & Cheese Balls? Those sound like a must. Well heres the good news you can always come back time and again to taste every masterpiece they offer (with gluten-free bread always available). Heres some even better news: Frencheeze will meet you anywhere to serve their highly craved selection. Just book this local favorite to cater your next event and treat your guests to grilled cheese at its beautiful best',
       open_time: '10',
       close_time: '10',
+      open_status: false,
       latitude: 29.96611777989272,
       longitude: -90.08652842010727,
       star_average: 4,
@@ -173,6 +174,7 @@ function doStuffWithUserModel() {
         'Kennys Cajun & Creole Mobile Kitchen is makin those eats from down South available on the streets. That is, if you happen to be in New Orleans, LA. If you are, lucky you, because thats where youll find this food truck, full of delectable meals to sink your teeth into.',
       open_time: '9',
       close_time: '10',
+      open_status: true,
       latitude: 29.983488,
       longitude: -90.077252,
       star_average: 4,
@@ -351,6 +353,7 @@ function doStuffWithUserModel() {
       latitude: 29.96326,
       longitude: -90.074096,
       star_average: 4,
+      number_of_reviews: 25,
     },
   })
     .then((newTruck) => {
