@@ -10,6 +10,7 @@ import GenerateQRCode from '../screens/GenerateQRCode';
 import Profile from '../screens/profile';
 import Accordion from '../../Accordion';
 import LogOut from '../screens/LogOut';
+import LogIn from '../screens/LogIn';
 
 // const Drawer = createDrawerNavigator();
 
@@ -43,7 +44,8 @@ const RootDrawerNavigator = createDrawerNavigator({
     screen: GenerateQRCode,
   },
   LogOut: {
-    screen: LogOut,
+    screen: LogIn,
+    params: { previous_screen: 'LogOut' },
   },
 });
 
