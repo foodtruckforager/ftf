@@ -6,6 +6,7 @@ import {
   Button,
   Image,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import { normalize } from 'react-native-elements';
 import axios from 'axios';
@@ -15,11 +16,34 @@ export default function Settings({ navigation }) {
   const onPress = () => {
     setProfile(!profile);
   };
+
+  let googleData;
+
   useEffect(() => {
-    axios.get(`${process.env.EXPO_LocalLan}/user/1`).then((response) => {
-      setGetUser([response]);
+    const retrieveData = async () => {
+      try {
+        let value = await AsyncStorage.getItem('userData');
+        if (value !== null) {
+          // We have data!!
+          googleData = JSON.parse(value);
+          googleData = googleData.user;
+          // console.log(googleData);
+          return googleData;
+        }
+      } catch (error) {
+        // Error retrieving data
+        console.error(error);
+      }
+    };
+    retrieveData().then(() => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/user/${googleData.id}`)
+        .then((response) => {
+          setGetUser(response.data);
+        });
     });
   }, []);
+
   const pressHandler = () => {
     navigation.navigate('Profile');
   };
@@ -31,20 +55,17 @@ export default function Settings({ navigation }) {
 
         {getUser.map((user) => {
           return (
-            <React.Fragment key={user.data.id}>
-              <Text style={styles.bodyContent}>
-                Name: {user.data.full_name}
-              </Text>
+            <React.Fragment key={user.id}>
+              <Text style={styles.bodyContent}>Name: {user.full_name}</Text>
               <Image
                 style={styles.avatar}
                 source={{
-                  uri: `${user.data.profile_photo_url}`,
+                  uri: `${user.profile_photo_url}`,
                 }}
               />
             </React.Fragment>
           );
         })}
-        <Text style={styles.bodyContent}> HELLO </Text>
 
         <View style={styles.bodyContent}>
           <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
