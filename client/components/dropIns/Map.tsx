@@ -33,7 +33,7 @@ export default function Map({
     if (followsUserLocation) {
       setTimeout(() => {
         setFollowsUserLocation(false);
-      }, 2000);
+      }, 1000);
     }
   }, [search]);
 
@@ -67,10 +67,10 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
-    updateTrucksFromGooglePlaces(
-      region.latitude || LATITUDE,
-      region.longitude || LONGITUDE
-    );
+    // updateTrucksFromGooglePlaces(
+    //   region.latitude || LATITUDE,
+    //   region.longitude || LONGITUDE
+    // );
   }, [search]);
 
   const updateTrucksFromGooglePlaces = (lat, lng) => {
