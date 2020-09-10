@@ -34,7 +34,7 @@ truckRouter.get('/api/geocode', (req, res) => {
     .then((response) => {
       const { data } = response;
       const { results } = data;
-      if (results[0].geometry) {
+      if (results[0].geometry !== undefined) {
         truckWithLocation.location = results[0].geometry.location;
         res.send(truckWithLocation);
       }
@@ -120,12 +120,14 @@ truckRouter.post('/create', (req, res) => {
     logo,
     foodGenre,
     blurb,
+    openStatus,
     openTime,
     closeTime,
     latitude,
     longitude,
+    starRating,
+    numberOfReviews,
   } = req.body;
-
   Truck.findOrCreate({
     where: {
       full_name: fullName,
@@ -135,6 +137,9 @@ truckRouter.post('/create', (req, res) => {
       logo,
       food_genre: foodGenre,
       blurb,
+      star_average: starRating || 0,
+      number_of_reviews: numberOfReviews || 0,
+      open_status: openStatus || false,
       open_time: openTime,
       close_time: closeTime,
       latitude,

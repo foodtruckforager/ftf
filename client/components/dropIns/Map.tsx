@@ -97,26 +97,32 @@ export default function Map({
                   rating,
                   user_ratings_total,
                   geometry,
+                  is_open,
                 } = data;
                 if (business_status === 'OPERATIONAL' && geometry && name) {
                   const { location } = geometry;
                   const { lat, lng } = location;
+                  debugger;
                   axios
                     .post(`${process.env.EXPO_LocalLan}/truck/create`, {
-                      fullName: 'TESTTESTname',
-                      phoneNumber: 0,
-                      googleId: 0,
+                      fullName: name,
+                      phoneNumber: '0',
+                      googleId: '0',
                       qrCode: '',
-                      logo: icon,
+                      logo: 'https://lh3.googleusercontent.com/8FaT-koA90SslM5ZQsUTM-tRI7l0qfEnqlM8tGjTTvMSCILw3UHm5c1efQnZnWurWw',
                       foodGenre: 'google',
-                      blurb: `Their price level for this establishment is ${price_level}. They have an average rating of ${rating} stars, and have been reviewed by ${user_ratings_total} users on Google. ...This truck was automatically imported from Google`,
+                      blurb: `This truck was automatically imported from Google`,
+                      openStatus: is_open,
                       openTime: 0,
                       closeTime: 0,
                       latitude: lat,
                       longitude: lng,
+                      starRating: rating,
+                      numberOfReviews: user_ratings_total,
                     })
                     .then((response) => {
-                      console.log('response.data', response.data);
+                      getAllTrucks();
+                      // console.log('response.data', response.data);
                     })
                     .catch((err) => console.error(err));
                 }
