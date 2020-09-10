@@ -88,6 +88,44 @@ export default function Map({
               })
               .then((response) => {
                 const { data } = response;
+                // console.log(data);
+                const {
+                  business_status,
+                  name,
+                  icon,
+                  price_level,
+                  rating,
+                  user_ratings_total,
+                  geometry,
+                  is_open,
+                } = data;
+                if (business_status === 'OPERATIONAL' && geometry && name) {
+                  const { location } = geometry;
+                  const { lat, lng } = location;
+                  debugger;
+                  axios
+                    .post(`${process.env.EXPO_LocalLan}/truck/create`, {
+                      fullName: name,
+                      phoneNumber: '0',
+                      googleId: '0',
+                      qrCode: '',
+                      logo: 'https://lh3.googleusercontent.com/8FaT-koA90SslM5ZQsUTM-tRI7l0qfEnqlM8tGjTTvMSCILw3UHm5c1efQnZnWurWw',
+                      foodGenre: 'google',
+                      blurb: `This truck was automatically imported from Google`,
+                      openStatus: is_open,
+                      openTime: 0,
+                      closeTime: 0,
+                      latitude: lat,
+                      longitude: lng,
+                      starRating: rating,
+                      numberOfReviews: user_ratings_total,
+                    })
+                    .then((response) => {
+                      getAllTrucks();
+                      // console.log('response.data', response.data);
+                    })
+                    .catch((err) => console.error(err));
+                }
               })
               .catch((err) => {
                 console.error(err);
