@@ -57,7 +57,10 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
-    updateTrucksFromGooglePlaces(region.latitude || LATITUDE, region.longitude || LONGITUDE)
+    updateTrucksFromGooglePlaces(
+      region.latitude || LATITUDE,
+      region.longitude || LONGITUDE
+    );
   }, [search]);
 
   const updateTrucksFromGooglePlaces = (lat, lng) => {
@@ -76,14 +79,20 @@ export default function Map({
           let trucks = data;
           trucks.forEach((truck: object) => {
             const { vicinity } = truck;
-            axios.get(`https://maps.google.com/maps/api/geocode/json?address=${vicinity}&key=${process.env.GOOGLE_PLACES_API_KEY}`).then(res => {
-              console.log(res.data.results[0].geometry.location)
-              // truck.geometry.(res.result.geometry.location)
-              // console.log(truck);
-            });
- 
-          })
-          // setTruckMarkers(data);
+            axios
+              .get(`${process.env.EXPO_LocalLan}/truck/api/geocode`, {
+                params: {
+                  vicinity,
+                  truck,
+                },
+              })
+              .then((response) => {
+                const { data } = response;
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          });
         }
       })
       .catch((err) => {
