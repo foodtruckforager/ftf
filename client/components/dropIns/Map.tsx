@@ -26,6 +26,15 @@ export default function Map({
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [followsUserLocation, setFollowsUserLocation] = useState(true);
+
+  useEffect(() => {
+    if (followsUserLocation) {
+      setTimeout(() => {
+        setFollowsUserLocation(false);
+      }, 3000);
+    }
+  }, [search]);
 
   const getAllTrucks = () => {
     axios
@@ -92,8 +101,6 @@ export default function Map({
                 const {
                   business_status,
                   name,
-                  icon,
-                  price_level,
                   rating,
                   user_ratings_total,
                   geometry,
@@ -102,14 +109,14 @@ export default function Map({
                 if (business_status === 'OPERATIONAL' && geometry && name) {
                   const { location } = geometry;
                   const { lat, lng } = location;
-                  debugger;
                   axios
                     .post(`${process.env.EXPO_LocalLan}/truck/create`, {
                       fullName: name,
                       phoneNumber: '0',
                       googleId: '0',
                       qrCode: '',
-                      logo: 'https://lh3.googleusercontent.com/8FaT-koA90SslM5ZQsUTM-tRI7l0qfEnqlM8tGjTTvMSCILw3UHm5c1efQnZnWurWw',
+                      logo:
+                        'https://lh3.googleusercontent.com/8FaT-koA90SslM5ZQsUTM-tRI7l0qfEnqlM8tGjTTvMSCILw3UHm5c1efQnZnWurWw',
                       foodGenre: 'google',
                       blurb: `This truck was automatically imported from Google`,
                       openStatus: is_open,
@@ -120,9 +127,8 @@ export default function Map({
                       starRating: rating,
                       numberOfReviews: user_ratings_total,
                     })
-                    .then((response) => {
+                    .then(() => {
                       getAllTrucks();
-                      // console.log('response.data', response.data);
                     })
                     .catch((err) => console.error(err));
                 }
@@ -146,7 +152,7 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
         showsUserLocation={true}
-        followsUserLocation={false} // change this to false after initial render?
+        followsUserLocation={followsUserLocation}
       >
         {truckMarkers &&
           truckMarkers.map((currentTruck) => (
