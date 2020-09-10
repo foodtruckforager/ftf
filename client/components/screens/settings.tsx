@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { normalize } from 'react-native-elements';
 import axios from 'axios';
-export default function Profile({ navigation }) {
+export default function Settings({ navigation }) {
   const [profile, setProfile] = useState(true);
   const [getUser, setGetUser] = useState([]);
   const onPress = () => {
