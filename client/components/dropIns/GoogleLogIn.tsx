@@ -1,6 +1,9 @@
 import * as Google from 'expo-google-app-auth';
 import React, { useState, useEffect } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import {
+  View, Button, StyleSheet, AsyncStorage,
+} from 'react-native';
+
 import axios from 'axios';
 import LogOut from '../screens/LogOut';
 
@@ -28,11 +31,37 @@ export default function GoogleLogIn({
     scopes: ['profile', 'email'],
   };
 
+  const storeData = async(dataKey, dataValue) => {
+    try {
+      await AsyncStorage.setItem(
+        dataKey,
+        dataValue,
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const retrieveData = async() => {
+    try {
+      let value = await AsyncStorage.getItem('userData');
+      if (value !== null) {
+        // We have data!!
+        value = JSON.parse(value);
+        // console.log(value.user.id);
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.error(error);
+    }
+  };
+
   async function signUserInWithGoogleAsync(configuration: Object) {
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {
-        setAccessToken(result.accessToken);
+        // setAccessToken(result.accessToken);
+        storeData('userData', JSON.stringify(result));
         setIsUserLoggedIn(true);
 
         axios.post(`${process.env.EXPO_LocalLan}/user/new`, {
@@ -93,6 +122,7 @@ export default function GoogleLogIn({
     <View style={styles.container}>
       <View>
         <Button title="Google User Sign In" onPress={userSignIn} />
+        <Button title="get asyncstorage" onPress={retrieveData} />
       </View>
       <View>
         <Button title="Google Truck Owner Sign In" onPress={truckSignIn} />
