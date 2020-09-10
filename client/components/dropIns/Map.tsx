@@ -19,6 +19,7 @@ export default function Map({
   truckMarkers,
   setTruckMarkers,
   search,
+  navigation,
 }) {
   const [region, setRegion] = useState({
     latitude: LATITUDE,
@@ -166,7 +167,7 @@ export default function Map({
               >
                 <Callout style={styles.customView}>
                   <View>
-                    <InfoWindow currentTruck={currentTruck} />
+                    <InfoWindow currentTruck={currentTruck} navigation={navigation}/>
                   </View>
                 </Callout>
               </Marker>

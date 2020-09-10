@@ -19,6 +19,7 @@ export default function Tracker({ navigation }) {
           setSearch={setSearch}
           truckMarkers={truckMarkers}
           setTruckMarkers={setTruckMarkers}
+          navigation={navigation}
         />
       </View>
     </View>
