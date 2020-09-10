@@ -12,44 +12,10 @@ import Thumbnail from './Thumbnail';
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
 
-const styles = StyleSheet.create({
-  customView: {
-    width: 280,
-    height: 140,
-  },
-  container: {
-    paddingTop: 10,
-    backgroundColor: '#FFFFFF',
-  },
-  topRow: {
-    flexDirection: 'row',
-  },
-  topRowText: {
-    flexDirection: 'column',
-    paddingLeft: 10,
-  },
-  middleDistanceLine: {
-    flexDirection: 'row',
-    paddingTop: 10,
-  },
-  stars: {
-    flexDirection: 'row',
-  },
-  blurb: {
-    flexWrap: 'wrap',
-    backgroundColor: '#FFFFFF',
-  },
-  style: {
-    paddingLeft: 10,
-  },
-  badge: {
-    // position: 'absolute',
-    right: 10,
-    top: -10,
-  },
-});
 
-export default function InfoWindow({ currentTruck, navigation }) {
+export default function InfoWindow({ currentTruck, navigation, onDetails }) {
+  const truncateBlurbBy = onDetails ? 9999 : 80;
+
   const truncate = (elem: string, limit: number, after: string) => {
     if (!elem || !limit) return;
     let content = elem.trim();
@@ -92,11 +58,12 @@ export default function InfoWindow({ currentTruck, navigation }) {
   };
   return (
     <Callout
-      style={styles.customView}
+      style={onDetails ? styles.customView : styles.customDetailsView}
       onPress={() => {
         const { id } = currentTruck;
-        alert(id);
-        navigation.navigate(`TruckDetails`, { params: { currentTruck, id, navigation } });
+        navigation.navigate(`TruckDetails`, {
+          params: { currentTruck, id, navigation, onDetails: true },
+        });
       }}
     >
       <View>
@@ -136,8 +103,49 @@ export default function InfoWindow({ currentTruck, navigation }) {
             </View>
           </View>
         </View>
-        <Text style={styles.blurb}>{`${truncate(blurb, 80, '...')}`}</Text>
+        <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
       </View>
     </Callout>
   );
 }
+
+const styles = StyleSheet.create({
+  customView: {
+    width: 280,
+    height: 140,
+  },
+  customDetailsView: {
+    padding: 8,
+    width: 420,
+    height: 800,
+  },
+  container: {
+    paddingTop: 10,
+    backgroundColor: '#FFFFFF',
+  },
+  topRow: {
+    flexDirection: 'row',
+  },
+  topRowText: {
+    flexDirection: 'column',
+    paddingLeft: 10,
+  },
+  middleDistanceLine: {
+    flexDirection: 'row',
+    paddingTop: 10,
+  },
+  stars: {
+    flexDirection: 'row',
+  },
+  blurb: {
+    flexWrap: 'wrap',
+    backgroundColor: '#FFFFFF',
+  },
+  style: {
+    paddingLeft: 10,
+  },
+  badge: {
+    right: 10,
+    top: -10,
+  },
+});

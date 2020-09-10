@@ -33,7 +33,7 @@ export default function Map({
     if (followsUserLocation) {
       setTimeout(() => {
         setFollowsUserLocation(false);
-      }, 3000);
+      }, 2000);
     }
   }, [search]);
 
@@ -98,7 +98,6 @@ export default function Map({
               })
               .then((response) => {
                 const { data } = response;
-                // console.log(data);
                 const {
                   business_status,
                   name,
