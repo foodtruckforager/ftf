@@ -46,7 +46,7 @@ export default function InfoWindow({ currentTruck }) {
     content = `${content.slice(0, limit)}${after}`;
     return content;
   };
-  const { full_name, blurb, logo, star_average, phone_number, food_genre, number_of_reviews } = currentTruck;
+  const { full_name, blurb, logo, star_average, phone_number, food_genre, number_of_reviews, open_status } = currentTruck;
   // name, thumbnail, phone number, genre, distance, food pic, blurb, stars
   // for calling
   const tele = phone_number;
@@ -68,9 +68,8 @@ export default function InfoWindow({ currentTruck }) {
   //   }
   //   Linking.openURL(phoneNumber);
   // }
-  let openState = true;
   const openBadge = () => {
-    if (openState) {
+    if (open_status) {
       return (
         <View>
           <Badge value=" " status="success" />
