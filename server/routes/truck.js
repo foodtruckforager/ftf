@@ -26,7 +26,7 @@ truckRouter.get('/api/google', (req, res) => {
 // Google Geocode Lat/Lon for Addresses API Route
 truckRouter.get('/api/geocode', (req, res) => {
   const { vicinity, truck } = req.query;
-  let truckWithLocation = truck;
+  const truckWithLocation = truck;
   axios({
     method: 'get',
     url: `https://maps.google.com/maps/api/geocode/json?address=${vicinity}&key=${process.env.GOOGLE_PLACES_API_KEY}`,
@@ -34,9 +34,10 @@ truckRouter.get('/api/geocode', (req, res) => {
     .then((response) => {
       const { data } = response;
       const { results } = data;
-      truckWithLocation.location = results[0].geometry.location;
-      // TODO: add truck with lat lon coordinates to database
-      res.send(truckWithLocation);
+      if (results[0].geometry) {
+        truckWithLocation.location = results[0].geometry.location;
+        res.send(truckWithLocation);
+      }
     })
     .catch((error) => {
       console.error(error);
