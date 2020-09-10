@@ -10,15 +10,28 @@ const userRouter = Router();
 // get user basic info
 userRouter.get('/:userId', (req, res) => {
   const { userId } = req.params;
-  User.findByPk(userId)
-    .then((founduser) => {
-      console.log(founduser);
-      res.send(founduser);
+  User.findAll({
+    where: {
+      google_id: userId,
+    },
+  })
+    .then((data) => {
+      console.log(data);
+      res.send(data);
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send(err);
     });
+  // User.findByPk(userId)
+  //   .then((founduser) => {
+  //     console.log(founduser);
+  //     res.send(founduser);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //     res.status(500).send(err);
+  //   });
 });
 
 // get all of a user's reviews
@@ -46,10 +59,12 @@ userRouter.get('/favorites/:userId', (req, res) => {
     where: {
       id_user: userId,
     },
-    include: [{
-      model: Truck,
-      required: true,
-    }],
+    include: [
+      {
+        model: Truck,
+        required: true,
+      },
+    ],
   })
     .then((favoriteTrucks) => {
       console.log(favoriteTrucks);
@@ -63,9 +78,7 @@ userRouter.get('/favorites/:userId', (req, res) => {
 
 // create a new user
 userRouter.post('/new', (req, res) => {
-  const {
-    fullName, googleId, profilePhotoUrl,
-  } = req.body;
+  const { fullName, googleId, profilePhotoUrl } = req.body;
   console.log(req.body);
   User.findOrCreate({
     where: {
@@ -165,14 +178,17 @@ userRouter.put('/update/:userId', (req, res) => {
 
 userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
   const { userId, truckId } = req.params;
-  Favorite.update({
-    favorite: false,
-  }, {
-    where: {
-      id_user: userId,
-      id_truck: truckId,
+  Favorite.update(
+    {
+      favorite: false,
     },
-  })
+    {
+      where: {
+        id_user: userId,
+        id_truck: truckId,
+      },
+    },
+  )
     .then(() => {
       res.status(201).send('favorite was removed');
     })

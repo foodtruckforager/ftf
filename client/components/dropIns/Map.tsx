@@ -33,7 +33,7 @@ export default function Map({
     if (followsUserLocation) {
       setTimeout(() => {
         setFollowsUserLocation(false);
-      }, 3000);
+      }, 1000);
     }
   }, [search]);
 
@@ -67,10 +67,10 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
-    updateTrucksFromGooglePlaces(
-      region.latitude || LATITUDE,
-      region.longitude || LONGITUDE
-    );
+    // updateTrucksFromGooglePlaces(
+    //   region.latitude || LATITUDE,
+    //   region.longitude || LONGITUDE
+    // );
   }, [search]);
 
   const updateTrucksFromGooglePlaces = (lat, lng) => {
@@ -98,7 +98,6 @@ export default function Map({
               })
               .then((response) => {
                 const { data } = response;
-                // console.log(data);
                 const {
                   business_status,
                   name,
@@ -131,17 +130,19 @@ export default function Map({
                     .then(() => {
                       getAllTrucks();
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) => {
+                      // console.error(err)
+                    });
                 }
               })
               .catch((err) => {
-                console.error(err);
+                // console.error(err);
               });
           });
         }
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
       });
   };
 
