@@ -30,7 +30,7 @@ const RootDrawerNavigator = createDrawerNavigator({
   // Trucks: {
   //   screen: 'Something',
   // },
-  Profile: {
+  Trucks: {
     screen: Profile,
   },
   UserProfile: {
