@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Google from 'expo-google-app-auth';
 import { View, Button, StyleSheet, AsyncStorage } from 'react-native';
+import RNRestart from 'react-native-restart';
 
-const LogOut = ({
-  // accessToken,
-  setAccessToken,
-  setIsUserLoggedIn,
-  setIsTruckOwnerLoggedIn,
-}) => {
-  console.log('access token in logout', accessToken);
-  let accessToken = '';
+const LogOut = () => {
+  const [accessToken, setAccessToken] = useState('');
+
+  useEffect(() => {
+    retrieveData();
+    console.log('token in useEffect', accessToken);
+  }, []);
 
   const retrieveData = async() => {
     try {
       let value = await AsyncStorage.getItem('userData');
       if (value !== null) {
-        // We have data!!
         value = JSON.parse(value);
-        accessToken = value.accessToken;
+        setAccessToken(value.accessToken);
         console.log(accessToken);
+      } else {
+        console.log('user token not found');
       }
     } catch (error) {
-      // Error retrieving data
       console.error(error);
     }
   };
@@ -32,13 +32,10 @@ const LogOut = ({
       androidClientId: process.env.EXPO_androidClientId,
     };
 
-    console.log(accessToken);
     await Google.logOutAsync({ accessToken, ...logOutConfig });
-    // setAccessToken('');
-    // setIsUserLoggedIn(false);
-    // setIsTruckOwnerLoggedIn(false);
+    await AsyncStorage.removeItem('userData');
+    setAccessToken('');
     console.log('you have been logged out');
-    // console.log('accessToken after logout', accessToken);
   };
 
   return (
