@@ -130,17 +130,19 @@ export default function Map({
                     .then(() => {
                       getAllTrucks();
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) => {
+                      // console.error(err)
+                    });
                 }
               })
               .catch((err) => {
-                console.error(err);
+                // console.error(err);
               });
           });
         }
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
       });
   };
 

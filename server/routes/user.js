@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 const { Router } = require('express');
 const sequelize = require('sequelize');
-const { Review, User, Upvote, Favorite, Truck } = require('../db/db');
+const {
+  Review, User, Upvote, Favorite, Truck,
+} = require('../db/db');
 
 const userRouter = Router();
 
@@ -163,7 +165,7 @@ userRouter.put('/update/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    }
+    },
   )
     .then(() => {
       res.status(201).send('successfully updated user');
@@ -185,7 +187,7 @@ userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
         id_user: userId,
         id_truck: truckId,
       },
-    }
+    },
   )
     .then(() => {
       res.status(201).send('favorite was removed');
@@ -208,7 +210,7 @@ userRouter.put('/update/badge/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    }
+    },
   )
     .then(() => {
       res.status(201).send('successfully updated user badge');
@@ -246,7 +248,7 @@ userRouter.put('/update/upvote/:userId/:reviewId', (req, res) => {
                 },
                 {
                   where: { id_user: userId },
-                }
+                },
               )
                 .then(() => {
                   res.status(201).send('upvote has been received');
