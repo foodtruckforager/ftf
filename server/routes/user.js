@@ -7,12 +7,12 @@ const {
 
 const userRouter = Router();
 
-// get user basic info
-userRouter.get('/:userId', (req, res) => {
-  const { userId } = req.params;
+// get user basic info with googleId from async storage
+userRouter.get('/googleId/:googleId', (req, res) => {
+  const { googleId } = req.params;
   User.findAll({
     where: {
-      google_id: userId,
+      google_id: googleId,
     },
   })
     .then((data) => {
@@ -23,15 +23,20 @@ userRouter.get('/:userId', (req, res) => {
       console.error(err);
       res.status(500).send(err);
     });
-  // User.findByPk(userId)
-  //   .then((founduser) => {
-  //     console.log(founduser);
-  //     res.send(founduser);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     res.status(500).send(err);
-  //   });
+});
+
+// get user info by user primary key id
+userRouter.get('/:userId', (req, res) => {
+  const { userId } = req.params;
+  User.findByPk(userId)
+    .then((founduser) => {
+      console.log(founduser);
+      res.send(founduser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
 });
 
 // get all of a user's reviews
