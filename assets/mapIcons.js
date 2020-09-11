@@ -1,4 +1,8 @@
+const foodTruckSmall = require('./foodtruckstill86.png');
+
 const foodIcons = {
+  google: foodTruckSmall,
+  undefined: foodTruckSmall,
   mexican:
     'http://www.myiconfinder.com/uploads/iconsets/64-64-ae3644852016062df814998796ff33ee.png',
   thai:

@@ -7,9 +7,10 @@ import TrackerStack from './trackerStack';
 import Search from '../screens/search';
 import ScanQRCode from '../screens/ScanQRCode';
 import GenerateQRCode from '../screens/GenerateQRCode';
-import Profile from '../screens/profile';
+import Settings from '../screens/settings';
 import Accordion from '../../Accordion';
 import LogOut from '../screens/LogOut';
+import LogIn from '../screens/LogIn';
 
 // const Drawer = createDrawerNavigator();
 
@@ -30,10 +31,10 @@ const RootDrawerNavigator = createDrawerNavigator({
   // Trucks: {
   //   screen: 'Something',
   // },
-  Trucks: {
-    screen: Profile,
+  Settings: {
+    screen: Settings,
   },
-  UserProfile: {
+  Profile: {
     screen: Accordion,
   },
   ScanQRCode: {
@@ -43,7 +44,8 @@ const RootDrawerNavigator = createDrawerNavigator({
     screen: GenerateQRCode,
   },
   LogOut: {
-    screen: LogOut,
+    screen: LogIn,
+    params: { previous_screen: 'LogOut' },
   },
 });
 

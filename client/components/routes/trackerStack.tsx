@@ -7,7 +7,7 @@ import SearchResults from '../screens/searchResults';
 import TruckDetails from '../screens/truckDetails';
 import TruckPosts from '../screens/truckPosts';
 import TruckReviews from '../screens/truckReviews';
-import Profile from '../screens/profile';
+import Settings from '../screens/settings';
 const screens = {
   Tracker: {
     screen: Tracker,
@@ -57,8 +57,8 @@ const screens = {
       };
     },
   },
-  Profile: {
-    screen: Profile,
+  Settings: {
+    screen: Settings,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <Header navigation={navigation} />,

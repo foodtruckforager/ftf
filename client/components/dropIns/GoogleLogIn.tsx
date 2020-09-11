@@ -3,22 +3,13 @@ import React, { useState, useEffect } from 'react';
 import {
   View, Button, StyleSheet, AsyncStorage,
 } from 'react-native';
-
 import axios from 'axios';
-import LogOut from '../screens/LogOut';
 
 export default function GoogleLogIn({
   setIsUserLoggedIn,
   setIsTruckOwnerLoggedIn,
-  accessToken,
   setAccessToken,
 }) {
-  // const [accessToken, setAccessToken] = useState('');
-
-  // useEffect(() => {
-  //   console.log(accessToken);
-  // }, [accessToken]);
-
   const userConfig = {
     iosClientId: process.env.EXPO_iosClientId,
     androidClientId: process.env.EXPO_androidClientId,
@@ -42,25 +33,10 @@ export default function GoogleLogIn({
     }
   };
 
-  const retrieveData = async() => {
-    try {
-      let value = await AsyncStorage.getItem('userData');
-      if (value !== null) {
-        // We have data!!
-        value = JSON.parse(value);
-        // console.log(value.user.id);
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.error(error);
-    }
-  };
-
   async function signUserInWithGoogleAsync(configuration: Object) {
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {
-        // setAccessToken(result.accessToken);
         storeData('userData', JSON.stringify(result));
         setIsUserLoggedIn(true);
 
@@ -85,6 +61,7 @@ export default function GoogleLogIn({
     try {
       const result = await Google.logInAsync(configuration);
       if (result.type === 'success') {
+        storeData('ownerData', JSON.stringify(result));
         setAccessToken(result.accessToken);
         setIsTruckOwnerLoggedIn(true);
 
@@ -104,37 +81,13 @@ export default function GoogleLogIn({
     signTruckInWithGoogleAsync(truckConfig);
   };
 
-  // const logOut = async() => {
-  //   const logOutConfig = {
-  //     iosClientId: process.env.EXPO_iosClientId,
-  //     androidClientId: process.env.EXPO_androidClientId,
-  //   };
-
-  //   await Google.logOutAsync({ accessToken, ...logOutConfig });
-  //   console.log(accessToken);
-  //   setAccessToken('');
-  //   setIsUserLoggedIn(false);
-  //   setIsTruckOwnerLoggedIn(false);
-  //   console.log('you have been logged out');
-  // };
-
   return (
     <View style={styles.container}>
       <View>
         <Button title="Google User Sign In" onPress={userSignIn} />
-        <Button title="get asyncstorage" onPress={retrieveData} />
       </View>
       <View>
         <Button title="Google Truck Owner Sign In" onPress={truckSignIn} />
-      </View>
-      <View>
-        <LogOut
-          accessToken={accessToken}
-          setAccessToken={setAccessToken}
-          setIsUserLoggedIn={setIsUserLoggedIn}
-          setIsTruckOwnerLoggedIn={setIsTruckOwnerLoggedIn}
-        />
-        {/* <Button title="logout" onPress={logOut} /> */}
       </View>
     </View>
   );

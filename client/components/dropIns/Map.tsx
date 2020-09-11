@@ -19,6 +19,7 @@ export default function Map({
   truckMarkers,
   setTruckMarkers,
   search,
+  navigation,
 }) {
   const [region, setRegion] = useState({
     latitude: LATITUDE,
@@ -26,6 +27,15 @@ export default function Map({
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [followsUserLocation, setFollowsUserLocation] = useState(true);
+
+  useEffect(() => {
+    if (followsUserLocation) {
+      setTimeout(() => {
+        setFollowsUserLocation(false);
+      }, 1000);
+    }
+  }, [search]);
 
   const getAllTrucks = () => {
     axios
@@ -57,10 +67,10 @@ export default function Map({
 
   useEffect(() => {
     getAllTrucks();
-    updateTrucksFromGooglePlaces(
-      region.latitude || LATITUDE,
-      region.longitude || LONGITUDE
-    );
+    // updateTrucksFromGooglePlaces(
+    //   region.latitude || LATITUDE,
+    //   region.longitude || LONGITUDE
+    // );
   }, [search]);
 
   const updateTrucksFromGooglePlaces = (lat, lng) => {
@@ -88,15 +98,51 @@ export default function Map({
               })
               .then((response) => {
                 const { data } = response;
+                const {
+                  business_status,
+                  name,
+                  rating,
+                  user_ratings_total,
+                  geometry,
+                  is_open,
+                } = data;
+                if (business_status === 'OPERATIONAL' && geometry && name) {
+                  const { location } = geometry;
+                  const { lat, lng } = location;
+                  axios
+                    .post(`${process.env.EXPO_LocalLan}/truck/create`, {
+                      fullName: name,
+                      phoneNumber: '0',
+                      googleId: '0',
+                      qrCode: '',
+                      logo:
+                        'https://lh3.googleusercontent.com/8FaT-koA90SslM5ZQsUTM-tRI7l0qfEnqlM8tGjTTvMSCILw3UHm5c1efQnZnWurWw',
+                      foodGenre: 'google',
+                      blurb: `This truck was automatically imported from Google`,
+                      openStatus: is_open,
+                      openTime: 0,
+                      closeTime: 0,
+                      latitude: lat,
+                      longitude: lng,
+                      starRating: rating,
+                      numberOfReviews: user_ratings_total,
+                    })
+                    .then(() => {
+                      getAllTrucks();
+                    })
+                    .catch((err) => {
+                      // console.error(err)
+                    });
+                }
               })
               .catch((err) => {
-                console.error(err);
+                // console.error(err);
               });
           });
         }
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
       });
   };
 
@@ -108,7 +154,7 @@ export default function Map({
         initialRegion={region}
         zoomTapEnabled={false}
         showsUserLocation={true}
-        followsUserLocation={false} // change this to false after initial render?
+        followsUserLocation={followsUserLocation}
       >
         {truckMarkers &&
           truckMarkers.map((currentTruck) => (
@@ -122,7 +168,7 @@ export default function Map({
               >
                 <Callout style={styles.customView}>
                   <View>
-                    <InfoWindow currentTruck={currentTruck} />
+                    <InfoWindow currentTruck={currentTruck} navigation={navigation}/>
                   </View>
                 </Callout>
               </Marker>
