@@ -8,7 +8,7 @@ import foodIcons from '../../../assets/mapIcons.js';
 import FuzzySearch from 'fuzzy-search';
 
 const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
+const ASPECT_RATIO = (width / height);
 const LATITUDE = 29.9990674;
 const LONGITUDE = -90.0852767;
 const LATITUDE_DELTA = 0.0922;
