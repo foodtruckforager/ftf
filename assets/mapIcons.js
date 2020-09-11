@@ -21,5 +21,9 @@ const foodIcons = {
     'http://www.myiconfinder.com/uploads/iconsets/64-64-1ac2c860f7eaf21a46cdbf3c203e220c-grapes.png',
   chinese:
     'http://www.myiconfinder.com/uploads/iconsets/64-64-32d3874f0eff8680107e101e2b2ad64d.png',
+  defaultReviewPhoto:
+    'https://bettonhills.us/thumbs/700x300c/2018-03/durham-central-park-food-truck-rodeo.jpg',
+  defaultProfilePhoto:
+    'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
 };
 export default foodIcons;
