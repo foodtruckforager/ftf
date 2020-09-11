@@ -30,12 +30,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define(
     upvotes: {
       type: DataTypes.INTEGER,
     },
-    review_date: {
-      type: DataTypes.DATE,
-    },
   },
   {
     freezeTableName: true,
-    timestamps: false,
+    timestamps: true,
   },
 );
