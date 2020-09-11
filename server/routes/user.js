@@ -65,11 +65,11 @@ userRouter.get('/favorites/:userId', (req, res) => {
     ],
   })
     .then((favoriteTrucks) => {
-      console.log(favoriteTrucks);
+      // console.log(favoriteTrucks);
       res.send(favoriteTrucks);
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       res.status(500).send(err);
     });
 });
@@ -77,7 +77,7 @@ userRouter.get('/favorites/:userId', (req, res) => {
 // create a new user
 userRouter.post('/new', (req, res) => {
   const { fullName, googleId, profilePhotoUrl } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   User.findOrCreate({
     where: {
       full_name: fullName,
@@ -143,6 +143,32 @@ userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
       res.status(201).send('favorite added');
     })
     .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
+// route to update user photo
+userRouter.post('/update/photo', (req, res) => {
+  // const { userId } = req.params;
+
+  const { profilePhotoUrl, userId } = req.body;
+  console.log('PHOTO URL', req.body);
+  User.update(
+    {
+      profile_photo_url: profilePhotoUrl,
+    },
+    {
+      where: {
+        id: userId,
+      },
+    }
+  )
+    .then(() => {
+      // console.log('HELLOOOOOOOOOOOOOOOOO', req);
+      res.status(201).send('successfully uploaded photo');
+    })
+    .catch((err) => {
+      console.error(err);
       res.status(500).send(err);
     });
 });
