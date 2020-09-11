@@ -5,7 +5,9 @@ const {
 
 function doStuffWithUserModel() {
   User.findOrCreate({
-    full_name: 'John Smith',
+    where: {
+      full_name: 'John Smith',
+    },
   });
   const foundUser = User.findOne({ where: { full_name: 'John Smith' } });
   if (foundUser === null) {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const TruckPostItem = () => (
+const TruckPostItem = ({ post }) => (
   <View>
-    <Text>Truck Post Item</Text>
+    <Text>{JSON.stringify(post)}</Text>
   </View>
 );
 
