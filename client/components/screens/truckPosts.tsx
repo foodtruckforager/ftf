@@ -36,10 +36,7 @@ export default function TruckPosts({ navigation }) {
     <View style={styles.container}>
       <Button title="Go To Reviews" onPress={pressHandler} />
       <Button title="Go To Details" onPress={pressHandlerDetails} />
-      <Text style={styles.title}>
-        {currentTruck.full_name}
-      </Text>
-      <Thumbnail logo={currentTruck.logo} />
+      <Thumbnail logo={currentTruck.logo} title={currentTruck.full_name} />
       {currentTruckPosts.map((post) => (
         <TruckPostItem currentTruck={currentTruck} post={post} key={post.id} />
       ))}
@@ -51,10 +48,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    alignItems: 'center',
   },
 });
