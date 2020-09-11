@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
 export default function TruckPosts({ navigation }) {
+  const currentTruck = navigation.state.params.params.currentTruck;
+  
   const pressHandler = () => {
     navigation.navigate(`TruckReviews`, {
       params: { currentTruck, id, navigation, onDetails: true },
