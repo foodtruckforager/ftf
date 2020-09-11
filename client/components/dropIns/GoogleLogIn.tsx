@@ -1,7 +1,7 @@
 import * as Google from 'expo-google-app-auth';
 import React, { useState, useEffect } from 'react';
 import {
-  View, Button, StyleSheet, AsyncStorage,
+  View, Button, StyleSheet, AsyncStorage, Image, Text,
 } from 'react-native';
 import axios from 'axios';
 
@@ -83,6 +83,10 @@ export default function GoogleLogIn({
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>
+        Food Truck Tracker
+      </Text>
+      <Image source={require('../../../assets/foodtruckstill256.png')}/>
       <View>
         <Button title="Google User Sign In" onPress={userSignIn} />
       </View>
@@ -99,5 +103,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  title: {
+    // flex: 1,
+    fontSize: 40,
+    position: 'absolute',
+    top: 180,
+    fontWeight: 'bold',
   },
 });

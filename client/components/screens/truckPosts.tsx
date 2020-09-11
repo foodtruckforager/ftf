@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import {
+  StyleSheet, View, Text, Button,
+} from 'react-native';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
+import Thumbnail from '../dropIns/Thumbnail';
 
 export default function TruckPosts({ navigation }) {
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
-  // const currentTruckId = navigation.state.params.params.navigation.state.params.params.currentTruck.id;
-  const currentTruck = navigation.state.params.params.currentTruck
+  const { currentTruck } = navigation.state.params.params;
   const { id } = currentTruck;
-  console.log('currentTruck', currentTruck);
-  console.log(id);
-
 
   useEffect(() => {
     axios.get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
       .then((response) => {
-        console.log('response.data', response.data);
         setCurrentTruckPosts(response.data);
       })
       .catch((err) => console.error(err));
@@ -23,20 +21,25 @@ export default function TruckPosts({ navigation }) {
 
   const pressHandler = () => {
     navigation.navigate(`TruckReviews`, {
-      params: { currentTruck, id, navigation, onDetails: true },
+      params: { currentTruck, id, navigation, onReviews: true },
     });
   };
   const pressHandlerDetails = () => {
-    navigation.navigate(`TruckDetails`, {
-      params: { currentTruck, id, navigation, onDetails: true },
+    navigation.navigate('TruckDetails', {
+      params: {
+        currentTruck, id, navigation, onDetails: true,
+      },
     });
   };
 
   return (
     <View style={styles.container}>
-      <TruckPostItem />
-      <Button title='Go To Reviews' onPress={pressHandler} />
-      <Button title='Go To Details' onPress={pressHandlerDetails} />
+      <Button title="Go To Reviews" onPress={pressHandler} />
+      <Button title="Go To Details" onPress={pressHandlerDetails} />
+      <Thumbnail logo={currentTruck.logo} title={currentTruck.full_name} />
+      {currentTruckPosts.map((post) => (
+        <TruckPostItem currentTruck={currentTruck} post={post} key={post.id} />
+      ))}
     </View>
   );
 }

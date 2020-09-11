@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { normalize } from 'react-native-elements';
 import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
+
 export default function Settings({ navigation }) {
   const [profile, setProfile] = useState(true);
   const [getUser, setGetUser] = useState([]);
@@ -17,28 +19,86 @@ export default function Settings({ navigation }) {
     setProfile(!profile);
   };
 
+  const [selectedImage, setSelectedImage] = useState('');
+
+  let CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_KEY}/upload`;
+
+  let cloudImage;
+
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!');
+      return;
+    }
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    setSelectedImage({ localUri: pickerResult.uri });
+
+    let base64Img = `data:image/jpg;base64,${pickerResult.base64}`;
+
+    let data = {
+      file: base64Img,
+      upload_preset: `${process.env.CLOUDINARY_PRESET}`,
+    };
+
+    fetch(CLOUDINARY_URL, {
+      body: JSON.stringify(data),
+      headers: {
+        'content-type': 'application/json',
+      },
+      method: 'POST',
+    })
+      .then(async (r) => {
+        let data = await r.json();
+        cloudImage = data.url;
+      })
+      .then(() => {
+        axios
+          .post(`${process.env.EXPO_LocalLan}/user/update/photo`, {
+            profilePhotoUrl:
+              'https://res.cloudinary.com/ds4z8idpg/image/upload/v1599777028/nhhdk8vszyf0t3kzlun5.jpg',
+            userId: getUser[0]['id'],
+          })
+          .then(() => {
+            // TO DO --> SET NEW STATE AND RENDER NEW PIC
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
+
   let googleData;
+  let userData;
 
   useEffect(() => {
     const retrieveData = async () => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
-          // We have data!!
           googleData = JSON.parse(value);
           googleData = googleData.user;
-          // console.log(googleData);
           return googleData;
         }
       } catch (error) {
-        // Error retrieving data
         console.error(error);
       }
     };
     retrieveData().then(() => {
       axios
-        .get(`${process.env.EXPO_LocalLan}/user/${googleData.id}`)
+        .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleData.id}`)
         .then((response) => {
+          userData = response.data[0]['id'];
+          console.log('USER DATA NUMBER', userData);
           setGetUser(response.data);
         });
     });
@@ -76,9 +136,34 @@ export default function Settings({ navigation }) {
     );
   } else {
     return (
-      <View>
-        <Text style={styles.title}> Edit Your Profile </Text>
-        <Button title='Discard Changes' onPress={onPress} />
+      <View style={styles.container}>
+        <View style={styles.header}></View>
+
+        {getUser.map((user) => {
+          return (
+            <React.Fragment key={user.id}>
+              <Text style={styles.bodyContent}>Name: {user.full_name}</Text>
+              <Image
+                style={styles.avatar}
+                source={{
+                  uri: `${user.profile_photo_url}`,
+                }}
+              />
+            </React.Fragment>
+          );
+        })}
+
+        <View style={styles.bodyContent}>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={openImagePickerAsync}
+          >
+            <Text style={styles.editProfile}>Upload A Picture</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+            <Text style={styles.editProfile}>Discard Changes</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
