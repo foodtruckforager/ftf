@@ -1,16 +1,18 @@
 /* eslint-disable no-console */
 const { Router } = require('express');
 const sequelize = require('sequelize');
-const { Review, User, Upvote, Favorite, Truck } = require('../db/db');
+const {
+  Review, User, Upvote, Favorite, Truck,
+} = require('../db/db');
 
 const userRouter = Router();
 
-// get user basic info
-userRouter.get('/:userId', (req, res) => {
-  const { userId } = req.params;
+// get user basic info with googleId from async storage
+userRouter.get('/googleId/:googleId', (req, res) => {
+  const { googleId } = req.params;
   User.findAll({
     where: {
-      google_id: userId,
+      google_id: googleId,
     },
   })
     .then((data) => {
@@ -21,15 +23,20 @@ userRouter.get('/:userId', (req, res) => {
       console.error(err);
       res.status(500).send(err);
     });
-  // User.findByPk(userId)
-  //   .then((founduser) => {
-  //     console.log(founduser);
-  //     res.send(founduser);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     res.status(500).send(err);
-  //   });
+});
+
+// get user info by user primary key id
+userRouter.get('/:userId', (req, res) => {
+  const { userId } = req.params;
+  User.findByPk(userId)
+    .then((founduser) => {
+      console.log(founduser);
+      res.send(founduser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
 });
 
 // get all of a user's reviews
@@ -189,7 +196,7 @@ userRouter.put('/update/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    }
+    },
   )
     .then(() => {
       res.status(201).send('successfully updated user');
@@ -211,7 +218,7 @@ userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
         id_user: userId,
         id_truck: truckId,
       },
-    }
+    },
   )
     .then(() => {
       res.status(201).send('favorite was removed');
@@ -234,7 +241,7 @@ userRouter.put('/update/badge/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    }
+    },
   )
     .then(() => {
       res.status(201).send('successfully updated user badge');
@@ -272,7 +279,7 @@ userRouter.put('/update/upvote/:userId/:reviewId', (req, res) => {
                 },
                 {
                   where: { id_user: userId },
-                }
+                },
               )
                 .then(() => {
                   res.status(201).send('upvote has been received');

@@ -36,7 +36,7 @@ truckRouter.get('/api/geocode', (req, res) => {
     .then((response) => {
       const { data } = response;
       const { results } = data;
-      if (results[0].geometry !== undefined) {
+      if (results[0] !== undefined) {
         truckWithLocation.location = results[0].geometry.location;
         res.send(truckWithLocation);
       }
