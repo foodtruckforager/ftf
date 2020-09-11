@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-const { User, Truck, Review } = require('../db/db');
+const {
+  User, Truck, Review, Post,
+} = require('../db/db');
 
 function doStuffWithUserModel() {
   User.findOrCreate({
@@ -13,7 +15,7 @@ function doStuffWithUserModel() {
   Truck.findOrCreate({
     where: {
       full_name: 'Rolling Fatties',
-      phone_number: '9999999',
+      phone_number: '5044528124',
       google_id: '1',
       qr_code: 'qrCode',
       logo:
@@ -38,7 +40,7 @@ function doStuffWithUserModel() {
   Truck.findOrCreate({
     where: {
       full_name: 'Frencheeze',
-      phone_number: '99949999',
+      phone_number: '5042643871',
       google_id: '2',
       qr_code: 'qrCode1',
       logo:
@@ -64,7 +66,7 @@ function doStuffWithUserModel() {
   Truck.findOrCreate({
     where: {
       full_name: 'Queen on Wheels',
-      phone_number: '999449999',
+      phone_number: '5049318576',
       google_id: '3',
       qr_code: 'qrCode2',
       logo:
@@ -89,7 +91,7 @@ function doStuffWithUserModel() {
   Truck.findOrCreate({
     where: {
       full_name: 'Lucky Dogs',
-      phone_number: '999449999',
+      phone_number: '5045239260',
       google_id: '3',
       qr_code: 'qrCode2',
       logo:
@@ -548,9 +550,9 @@ function doStuffWithUserModel() {
 
   Review.create({
     where: {
-      review_title: 'I LOVE Rolling Fatties THEYRE INCREDIBLE',
+      review_title: 'I LOVE Frencheeze!! THEYRE INCREDIBLE',
       id_user: 1,
-      id_truck: 1,
+      id_truck: 2,
       upvotes: 0,
     },
   })
@@ -561,6 +563,28 @@ function doStuffWithUserModel() {
     where: { id_user: 1 },
   })
     .then((allReviews) => console.log(`✅ ${allReviews.length} Reviews found`))
+    .catch((err) => console.error(`❌${err}`));
+
+  Post.findOrCreate({
+    where: {
+      id_truck: 2,
+      title: 'WE GOT DA CHEESE',
+      message: 'Gonna be rollin down in NOLA with the cheesiest cheese!',
+      photo: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.kwZymZmg1_KNgSMrtSu_pwHaFh%26pid%3DApi&f=1',
+    },
+  })
+    .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
+    .catch((err) => console.error(`❌${err}`));
+
+  Post.findOrCreate({
+    where: {
+      id_truck: 2,
+      title: 'COME GET YA BIG CHEESY!',
+      message: 'Catch us in da quater Saturday! we got the Cheese!',
+      photo: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.a1DWVpuCgToqiUjBRF_kwQHaE8%26pid%3DApi&f=1',
+    },
+  })
+    .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
     .catch((err) => console.error(`❌${err}`));
 }
 
