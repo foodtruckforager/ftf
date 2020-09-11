@@ -3,7 +3,7 @@ import { StyleSheet, AsyncStorage } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import GoogleLogIn from '../dropIns/GoogleLogIn';
 import RootDrawerNavigator from '../routes/drawer';
-import TruckOwnerProfile from './truckOwnerProfile';
+import TruckOwnerLogin from './TruckOwnerLogin';
 import PushNotifications from '../dropIns/PushNotifications';
 
 export default function LogIn(props) {
@@ -76,7 +76,7 @@ export default function LogIn(props) {
           setAccessToken={setAccessToken}
         />
         ) }
-        { isTruckOwnerLoggedIn && <TruckOwnerProfile /> }
+        { isTruckOwnerLoggedIn && <TruckOwnerLogin /> }
       </>
     </>
   );
