@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-const { User, Truck, Review, Post } = require('../db/db');
+const {
+  User, Truck, Review, Post,
+} = require('../db/db');
 
 function doStuffWithUserModel() {
   User.findOrCreate({
