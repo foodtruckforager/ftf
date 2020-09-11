@@ -34,7 +34,7 @@ export default function TruckPosts({ navigation }) {
   return (
     <View style={styles.container}>
       {currentTruckPosts.map(post => (
-        <TruckPostItem post={post} />
+        <TruckPostItem currentTruck={currentTruck} post={post} key={post.id} />
       ))}
       <Button title='Go To Reviews' onPress={pressHandler} />
       <Button title='Go To Details' onPress={pressHandlerDetails} />
