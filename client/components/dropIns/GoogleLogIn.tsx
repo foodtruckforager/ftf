@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     fontSize: 40,
     position: 'absolute',
-    top: 180,
+    top: 150,
     fontWeight: 'bold',
   },
 });
