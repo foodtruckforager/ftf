@@ -4,6 +4,7 @@ import { View, Image, StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     paddingTop: 0,
+    alignItems: 'center',
   },
   tinyLogo: {
     width: 90,
@@ -15,17 +16,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const Thumbnail = ({ logo }) => {
-  return (
-    <View style={styles.container}>
-      <Image
-        style={styles.tinyLogo}
-        source={{
-          uri: logo,
-        }}
-      />
-    </View>
-  );
-};
+const Thumbnail = ({ logo }) => (
+  <View style={styles.container}>
+    <Image
+      style={styles.tinyLogo}
+      source={{
+        uri: logo,
+      }}
+    />
+  </View>
+);
 
 export default Thumbnail;
