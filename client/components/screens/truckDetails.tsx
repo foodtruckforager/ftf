@@ -47,17 +47,24 @@ export default function TruckDetails({ navigation }) {
   return (
     <View style={style.container}>
       <View style={style.navigation}>
-        <Button title="Reviews" onPress={pressHandler} />
-        <Button title="Posts" onPress={pressHandlerPost} />
+        <View style={style.tabs}>
+          <View style={style.tabOutline}>
+            <Button title="Reviews" onPress={pressHandler} style={style.buttonTabs} />    
+          </View>
+          <View style={style.tabOutline}>
+            <Button title="Posts" onPress={pressHandlerPost} style={style.buttonTabs}/>
+          </View>
+        </View>
       </View>
-      <View style={style.infoWindow}>
+      <View style={style.infoWindowShell} >
         <InfoWindow
           currentTruck={currentTruck}
           navigation={navigation}
           onDetails={onDetails}
+          style={style.infoWindow}
         />
       </View>
-
+      <View style={style.buffer}/>
       <View style={style.map}>
         <MapView
           style={style.innerMap}
@@ -91,31 +98,73 @@ export default function TruckDetails({ navigation }) {
 }
 
 const style = StyleSheet.create({
+  tabOutline: {
+    backgroundColor: 'lightgrey',
+    borderRadius: 10
+  },
+  buffer: {
+    // padding:10
+  },
   container: {
     flex: 1,
-    padding: 24,
+    padding: 10,
+    // width: '100%',
+    // height: '100%',
+    // backgroundColor: 'blue'
   },
   map: {
-    flex: 0.4,
+    flex: 6,
     // ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    // paddingTop: 200
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,
   },
   navigation: {
-    flex: 0.1,
+    flex: 0.5,
     alignItems: 'stretch',
     justifyContent: 'center',
+    flexDirection: 'column',
+    // backgroundColor: 'red'
   },
   infoWindow: {
-    flex: 0.4,
-    alignItems: 'center',
-    backgroundColor: '#ecf0f1',
+    flex: 1,
+    // backgroundColor: 'pink',
+    flexGrow: 10,
+    // alignSelf: 'stretch'
   },
   customView: {
     width: 280,
     height: 140,
+    // backgroundColor: 'yellow',
+  },
+  tabs: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    // justifyContent: 'flex-end',
+    flex: 1,
+    // backgroundColor: 'orange',
+    alignItems: 'flex-end',
+    paddingLeft: 40,
+    paddingRight: 40,
+  },
+  infoWindowShell: {
+    flex: 4,
+    alignItems: 'center',
+    // backgroundColor: '#ecf0f1',
+    // backgroundColor: 'green',
+    justifyContent: 'flex-start',
+    // padding: 10
+    flexDirection: "column",
+  },
+  buttonTabs: {
+    // backgroundColor: 'grey',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: "center",
+    alignItems: 'center',
+    // fontSize: 40
   },
 });
