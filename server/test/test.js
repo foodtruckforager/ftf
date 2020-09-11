@@ -6,10 +6,10 @@ const {
 function doStuffWithUserModel() {
   User.findOrCreate({
     where: {
-      full_name: 'John Smith',
+      full_name: 'Melissa Brunswick',
     },
   });
-  const foundUser = User.findOne({ where: { full_name: 'John Smith' } });
+  const foundUser = User.findOne({ where: { full_name: 'Melissa Brunswick' } });
   if (foundUser === null) {
     return;
   }
@@ -528,9 +528,12 @@ function doStuffWithUserModel() {
   Review.findOrCreate({
     where: {
       review_title: 'I LOVE Frencheeze!! THEYRE INCREDIBLE',
+      review_description: 'This is some of the most edible dairy I\'ve been able to find in New Orleans!! I can\'t stop!',
+      review_star: 5,
+      review_photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
       id_user: 1,
       id_truck: 2,
-      upvotes: 0,
+      upvotes: 1,
     },
   })
     .then(() => console.log('✅ New review created'))
