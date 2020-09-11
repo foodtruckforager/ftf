@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { StyleSheet, View, Text, Button } from 'react-native';
+import TruckPostItem from '../dropIns/TruckPostItem';
 
 export default function TruckReviews({ navigation }) {
   const [currentTruckReviews, setCurrentTruckReviews] = useState([]);
@@ -26,7 +27,7 @@ export default function TruckReviews({ navigation }) {
   };
   const pressHandlerPost = () => {
     navigation.navigate(`TruckPosts`, {
-      params: { currentTruck, id, navigation, onDetails: true },
+      params: { currentTruck, id, navigation, onPost: true },
     });
   };
   return (
@@ -35,6 +36,13 @@ export default function TruckReviews({ navigation }) {
       <Button title="Go To Details" onPress={pressHandler} />
       <Button title="Go To Posts" onPress={pressHandlerPost} />
       <Text> {JSON.stringify(currentTruckReviews[0])}</Text>
+      {currentTruckReviews.map((review) => (
+        <TruckPostItem
+          currentTruck={currentTruck}
+          post={review}
+          key={review.id}
+        />
+      ))}
     </View>
   );
 }

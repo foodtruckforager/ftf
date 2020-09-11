@@ -3,13 +3,13 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
+  // Image,
   TouchableOpacity,
   Linking,
   Platform,
 } from 'react-native';
 import Thumbnail from './Thumbnail';
-import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
+import { Avatar, Badge, Icon, withBadge, Image } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
 
 
