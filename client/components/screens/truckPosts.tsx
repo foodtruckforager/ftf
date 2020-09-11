@@ -20,10 +20,8 @@ export default function TruckPosts({ navigation }) {
   }, []);
 
   const pressHandler = () => {
-    navigation.navigate('TruckReviews', {
-      params: {
-        currentTruck, id, navigation, onDetails: true,
-      },
+    navigation.navigate(`TruckReviews`, {
+      params: { currentTruck, id, navigation, onReviews: true },
     });
   };
   const pressHandlerDetails = () => {
