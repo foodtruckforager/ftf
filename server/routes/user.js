@@ -168,7 +168,7 @@ userRouter.post('/update/photo', (req, res) => {
       where: {
         id: userId,
       },
-    }
+    },
   )
     .then(() => {
       // console.log('HELLOOOOOOOOOOOOOOOOO', req);

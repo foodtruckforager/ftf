@@ -95,7 +95,7 @@ export default function Settings({ navigation }) {
     };
     retrieveData().then(() => {
       axios
-        .get(`${process.env.EXPO_LocalLan}/user/${googleData.id}`)
+        .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleData.id}`)
         .then((response) => {
           userData = response.data[0]['id'];
           console.log('USER DATA NUMBER', userData);
