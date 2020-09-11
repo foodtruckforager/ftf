@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
-  full_name: {
+  business_name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
     type: DataTypes.STRING,
   },
   google_id: {
+    type: DataTypes.STRING,
+  },
+  password: {
     type: DataTypes.STRING,
   },
   qr_code: {
