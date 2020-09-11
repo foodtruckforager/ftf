@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-const {
-  User, Truck, Review, Post,
-} = require('../db/db');
+const { User, Truck, Review, Post } = require('../db/db');
 
 function doStuffWithUserModel() {
   User.findOrCreate({
-    full_name: 'John Smith',
+    where: {
+      full_name: 'John Smith',
+    },
   });
   const foundUser = User.findOne({ where: { full_name: 'John Smith' } });
   if (foundUser === null) {
@@ -570,7 +570,8 @@ function doStuffWithUserModel() {
       id_truck: 2,
       title: 'WE GOT DA CHEESE',
       message: 'Gonna be rollin down in NOLA with the cheesiest cheese!',
-      photo: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.kwZymZmg1_KNgSMrtSu_pwHaFh%26pid%3DApi&f=1',
+      photo:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.kwZymZmg1_KNgSMrtSu_pwHaFh%26pid%3DApi&f=1',
     },
   })
     .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
@@ -581,7 +582,8 @@ function doStuffWithUserModel() {
       id_truck: 2,
       title: 'COME GET YA BIG CHEESY!',
       message: 'Catch us in da quater Saturday! we got the Cheese!',
-      photo: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.a1DWVpuCgToqiUjBRF_kwQHaE8%26pid%3DApi&f=1',
+      photo:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.a1DWVpuCgToqiUjBRF_kwQHaE8%26pid%3DApi&f=1',
     },
   })
     .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
