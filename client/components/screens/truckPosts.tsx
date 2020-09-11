@@ -5,10 +5,15 @@ import TruckPostItem from '../dropIns/TruckPostItem';
 
 export default function TruckPosts({ navigation }) {
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
-  const currentTruckId = navigation.state.params.params.navigation.state.params.params.currentTruck.id;
+  // const currentTruckId = navigation.state.params.params.navigation.state.params.params.currentTruck.id;
+  const currentTruck = navigation.state.params.params.currentTruck
+  const { id } = currentTruck;
+  console.log('currentTruck', currentTruck);
+  console.log(id);
+
 
   useEffect(() => {
-    axios.get(`${process.env.EXPO_LocalLan}/truck/truckpost/${currentTruckId}`)
+    axios.get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
       .then((response) => {
         console.log('response.data', response.data);
         setCurrentTruckPosts(response.data);
@@ -17,10 +22,14 @@ export default function TruckPosts({ navigation }) {
   }, []);
 
   const pressHandler = () => {
-    navigation.navigate('TruckReviews');
+    navigation.navigate(`TruckReviews`, {
+      params: { currentTruck, id, navigation, onDetails: true },
+    });
   };
   const pressHandlerDetails = () => {
-    navigation.navigate('TruckDetails', );
+    navigation.navigate(`TruckDetails`, {
+      params: { currentTruck, id, navigation, onDetails: true },
+    });
   };
 
   return (
