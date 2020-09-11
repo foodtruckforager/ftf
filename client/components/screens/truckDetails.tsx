@@ -36,12 +36,12 @@ export default function TruckDetails({ navigation }) {
 
   const pressHandler = () => {
     navigation.navigate(`TruckReviews`, {
-      params: { currentTruck, id, navigation },
+      params: { currentTruck, id, navigation, onReviews: true },
     });
   };
   const pressHandlerPost = () => {
     navigation.navigate(`TruckPosts`, {
-      params: { currentTruck, id, navigation },
+      params: { currentTruck, id, navigation, onPosts: true },
     });
   };
   return (
