@@ -252,31 +252,6 @@ function doStuffWithUserModel() {
         'For Frank, food is a means of communication. Specifically, with Creole Tomateaux, Frank’s trying to express his love for the New Orleans, LA community via homemade cajun cooking. This trailer whips up all things zesty on the daily. We could tell you food is just plain better when it’s made with passion (and we’d be right), but if that’s too corny for you know this – Frank’s got over 20 years of restaurant experience. So, that doesn’t hurt the quality of these eats either.',
       open_time: '9',
       close_time: '10',
-      latitude: 29.94865,
-      longitude: -90.069683,
-      star_average: 4,
-    },
-  })
-    .then((newTruck) => {
-      console.log(`✅ New Truck Created: ${newTruck}`);
-    })
-    .catch((err) => {
-      console.error(`❌${err}`);
-    });
-
-  Truck.findOrCreate({
-    where: {
-      full_name: 'Creole Tomateaux',
-      phone_number: '9859512650',
-      google_id: '9',
-      qr_code: 'qrCode8',
-      logo:
-        'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/26241/5d5b4325-1780-41a9-b937-0174ac120003.jpg',
-      food_genre: 'southern',
-      blurb:
-        'For Frank, food is a means of communication. Specifically, with Creole Tomateaux, Frank’s trying to express his love for the New Orleans, LA community via homemade cajun cooking. This trailer whips up all things zesty on the daily. We could tell you food is just plain better when it’s made with passion (and we’d be right), but if that’s too corny for you know this – Frank’s got over 20 years of restaurant experience. So, that doesn’t hurt the quality of these eats either.',
-      open_time: '9',
-      close_time: '10',
       latitude: 29.944537,
       longitude: -90.08517,
       star_average: 4,

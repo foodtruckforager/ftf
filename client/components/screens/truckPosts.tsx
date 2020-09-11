@@ -8,11 +8,10 @@ export default function TruckPosts({ navigation }) {
   // const currentTruckId = navigation.state.params.params.navigation.state.params.params.currentTruck.id;
   const currentTruck = navigation.state.params.params.currentTruck
   const { id } = currentTruck;
-  console.log('currentTruck', currentTruck);
-  console.log(id);
-
 
   useEffect(() => {
+    console.log(id);
+    console.log(currentTruck);
     axios.get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
       .then((response) => {
         console.log('response.data', response.data);
@@ -34,7 +33,9 @@ export default function TruckPosts({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TruckPostItem />
+      {currentTruckPosts.map(post => (
+        <TruckPostItem currentTruck={currentTruck} post={post} key={post.id} />
+      ))}
       <Button title='Go To Reviews' onPress={pressHandler} />
       <Button title='Go To Details' onPress={pressHandlerDetails} />
     </View>
