@@ -548,7 +548,7 @@ function doStuffWithUserModel() {
 
   if (foundTruck === null) return;
 
-  Review.create({
+  Review.findOrCreate({
     where: {
       review_title: 'I LOVE Frencheeze!! THEYRE INCREDIBLE',
       id_user: 1,
