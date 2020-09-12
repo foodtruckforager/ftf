@@ -3,8 +3,9 @@ import {
   View, StyleSheet, AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
-import TruckOwnerProfile from './TruckOwnerProfile';
 import TruckOwnerProfileEdit from './TruckOwnerProfileEdit';
+import TruckOwnerProfileFirstStack from '../routes/TruckOwnerProfileFirstStack';
+import OwnerProfileFirstStack from '../routes/OwnerProfileFirstStack';
 
 const TruckOwnerRouter = () => {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
@@ -47,12 +48,13 @@ const TruckOwnerRouter = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {alreadyRegistered
         ? (
-          <TruckOwnerProfile
-            ownerGoogleId={ownerGoogleId}
-          />
+          <OwnerProfileFirstStack />
+          // <TruckOwnerProfile
+          //   ownerGoogleId={ownerGoogleId}
+          // />
         )
         : (
           <TruckOwnerProfileEdit
@@ -62,5 +64,11 @@ const TruckOwnerRouter = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default TruckOwnerRouter;

@@ -46,7 +46,7 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.logInPrompt}>Add Your Business Info Below</Text>
       <Form
         type={Owner}
@@ -63,8 +63,8 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
     backgroundColor: '#ffffff',
   },

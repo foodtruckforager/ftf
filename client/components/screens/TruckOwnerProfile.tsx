@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import {
+  StyleSheet, View, Text, Button,
+} from 'react-native';
 import TruckOwnerProfileEdit from './TruckOwnerProfileEdit';
 
-const TruckOwnerProfile = ({ ownerGooleId }) => {
-  return (
-    <View style={styles.container}>
-      <Text> TruckOwner Profile </Text>
-      <Button title="button in profile" onPress={() => console.log('profile')}>Profile button</Button>
-    </View>
-  );
-}
+const TruckOwnerProfile = ({ navigation }) => (
+  <View>
+    <Text> TruckOwner Profile </Text>
+    <Button title="Edit" onPress={() => navigation.navigate('TruckOwnerProfileEdit')}> Click</Button>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
