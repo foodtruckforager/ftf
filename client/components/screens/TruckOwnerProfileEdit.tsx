@@ -10,7 +10,7 @@ const { Form } = t.form;
 
 const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
   const Owner = t.struct({
-    full_name: t.String,
+    business_name: t.String,
     phone_number: t.maybe(t.String),
     logo: t.maybe(t.String),
     food_genre: t.String,
@@ -29,7 +29,7 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
     const value = this._form.getValue();
 
     await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${ownerGoogleId}`, {
-      fullName: value.full_name,
+      fullName: value.business_name,
       phoneNumber: value.phone_number,
       logo: value.logo,
       foodGenre: value.food_genre,
@@ -39,9 +39,8 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
       latitude: value.latitude,
       longitude: value.longitude,
     })
-      .then((response) => {
-        // setPassword(response.data.password);
-        console.log('res. data in put', response.data);
+      .then(() => {
+        console.log('truck was created!');
       })
       .catch((err) => console.error(err));
   };
