@@ -2,19 +2,21 @@ import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import TruckOwnerProfileEdit from './TruckOwnerProfileEdit';
 
-export default function TruckOwnerProfile({ navigation }) {
+const TruckOwnerProfile = ({ ownerGooleId }) => {
   return (
     <View style={styles.container}>
       <Text> TruckOwner Profile </Text>
+      <Button title="button in profile" onPress={() => console.log('profile')}>Profile button</Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
+
+export default TruckOwnerProfile;

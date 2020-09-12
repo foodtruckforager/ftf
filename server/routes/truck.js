@@ -137,6 +137,7 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
 // route to get truck by business name for login
 truckRouter.get('/login/:googleId', (req, res) => {
   const { googleId } = req.params;
+  console.log('google id in server', googleId);
   Truck.findOne({
     where: {
       google_id: googleId,
@@ -144,7 +145,7 @@ truckRouter.get('/login/:googleId', (req, res) => {
   })
     .then((foundTruck) => {
       if (foundTruck) {
-        console.log(foundTruck);
+        console.log('foundtruck', foundTruck);
         res.send(foundTruck);
       } else {
         res.status(404).send('truck not found');
@@ -175,44 +176,37 @@ truckRouter.post('/register', (req, res) => {
 });
 
 // route to create new truck
-truckRouter.post('/create', (req, res) => {
+truckRouter.put('/create/:googleId', (req, res) => {
+  const { googleId } = req.params;
   const {
-    businessName,
+    fullName,
     phoneNumber,
-    googleId,
-    password,
-    qrCode,
     logo,
     foodGenre,
     blurb,
-    openStatus,
     openTime,
     closeTime,
     latitude,
     longitude,
-    starRating,
-    numberOfReviews,
   } = req.body;
 
-  Truck.findOrCreate({
-    where: {
-      business_name: businessName,
+  Truck.update(
+    {
+      full_name: fullName,
       phone_number: phoneNumber,
-      google_id: googleId,
-      password,
-      qr_code: qrCode,
       logo,
       food_genre: foodGenre,
       blurb,
-      star_average: starRating || 0,
-      number_of_reviews: numberOfReviews || 0,
-      open_status: openStatus || false,
       open_time: openTime,
       close_time: closeTime,
       latitude,
       longitude,
+    }, {
+      where: {
+        google_id: googleId,
+      },
     },
-  })
+  )
     .then((newTruck) => {
       res.status(201).send(newTruck);
     })
@@ -221,6 +215,10 @@ truckRouter.post('/create', (req, res) => {
       res.status(500).send(err);
     });
 });
+
+// TODO: need routes for updating stars and numberOfReviews
+// star_average: starRating || 0,
+// number_of_reviews: numberOfReviews || 0,
 
 // route for truck to make a new post
 truckRouter.post('/truckpost/new/:truckId', (req, res) => {
@@ -269,7 +267,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
   const { truckId } = req.params;
 
   const {
-    businessName,
+    fullName,
     phoneNumber,
     logo,
     foodGenre,
@@ -282,7 +280,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
 
   Truck.update(
     {
-      business_name: businessName,
+      full_name: fullName,
       phone_number: phoneNumber,
       logo,
       foode_genre: foodGenre,

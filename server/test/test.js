@@ -16,10 +16,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Rolling Fatties',
+      full_name: 'Rolling Fatties',
       phone_number: '5044528124',
       google_id: '1',
-      password: 'password',
       qr_code: 'qrCode',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/7397/540dd4df-7ff0-46b2-b56d-214346204482.jpg',
@@ -42,10 +41,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Frencheeze',
+      full_name: 'Frencheeze',
       phone_number: '5042643871',
       google_id: '2',
-      password: 'password',
       qr_code: 'qrCode1',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/4749/5164780a-7cec-4333-a3c6-57cc46204482.jpg',
@@ -69,10 +67,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Queen on Wheels',
+      full_name: 'Queen on Wheels',
       phone_number: '5049318576',
       google_id: '3',
-      password: 'password',
       qr_code: 'qrCode2',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/18467/5a5f7bdb-e928-4fa6-b270-4f9146204482.jpg',
@@ -95,10 +92,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Lucky Dogs',
+      full_name: 'Lucky Dogs',
       phone_number: '5045239260',
       google_id: '3',
-      password: 'password',
       qr_code: 'qrCode2',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/1006/5ca28545-91ec-42d2-8054-43d746204482.jpg',
@@ -121,10 +117,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'La Cocinita',
+      full_name: 'La Cocinita',
       phone_number: '5043095344',
       google_id: '4',
-      password: 'password',
       qr_code: 'qrCode3',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/2818/4f56928c-28d0-4e5d-8376-475246204482.jpg',
@@ -147,10 +142,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Diva Dawg',
+      full_name: 'Diva Dawg',
       phone_number: '5045334825',
       google_id: '5',
-      password: 'password',
       qr_code: 'qrCode4',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/8504/55204a00-dc28-4386-9930-178146204482.jpg',
@@ -173,10 +167,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Kennys Cajun & Creole',
+      full_name: 'Kennys Cajun & Creole',
       phone_number: '5044397904',
       google_id: '6',
-      password: 'password',
       qr_code: 'qrCode5',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/8504/55204a00-dc28-4386-9930-178146204482.jpg',
@@ -200,10 +193,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Oh La Vache',
+      full_name: 'Oh La Vache',
       phone_number: '5044397904',
       google_id: '7',
-      password: 'password',
       qr_code: 'qrCode6',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/23649/5c8be86c-5cc4-4da0-be7a-1fa346204482.jpg',
@@ -226,10 +218,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Grilling Shilling',
+      full_name: 'Grilling Shilling',
       phone_number: '5044397904',
       google_id: '8',
-      password: 'password',
       qr_code: 'qrCode7',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/7378/5d56e576-0d3c-4fe7-8497-20a7ac120003.jpg',
@@ -252,10 +243,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Creole Tomateaux',
+      full_name: 'Creole Tomateaux',
       phone_number: '9859512650',
       google_id: '9',
-      password: 'password',
       qr_code: 'qrCode8',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/26241/5d5b4325-1780-41a9-b937-0174ac120003.jpg',
@@ -278,10 +268,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Rue Chow',
+      full_name: 'Rue Chow',
       phone_number: '9859512650',
       google_id: '10',
-      password: 'password',
       qr_code: 'qrCode9',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/2812/4f552be0-91e0-4897-88bd-3f8046204482.jpg',
@@ -304,10 +293,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Food Drunk',
+      full_name: 'Food Drunk',
       phone_number: '5049512650',
       google_id: '11',
-      password: 'password',
       qr_code: 'qrCode10',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/4891/517edc86-3d90-44e4-84d4-443846204482.JPG',
@@ -330,10 +318,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Chef Johnson`s Truck',
+      full_name: 'Chef Johnson`s Truck',
       phone_number: '5049512650',
       google_id: '12',
-      password: 'password',
       qr_code: 'qrCode11',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/6576/57719077-4ca8-4463-b2a0-3f3d46204482.jpg',
@@ -357,10 +344,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Cocoa & Cream Mobile Foods & Catering Service',
+      full_name: 'Cocoa & Cream Mobile Foods & Catering Service',
       phone_number: '5043777046',
       google_id: '13',
-      password: 'password',
       qr_code: 'qrCode12',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/7401/5706e81d-7650-4436-8078-14a546204482.png',
@@ -383,10 +369,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'The Crepe Cart',
+      full_name: 'The Crepe Cart',
       phone_number: '5043777047',
       google_id: '13',
-      password: 'password',
       qr_code: 'qrCode12',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/8057/5467c173-4f50-459d-887d-548546204482.jpg',
@@ -409,10 +394,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Saigon Slim`s',
+      full_name: 'Saigon Slim`s',
       phone_number: '5043777047',
       google_id: '14',
-      password: 'password',
       qr_code: 'qrCode13',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/8272/549f544e-69ec-4b7f-8e6f-205d46204482.png',
@@ -435,10 +419,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Dirty Dishes',
+      full_name: 'Dirty Dishes',
       phone_number: '5043777047',
       google_id: '15',
-      password: 'password',
       qr_code: 'qrCode14',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/9302/552d84ba-caa8-4606-bd41-0a6046204482.jpg',
@@ -461,10 +444,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Petite Rouge',
+      full_name: 'Petite Rouge',
       phone_number: '5043777047',
       google_id: '16',
-      password: 'password',
       qr_code: 'qrCode15',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/11477/55a0346d-9bec-4b70-b897-5b7146204482.jpg',
@@ -487,10 +469,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'Mr. Choo',
+      full_name: 'Mr. Choo',
       phone_number: '5043777047',
       google_id: '18',
-      password: 'password',
       qr_code: 'qrCode17',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/12612/57cf2cd1-4918-4805-a061-342346204482.jpg',
@@ -513,10 +494,9 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      business_name: 'The Red Stove',
+      full_name: 'The Red Stove',
       phone_number: '5044199866',
       google_id: '17',
-      password: 'password',
       qr_code: 'qrCode16',
       logo:
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/11557/55a7e374-3988-4dc0-bde1-6ae946204482.jpg',
@@ -538,7 +518,7 @@ function doStuffWithUserModel() {
     });
 
   const foundTruck = Truck.findOne({
-    where: { business_name: 'Rolling Fatties' },
+    where: { full_name: 'Rolling Fatties' },
   })
     .then((found) => console.log(`✅ Found truck by name ${found}`))
     .catch((err) => console.error(`❌${err}`));

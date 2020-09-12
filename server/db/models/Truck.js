@@ -1,14 +1,11 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
-  business_name: {
+  full_name: {
     type: DataTypes.STRING,
   },
   phone_number: {
     type: DataTypes.STRING,
   },
   google_id: {
-    type: DataTypes.STRING,
-  },
-  password: {
     type: DataTypes.STRING,
   },
   qr_code: {
@@ -30,10 +27,10 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
     type: DataTypes.INTEGER,
   },
   open_time: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   close_time: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   open_status: {
     type: DataTypes.BOOLEAN,

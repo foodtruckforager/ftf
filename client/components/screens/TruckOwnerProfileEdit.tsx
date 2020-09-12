@@ -1,20 +1,22 @@
 import React from 'react';
 import t from 'tcomb-form-native';
 import {
-  StyleSheet, View, Text, Button, TextInput,
+  StyleSheet, View, Text, Button,
 } from 'react-native';
+import axios from 'axios';
+import TruckOwnerProfile from './TruckOwnerProfile';
 
 const { Form } = t.form;
 
-const TruckOwnerProfileEdit = () => {
+const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
   const Owner = t.struct({
-    businessName: t.String,
+    full_name: t.String,
     phone_number: t.maybe(t.String),
     logo: t.maybe(t.String),
     food_genre: t.String,
     blurb: t.maybe(t.String),
-    open_time: t.maybe(t.Number),
-    close_time: t.maybe(t.Number),
+    open_time: t.maybe(t.String),
+    close_time: t.maybe(t.String),
     latitude: t.maybe(t.Number),
     longitude: t.maybe(t.Number),
   });
@@ -25,16 +27,23 @@ const TruckOwnerProfileEdit = () => {
 
   const handleLoginSubmit = async() => {
     const value = this._form.getValue();
-    console.log('value', value);
-    // setBusinessName(value.businessName);
-    // setAttemptedPassword(value.password);
 
-    // await axios.get(`${process.env.EXPO_LocalLan}/truck/login/${value.businessName}`)
-    //   .then((response) => {
-    //     // setPassword(response.data.password);
-    //     setGoogleId(response.data.google_id);
-    //   })
-    //   .catch((err) => console.error(err));
+    await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${ownerGoogleId}`, {
+      fullName: value.full_name,
+      phoneNumber: value.phone_number,
+      logo: value.logo,
+      foodGenre: value.food_genre,
+      blurb: value.blurb,
+      openTime: value.open_time,
+      closeTime: value.close_time,
+      latitude: value.latitude,
+      longitude: value.longitude,
+    })
+      .then((response) => {
+        // setPassword(response.data.password);
+        console.log('res. data in put', response.data);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (

@@ -71,8 +71,8 @@ export default function GoogleLogIn({
         axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
           googleId: result.user.id,
         })
-          .then((response) => {
-            console.log('response.data', response.data);
+          .then(() => {
+            console.log('successfully registered');
           })
           .catch((err) => console.error(err));
 
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    // flex: 1,
     fontSize: 40,
     position: 'absolute',
     top: 130,
