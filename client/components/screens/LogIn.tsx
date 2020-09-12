@@ -3,7 +3,7 @@ import { StyleSheet, AsyncStorage } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import GoogleLogIn from '../dropIns/GoogleLogIn';
 import RootDrawerNavigator from '../routes/drawer';
-import TruckOwnerProfile from './truckOwnerProfile';
+import TruckOwnerRouter from './TruckOwnerRouter';
 import PushNotifications from '../dropIns/PushNotifications';
 
 export default function LogIn(props) {
@@ -11,6 +11,7 @@ export default function LogIn(props) {
   const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [cameFromLogOut, setCameFromLogOut] = useState(null);
+  const [ownerGoogleId, setOwnerGoogleId] = useState('');
 
   useEffect(() => {
     if (Object.keys(props).length) {
@@ -33,7 +34,6 @@ export default function LogIn(props) {
       if (value !== null) {
         value = JSON.parse(value);
         setAccessToken(value.accessToken);
-        console.log(accessToken);
       } else {
         console.log('user token not found');
       }
@@ -64,6 +64,7 @@ export default function LogIn(props) {
           setIsUserLoggedIn={setIsUserLoggedIn}
           isTruckOwnerLoggedIn={isTruckOwnerLoggedIn}
           setIsTruckOwnerLoggedIn={setIsTruckOwnerLoggedIn}
+          setOwnerGoogleId={setOwnerGoogleId}
           accessToken={accessToken}
           setAccessToken={setAccessToken}
         />
@@ -76,7 +77,7 @@ export default function LogIn(props) {
           setAccessToken={setAccessToken}
         />
         ) }
-        { isTruckOwnerLoggedIn && <TruckOwnerProfile /> }
+        { isTruckOwnerLoggedIn && <TruckOwnerRouter ownerGoogleId={ownerGoogleId} /> }
       </>
     </>
   );

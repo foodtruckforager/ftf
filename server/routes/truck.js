@@ -58,6 +58,28 @@ truckRouter.get('/', (req, res) => {
     });
 });
 
+// route to get a specific truck
+truckRouter.get('/:truckId', (req, res) => {
+  const { truckId } = req.params;
+  Truck.findOne({
+    where: {
+      id: truckId,
+    },
+  })
+    .then((foundTruck) => {
+      if (foundTruck) {
+        console.log(foundTruck);
+        res.send(foundTruck);
+      } else {
+        res.status(404).send('truck not found');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
 // get all truck photos for specific truck
 truckRouter.get('/photo/:truckId', (req, res) => {
   const { truckId } = req.params;
@@ -112,42 +134,79 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
     });
 });
 
+// route to get truck by google id for login
+truckRouter.get('/login/:googleId', (req, res) => {
+  const { googleId } = req.params;
+  console.log('google id in server', googleId);
+  Truck.findOne({
+    where: {
+      google_id: googleId,
+    },
+  })
+    .then((foundTruck) => {
+      if (foundTruck) {
+        console.log('foundtruck', foundTruck);
+        res.send(foundTruck);
+      } else {
+        res.status(404).send('truck not found');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
+// route to register new truck with google id
+truckRouter.post('/register', (req, res) => {
+  const { googleId } = req.body;
+  Truck.findOrCreate({
+    where: {
+      google_id: googleId,
+    },
+  })
+    .then((registeredTruck) => {
+      console.log(registeredTruck);
+      res.status(201).send(registeredTruck);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
 // route to create new truck
-truckRouter.post('/create', (req, res) => {
+truckRouter.put('/create/:googleId', (req, res) => {
+  const { googleId } = req.params;
   const {
     fullName,
     phoneNumber,
-    googleId,
-    qrCode,
     logo,
     foodGenre,
     blurb,
-    openStatus,
     openTime,
     closeTime,
     latitude,
     longitude,
-    starRating,
-    numberOfReviews,
   } = req.body;
-  Truck.findOrCreate({
-    where: {
+
+  Truck.update(
+    {
       full_name: fullName,
       phone_number: phoneNumber,
-      google_id: googleId,
-      qr_code: qrCode,
       logo,
       food_genre: foodGenre,
       blurb,
-      star_average: starRating || 0,
-      number_of_reviews: numberOfReviews || 0,
-      open_status: openStatus || false,
       open_time: openTime,
       close_time: closeTime,
       latitude,
       longitude,
+    }, {
+      where: {
+        google_id: googleId,
+      },
     },
-  })
+  )
     .then((newTruck) => {
       res.status(201).send(newTruck);
     })
@@ -156,6 +215,10 @@ truckRouter.post('/create', (req, res) => {
       res.status(500).send(err);
     });
 });
+
+// TODO: need routes for updating stars and numberOfReviews
+// star_average: starRating || 0,
+// number_of_reviews: numberOfReviews || 0,
 
 // route for truck to make a new post
 truckRouter.post('/truckpost/new/:truckId', (req, res) => {

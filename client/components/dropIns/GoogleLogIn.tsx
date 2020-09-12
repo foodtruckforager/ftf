@@ -8,6 +8,7 @@ import axios from 'axios';
 export default function GoogleLogIn({
   setIsUserLoggedIn,
   setIsTruckOwnerLoggedIn,
+  setOwnerGoogleId,
   setAccessToken,
 }) {
   const userConfig = {
@@ -45,10 +46,11 @@ export default function GoogleLogIn({
           googleId: result.user.id,
           profilePhotoUrl: result.user.photoUrl,
         })
-          .then((response) => {
-            console.log('response.data', response.data);
+          .then(() => {
+            console.log('user account created');
           })
           .catch((err) => console.error(err));
+
         return result.accessToken;
       }
       return { cancelled: true };
@@ -64,6 +66,15 @@ export default function GoogleLogIn({
         storeData('ownerData', JSON.stringify(result));
         setAccessToken(result.accessToken);
         setIsTruckOwnerLoggedIn(true);
+        setOwnerGoogleId(result.user.id);
+
+        axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
+          googleId: result.user.id,
+        })
+          .then(() => {
+            console.log('truck successfully registered');
+          })
+          .catch((err) => console.error(err));
 
         return result.accessToken;
       }
@@ -105,7 +116,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    // flex: 1,
     fontSize: 40,
     position: 'absolute',
     top: 130,
