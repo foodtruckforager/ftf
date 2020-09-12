@@ -7,6 +7,7 @@ import TrackerStack from './trackerStack';
 import Search from '../screens/search';
 import ScanQRCode from '../screens/ScanQRCode';
 import GenerateQRCode from '../screens/GenerateQRCode';
+import ImageUpload from '../screens/ImageUpload';
 import Settings from '../screens/settings';
 import Accordion from '../../Accordion';
 import LogOut from '../screens/LogOut';
@@ -42,6 +43,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   GenerateQRCode: {
     screen: GenerateQRCode,
+  },
+  ImageUpload: {
+    screen: ImageUpload,
   },
   LogOut: {
     screen: LogIn,
