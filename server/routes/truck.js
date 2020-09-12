@@ -134,7 +134,7 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
     });
 });
 
-// route to get truck by business name for login
+// route to get truck by google id for login
 truckRouter.get('/login/:googleId', (req, res) => {
   const { googleId } = req.params;
   console.log('google id in server', googleId);

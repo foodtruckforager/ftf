@@ -46,8 +46,8 @@ export default function GoogleLogIn({
           googleId: result.user.id,
           profilePhotoUrl: result.user.photoUrl,
         })
-          .then((response) => {
-            console.log('response.data', response.data);
+          .then(() => {
+            console.log('user account created');
           })
           .catch((err) => console.error(err));
 
@@ -72,7 +72,7 @@ export default function GoogleLogIn({
           googleId: result.user.id,
         })
           .then(() => {
-            console.log('successfully registered');
+            console.log('truck successfully registered');
           })
           .catch((err) => console.error(err));
 
