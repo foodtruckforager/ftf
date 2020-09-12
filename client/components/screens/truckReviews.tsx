@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { StyleSheet, View, Text, Button } from 'react-native';
+import { Input, Overlay, ListItem } from 'react-native-elements';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
+import SubmitOverlay from '../dropIns/SubmitOverlay';
 
 export default function TruckReviews({ navigation }) {
   const [currentTruckReviews, setCurrentTruckReviews] = useState([]);
   const [currentTruckReviewers, setCurrentTruckReviewers] = useState([]);
-
   const currentTruck = navigation.state.params.params.currentTruck;
   const onReviews = navigation.state.params.params.onReviews;
-
   const { id } = currentTruck;
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleOverlay = () => {
+    setIsVisible(!isVisible);
+  };
 
   useEffect(() => {
     const getTruckReviews = async () => {
@@ -55,6 +60,7 @@ export default function TruckReviews({ navigation }) {
       params: { currentTruck, id, navigation, onPost: true },
     });
   };
+
   return (
     <View style={styles.container}>
       <Text> Truck Reviews </Text>
@@ -78,6 +84,13 @@ export default function TruckReviews({ navigation }) {
           />
         ))}
       </View>
+      <View style={styles.modal}>
+        <SubmitOverlay
+          isVisible={isVisible}
+          onBackdropPress={toggleOverlay}
+          onReviews={onReviews}
+        />
+      </View>
     </View>
   );
 }
@@ -88,12 +101,16 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   infoWindow: {
-    flex: 1,
+    flex: 0.2,
     flexGrow: 10,
   },
   reviews: {
-    flex: 1,
+    flex: 0.4,
     flexGrow: 10,
+  },
+  modal: {
+    flex: 0.1,
+    flexGrow: 1.4,
   },
   infoWindowShell: {
     flex: 4,
