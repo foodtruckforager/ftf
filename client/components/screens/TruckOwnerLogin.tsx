@@ -9,15 +9,16 @@ const { Form } = t.form;
 
 const TruckOwnerLogin = () => {
   const [businessName, setBusinessName] = useState('');
-  const [attemptedPassword, setAttemptedPassword] = useState('');
-  const [password, setPassword] = useState('');
+  // const [attemptedPassword, setAttemptedPassword] = useState('');
+  // const [password, setPassword] = useState('');
+  const [googleId, setGoogleId] = useState('');
   const [validOwner, setValidOwner] = useState(false);
 
   useEffect(() => {
     if (attemptedPassword === password) {
       setValidOwner(true);
     }
-  }, [password]);
+  }, [googleId]);
 
   const Owner = t.struct({
     businessName: t.String,
@@ -27,11 +28,12 @@ const TruckOwnerLogin = () => {
   const handleLoginSubmit = async() => {
     const value = this._form.getValue();
     setBusinessName(value.businessName);
-    setAttemptedPassword(value.password);
+    // setAttemptedPassword(value.password);
 
     await axios.get(`${process.env.EXPO_LocalLan}/truck/login/${value.businessName}`)
       .then((response) => {
-        setPassword(response.data.password);
+        // setPassword(response.data.password);
+        setGoogleId(response.data.google_id);
       })
       .catch((err) => console.error(err));
   };
@@ -44,11 +46,11 @@ const TruckOwnerLogin = () => {
 
   const options = {
     auto: 'placeholders',
-    fields: {
-      password: {
-        password: true,
-      },
-    },
+    // fields: {
+    //   // password: {
+    //   //   password: true,
+    //   // },
+    // },
   };
 
   return (

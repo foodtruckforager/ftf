@@ -33,7 +33,6 @@ export default function LogIn(props) {
       if (value !== null) {
         value = JSON.parse(value);
         setAccessToken(value.accessToken);
-        console.log(accessToken);
       } else {
         console.log('user token not found');
       }

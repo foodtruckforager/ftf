@@ -49,6 +49,7 @@ export default function GoogleLogIn({
             console.log('response.data', response.data);
           })
           .catch((err) => console.error(err));
+
         return result.accessToken;
       }
       return { cancelled: true };
@@ -64,6 +65,16 @@ export default function GoogleLogIn({
         storeData('ownerData', JSON.stringify(result));
         setAccessToken(result.accessToken);
         setIsTruckOwnerLoggedIn(true);
+
+        axios.post(`${process.env.EXPO_LocalLan}/user/new`, {
+          fullName: result.user.name,
+          googleId: result.user.id,
+          profilePhotoUrl: result.user.photoUrl,
+        })
+          .then((response) => {
+            console.log('response.data', response.data);
+          })
+          .catch((err) => console.error(err));
 
         return result.accessToken;
       }
