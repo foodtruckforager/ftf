@@ -28,10 +28,6 @@ export default function LogIn(props) {
     }
   }, [accessToken]);
 
-  useEffect(() => {
-    console.log('owner google id in login', ownerGoogleId);
-  }, [ownerGoogleId]);
-
   const retrieveData = async() => {
     try {
       let value = await AsyncStorage.getItem('userData');

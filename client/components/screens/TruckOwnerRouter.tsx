@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, Text, AsyncStorage, Button,
+  View, StyleSheet, AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import TruckOwnerProfile from './TruckOwnerProfile';
@@ -12,7 +12,7 @@ const TruckOwnerRouter = () => {
   const [dataRetrieved, setDataRetrieved] = useState(false);
 
   useEffect(() => {
-    if (!dataRetrieved) {
+    if (dataRetrieved === false) {
       retrieveData();
       setDataRetrieved(true);
     }
@@ -22,7 +22,7 @@ const TruckOwnerRouter = () => {
     if (ownerGoogleId !== null) {
       axios.get(`${process.env.EXPO_LocalLan}/truck/login/${ownerGoogleId}`)
         .then((response) => {
-          if (response.data.business_name !== undefined) {
+          if (response.data.full_name !== undefined) {
             setAlreadyRegistered(true);
           } else {
             setAlreadyRegistered(false);
@@ -48,7 +48,12 @@ const TruckOwnerRouter = () => {
 
   return (
     <View>
-      {alreadyRegistered ? <TruckOwnerProfile ownerGoogleId={ownerGoogleId} />
+      {alreadyRegistered
+        ? (
+          <TruckOwnerProfile
+            ownerGoogleId={ownerGoogleId}
+          />
+        )
         : (
           <TruckOwnerProfileEdit
             ownerGoogleId={ownerGoogleId}
