@@ -6,12 +6,12 @@ import foodIcons from '../../../assets/mapIcons.js';
 
 const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
   const {
-    review_date,
     review_description,
     review_photo,
     review_star,
     review_title,
     upvotes,
+    createdAt,
   } = review;
   const { full_name, badge, profile_photo_url } = currentTruckReviewers;
   let reviewPhoto: string = review_photo || foodIcons.defaultReviewPhoto;
@@ -38,9 +38,9 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
           <Text style={{ color: 'lightgrey' }}>
             {String.fromCharCode(9733).repeat(5 - Math.floor(review_star))}
           </Text>
+      <Text>{`                                 ${createdAt.substring(0, 10)} | ${createdAt.substring(14, 19)}`}</Text>
         </View>
       </View>
-      <Text>{JSON.stringify(review_date)}</Text>
       <Text>{review_description}</Text>
       <Text>{`${upvotes} 👍`}</Text>
       <Image
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   reviewHeader: {
     alignItems: 'center',
     flexShrink: 1,
-    flex: 0.8,
+    flex: 0.4,
   },
   stars: {
     flexDirection: 'row',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    flex: 1,
+    flex: .4,
     height: undefined,
     width: undefined,
   },
@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    padding: 20,
+    padding: 2,
   },
   message: {
-    padding: 20,
+    padding: 2,
   },
 });
 
