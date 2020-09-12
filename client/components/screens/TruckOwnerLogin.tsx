@@ -14,11 +14,11 @@ const TruckOwnerLogin = () => {
   const [googleId, setGoogleId] = useState('');
   const [validOwner, setValidOwner] = useState(false);
 
-  useEffect(() => {
-    if (attemptedPassword === password) {
-      setValidOwner(true);
-    }
-  }, [googleId]);
+  // useEffect(() => {
+  //   if (attemptedPassword === password) {
+  //     setValidOwner(true);
+  //   }
+  // }, [googleId]);
 
   const Owner = t.struct({
     businessName: t.String,

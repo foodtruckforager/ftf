@@ -135,11 +135,11 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
 });
 
 // route to get truck by business name for login
-truckRouter.get('/login/:businessName', (req, res) => {
-  const { businessName } = req.params;
+truckRouter.get('/login/:googleId', (req, res) => {
+  const { googleId } = req.params;
   Truck.findOne({
     where: {
-      business_name: businessName,
+      google_id: googleId,
     },
   })
     .then((foundTruck) => {
@@ -149,6 +149,24 @@ truckRouter.get('/login/:businessName', (req, res) => {
       } else {
         res.status(404).send('truck not found');
       }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
+// route to register new truck with google id
+truckRouter.post('/register', (req, res) => {
+  const { googleId } = req.body;
+  Truck.findOrCreate({
+    where: {
+      google_id: googleId,
+    },
+  })
+    .then((registeredTruck) => {
+      console.log(registeredTruck);
+      res.status(201).send(registeredTruck);
     })
     .catch((err) => {
       console.error(err);

@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
   business_name: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   phone_number: {
     type: DataTypes.STRING,
