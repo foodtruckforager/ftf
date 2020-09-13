@@ -111,7 +111,6 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
     reviewStar,
     reviewPhoto,
     upvotes,
-    reviewDate,
   } = req.body;
 
   Review.findOrCreate({
@@ -123,7 +122,6 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
       review_star: reviewStar,
       review_photo: reviewPhoto,
       upvotes,
-      review_date: reviewDate,
     },
   })
     .then((newReview) => {
