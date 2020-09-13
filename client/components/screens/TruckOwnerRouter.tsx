@@ -6,8 +6,9 @@ import axios from 'axios';
 import TruckOwnerProfileEdit from './TruckOwnerProfileEdit';
 import TruckOwnerProfileFirstStack from '../routes/TruckOwnerProfileFirstStack';
 import OwnerProfileFirstStack from '../routes/OwnerProfileFirstStack';
+import OwnerCreateProfileFirstStack from '../routes/OwnerProfileFirstStack';
 
-const TruckOwnerRouter = () => {
+const TruckOwnerRouter = ({ googleId }) => {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [ownerGoogleId, setOwnerGoogleId] = useState(null);
   const [dataRetrieved, setDataRetrieved] = useState(false);
@@ -51,15 +52,15 @@ const TruckOwnerRouter = () => {
     <View style={styles.container}>
       {alreadyRegistered
         ? (
-          <OwnerProfileFirstStack />
+          <OwnerProfileFirstStack googleId={ownerGoogleId} />
           // <TruckOwnerProfile
           //   ownerGoogleId={ownerGoogleId}
           // />
         )
         : (
-          <TruckOwnerProfileEdit
-            ownerGoogleId={ownerGoogleId}
-          />
+          <OwnerCreateProfileFirstStack googleId={ownerGoogleId} />
+          //   ownerGoogleId={ownerGoogleId}
+          // />
         )}
     </View>
   );

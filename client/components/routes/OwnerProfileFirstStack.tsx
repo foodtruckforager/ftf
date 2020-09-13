@@ -1,23 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createAppContainer } from 'react-navigation';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import TruckOwnerProfileEdit from '../screens/TruckOwnerProfileEdit';
 import TruckOwnerProfile from '../screens/TruckOwnerProfile';
-import trackerStack from '../routes/trackerStack';
 
 const Stack = createStackNavigator();
 
-const OwnerProfileFirstStack = () => (
-  <View style={{ flex: 1 }}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="TruckOwnerProfile">
-        <Stack.Screen name="TruckOwnerProfile" component={TruckOwnerProfile} />
-        <Stack.Screen name="TruckOwnerProfileEdit" component={TruckOwnerProfileEdit} />
-      </Stack.Navigator>
-    </NavigationContainer>
-   </View>
+const OwnerProfileFirstStack = ({ googleId }) => (
+  <View style={styles.container}>
+    {googleId && (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="TruckOwnerProfile">
+          <Stack.Screen
+            name="TruckOwnerProfile"
+            component={TruckOwnerProfile}
+            initialParams={{ googleId }}
+          />
+          <Stack.Screen
+            name="TruckOwnerProfileEdit"
+            component={TruckOwnerProfileEdit}
+            initialParams={{ googleId }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )}
+  </View>
 );
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default OwnerProfileFirstStack;
