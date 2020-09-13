@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Overlay,
   SearchBar,
   Text,
-  Rating,
   AirbnbRating,
 } from 'react-native-elements';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
+import axios from 'axios';
 
-const SubmitOverlay = ({ onReviews }) => {
+const SubmitOverlay = ({
+  onReviews,
+  currentTruck,
+}: {
+  onReviews: boolean;
+  currentTruck: object;
+}) => {
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(5);
+  const [userId, setUserId] = useState('');
+  const [photo, setPhoto] = useState(
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU'
+  );
+  const [googleUserId, setGoogleUserId] = useState(0);
+  const { id }: { id: [string, number] } = currentTruck;
+
   const toggleOverlay = () => {
     setVisible(!visible);
   };
@@ -28,6 +41,68 @@ const SubmitOverlay = ({ onReviews }) => {
     setRating(rating);
   };
 
+  const onSubmit = () => {
+    toggleOverlay();
+    if (onReviews) {
+      const submitReview = async () => {
+        axios
+          .post(
+            `${process.env.EXPO_LocalLan}/user/review/new/${id}/${userId}`,
+            {
+              reviewTitle: title,
+              reviewDescription: description,
+              reviewStar: rating,
+              reviewPhoto: photo,
+              upvotes: 0,
+            }
+          )
+          .then((response) => {
+            console.log(response);
+            console.log('review created! :)');
+          })
+          .catch((err) => console.error(err));
+      };
+      submitReview();
+    } else {
+      // TODO: submitPost
+    }
+  };
+
+  useEffect(() => {
+    const retrieveCurrentUserId = async () => {
+      try {
+        let value = await AsyncStorage.getItem('userData');
+        if (value !== null) {
+          value = JSON.parse(value);
+          console.log('googleID')
+          console.log(value.user.id)
+          setGoogleUserId(value.user.id);
+        } else {
+          console.log('user id not found');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    retrieveCurrentUserId();
+  }, []);
+
+  useEffect(() => {
+    const getUserIdWithGoogleUserId = async () => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
+        .then((response) => {
+          console.log('THEN:getUserIdWithGoogleUserId')
+          console.log(response.data);
+          if (response.data[0] !== undefined) {
+            setUserId(response.data[0].id);
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    getUserIdWithGoogleUserId();
+  }, [googleUserId]);
+
   return (
     <View>
       <Button title="Write Review" onPress={toggleOverlay} />
@@ -36,13 +111,15 @@ const SubmitOverlay = ({ onReviews }) => {
         onBackdropPress={toggleOverlay}
         fullScreen={false}
       >
-        <Text h3> 📝 Write Review: </Text>
-        <AirbnbRating
-          size={22}
-          defaultRating={5}
-          showRating
-          onFinishRating={onFinishRating}
-        />
+        <Text h3> 📝 Write {onReviews ? `Review` : `Post`} </Text>
+        {onReviews && (
+          <AirbnbRating
+            size={22}
+            defaultRating={5}
+            showRating
+            onFinishRating={onFinishRating}
+          />
+        )}
         <SearchBar
           placeholder="Title"
           lightTheme={true}
@@ -59,7 +136,11 @@ const SubmitOverlay = ({ onReviews }) => {
         />
         <View style={styles.verticalPadding}>
           <Button title="📎 Attach Photo" onPress={() => {}} />
-          <Button style={styles.slightVerticalPadding} title="✏️ Submit Review" onPress={toggleOverlay} />
+          <Button
+            style={styles.slightVerticalPadding}
+            title="✏️ Submit Review"
+            onPress={onSubmit}
+          />
           <Button title="❌ Close" onPress={toggleOverlay} />
         </View>
       </Overlay>
