@@ -13,7 +13,7 @@ const OwnerProfileFirstStack = ({ googleId }) => (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="TruckOwnerProfile">
           <Stack.Screen
-            name="TruckOwnerProfile"
+            name="Truck Owner Profile"
             component={TruckOwnerProfile}
             initialParams={{ googleId }}
           />
