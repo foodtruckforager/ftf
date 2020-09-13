@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { StyleSheet, View, Text, Button } from 'react-native';
-import { Input, Overlay, ListItem } from 'react-native-elements';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
@@ -88,7 +87,8 @@ export default function TruckReviews({ navigation }) {
         <SubmitOverlay
           isVisible={isVisible}
           onBackdropPress={toggleOverlay}
-          onReviews={onReviews}
+          onReviews={true}
+          currentTruck={currentTruck}
         />
       </View>
     </View>

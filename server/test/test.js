@@ -533,7 +533,7 @@ function doStuffWithUserModel() {
       review_photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
       id_user: 1,
       id_truck: 2,
-      upvotes: 1,
+      upvotes: 4,
     },
   })
     .then(() => console.log('✅ New review created'))
