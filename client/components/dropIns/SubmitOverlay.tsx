@@ -12,7 +12,9 @@ import axios from 'axios';
 const SubmitOverlay = ({
   onReviews,
   currentTruck,
+  getTruckReviews,
 }: {
+  getTruckReviews: any;
   onReviews: boolean;
   currentTruck: object;
 }) => {
@@ -57,8 +59,7 @@ const SubmitOverlay = ({
             }
           )
           .then((response) => {
-            console.log(response);
-            console.log('review created! :)');
+            getTruckReviews();
           })
           .catch((err) => console.error(err));
       };
@@ -74,8 +75,6 @@ const SubmitOverlay = ({
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
           value = JSON.parse(value);
-          console.log('googleID')
-          console.log(value.user.id)
           setGoogleUserId(value.user.id);
         } else {
           console.log('user id not found');
@@ -92,8 +91,6 @@ const SubmitOverlay = ({
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
-          console.log('THEN:getUserIdWithGoogleUserId')
-          console.log(response.data);
           if (response.data[0] !== undefined) {
             setUserId(response.data[0].id);
           }
