@@ -7,7 +7,7 @@ const userRouter = Router();
 
 // get user basic info with googleId from async storage
 userRouter.get('/googleId/:googleId', (req, res) => {
-  console.log('HELLO THERE');
+  console.log('Login Route');
   const { googleId } = req.params;
   User.findAll({
     where: {
