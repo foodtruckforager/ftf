@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
 import InfoWindow from '../dropIns/InfoWindow';
@@ -46,8 +47,23 @@ export default function TruckPosts({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button title="Go To Reviews" onPress={pressHandler} />
-      <Button title="Go To Details" onPress={pressHandlerDetails} />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <Button title="Reviews" onPress={pressHandler} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Details" onPress={pressHandlerDetails} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Posts"
+            buttonStyle={{
+              backgroundColor: 'darkblue',
+            }}
+            onPress={() => {}}
+          />
+        </View>
+      </View>
       <View style={styles.infoWindowShell}>
         <InfoWindow
           currentTruck={currentTruck}
@@ -84,7 +100,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 24,
+    padding: 10,
   },
   modal: {
     flex: 0.1,
@@ -99,5 +115,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     flexDirection: 'column',
+  },
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    paddingHorizontal: 1,
   },
 });
