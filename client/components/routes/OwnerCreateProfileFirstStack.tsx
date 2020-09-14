@@ -4,14 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
 import TruckOwnerProfileEdit from '../screens/TruckOwnerProfileEdit';
 import TruckOwnerProfile from '../screens/TruckOwnerProfile';
+import LogIn from '../screens/LogIn';
 
 const Stack = createStackNavigator();
 
 const OwnerCreateProfileFirstStack = ({ googleId }) => (
   <View style={styles.container}>
     {googleId && (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="TruckOwnerProfileEdit">
+    <NavigationContainer independent="true">
+      <Stack.Navigator initialRouteName="TruckOwnerProfileEdit" headerMode="none">
         <Stack.Screen
           name="TruckOwnerProfileEdit"
           component={TruckOwnerProfileEdit}
@@ -21,6 +22,10 @@ const OwnerCreateProfileFirstStack = ({ googleId }) => (
           name="TruckOwnerProfile"
           component={TruckOwnerProfile}
           initialParams={{ googleId }}
+        />
+        <Stack.Screen
+          name="LogIn"
+          component={LogIn}
         />
       </Stack.Navigator>
     </NavigationContainer>

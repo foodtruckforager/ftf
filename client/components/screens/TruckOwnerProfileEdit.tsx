@@ -10,7 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const { Form } = t.form;
 
-const TruckOwnerProfileEdit = ({ navigation, googleId }) => {
+const TruckOwnerProfileEdit = ({ navigation, route }) => {
   const Owner = t.struct({
     business_name: t.String,
     phone_number: t.maybe(t.String),
@@ -29,8 +29,7 @@ const TruckOwnerProfileEdit = ({ navigation, googleId }) => {
 
   const handleLoginSubmit = async() => {
     const value = this._form.getValue();
-
-    await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${googleId}`, {
+    await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
       fullName: value.business_name,
       phoneNumber: value.phone_number,
       logo: value.logo,
