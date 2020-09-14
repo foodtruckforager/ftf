@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
 const { Router } = require('express');
 const sequelize = require('sequelize');
-const {
-  Review, User, Upvote, Favorite, Truck,
-} = require('../db/db');
+const { Review, User, Upvote, Favorite, Truck } = require('../db/db');
 
 const userRouter = Router();
 
 // get user basic info with googleId from async storage
 userRouter.get('/googleId/:googleId', (req, res) => {
+  console.log('HELLO THERE');
   const { googleId } = req.params;
   User.findAll({
     where: {
@@ -87,8 +86,10 @@ userRouter.post('/new', (req, res) => {
   // console.log(req.body);
   User.findOrCreate({
     where: {
-      full_name: fullName,
       google_id: googleId,
+    },
+    defaults: {
+      full_name: fullName,
       profile_photo_url: profilePhotoUrl,
     },
   })
@@ -166,7 +167,7 @@ userRouter.post('/update/photo', (req, res) => {
       where: {
         id: userId,
       },
-    },
+    }
   )
     .then(() => {
       // console.log('HELLOOOOOOOOOOOOOOOOO', req);
@@ -194,7 +195,7 @@ userRouter.put('/update/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    },
+    }
   )
     .then(() => {
       res.status(201).send('successfully updated user');
@@ -216,7 +217,7 @@ userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
         id_user: userId,
         id_truck: truckId,
       },
-    },
+    }
   )
     .then(() => {
       res.status(201).send('favorite was removed');
@@ -239,7 +240,7 @@ userRouter.put('/update/badge/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    },
+    }
   )
     .then(() => {
       res.status(201).send('successfully updated user badge');
@@ -277,7 +278,7 @@ userRouter.put('/update/upvote/:userId/:reviewId', (req, res) => {
                 },
                 {
                   where: { id_user: userId },
-                },
+                }
               )
                 .then(() => {
                   res.status(201).send('upvote has been received');

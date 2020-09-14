@@ -65,8 +65,7 @@ export default function Settings({ navigation }) {
       .then(() => {
         axios
           .post(`${process.env.EXPO_LocalLan}/user/update/photo`, {
-            profilePhotoUrl:
-              'https://res.cloudinary.com/ds4z8idpg/image/upload/v1599777028/nhhdk8vszyf0t3kzlun5.jpg',
+            profilePhotoUrl: cloudImage,
             userId: getUser[0]['id'],
           })
           .then(() => {
@@ -87,6 +86,7 @@ export default function Settings({ navigation }) {
         if (value !== null) {
           googleData = JSON.parse(value);
           googleData = googleData.user;
+          console.log('testing 1 2 3');
           return googleData;
         }
       } catch (error) {
@@ -98,8 +98,9 @@ export default function Settings({ navigation }) {
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleData.id}`)
         .then((response) => {
           userData = response.data[0]['id'];
-          console.log('USER DATA NUMBER', userData);
           setGetUser(response.data);
+          console.log('GET USER', getUser);
+          console.log('RESPONSE DATA', response.data);
         });
     });
   }, []);
