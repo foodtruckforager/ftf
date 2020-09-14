@@ -86,7 +86,6 @@ export default function Settings({ navigation }) {
         if (value !== null) {
           googleData = JSON.parse(value);
           googleData = googleData.user;
-          console.log('testing 1 2 3');
           return googleData;
         }
       } catch (error) {
@@ -99,8 +98,6 @@ export default function Settings({ navigation }) {
         .then((response) => {
           userData = response.data[0]['id'];
           setGetUser(response.data);
-          console.log('GET USER', getUser);
-          console.log('RESPONSE DATA', response.data);
         });
     });
   }, []);
