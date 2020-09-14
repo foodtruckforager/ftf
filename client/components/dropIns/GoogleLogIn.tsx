@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import * as Google from 'expo-google-app-auth';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View, Button, StyleSheet, AsyncStorage, Image, Text,
 } from 'react-native';
@@ -46,8 +47,12 @@ export default function GoogleLogIn({
           googleId: result.user.id,
           profilePhotoUrl: result.user.photoUrl,
         })
-          .then(() => {
-            console.log('user account created');
+          .then((response) => {
+            if (!response.data[1]) {
+              console.log('You have logged in. Welcome Back!');
+            } else {
+              console.log('Account successfully registered');
+            }
           })
           .catch((err) => console.error(err));
 
@@ -71,8 +76,12 @@ export default function GoogleLogIn({
         axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
           googleId: result.user.id,
         })
-          .then(() => {
-            console.log('truck successfully registered');
+          .then((response) => {
+            if (!response.data[1]) {
+              console.log('You have logged in. Welcome Back!');
+            } else {
+              console.log('Truck successfully registered');
+            }
           })
           .catch((err) => console.error(err));
 
@@ -97,7 +106,7 @@ export default function GoogleLogIn({
       <Text style={styles.title}>
         Food Truck Tracker
       </Text>
-      <Image source={require('../../../assets/foodtruckstill256.png')}/>
+      <Image source={require('../../../assets/foodtruckstill256.png')} />
       <View>
         <Button title="Google User Sign In" onPress={userSignIn} />
       </View>

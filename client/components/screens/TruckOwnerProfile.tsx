@@ -23,7 +23,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     const getData = async() => {
       await axios.get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
         .then((response) => {
-          // console.log('response in profile get', response.data);
           setTruckName(response.data.full_name);
           setPhoneNumber(response.data.phone_number);
           setQrCode(response.data.qrCode);
