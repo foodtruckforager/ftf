@@ -15,6 +15,8 @@ import * as ImagePicker from 'expo-image-picker';
 export default function Settings({ navigation }) {
   const [profile, setProfile] = useState(true);
   const [getUser, setGetUser] = useState([]);
+  const [picture, setPicture] = useState('');
+  // const [picture, setPicture] = useState('');
   const onPress = () => {
     setProfile(!profile);
   };
@@ -69,7 +71,7 @@ export default function Settings({ navigation }) {
             userId: getUser[0]['id'],
           })
           .then(() => {
-            // TO DO --> SET NEW STATE AND RENDER NEW PIC
+            setPicture(cloudImage);
           })
           .catch((err) => console.log(err));
       })
@@ -98,6 +100,7 @@ export default function Settings({ navigation }) {
         .then((response) => {
           userData = response.data[0]['id'];
           setGetUser(response.data);
+          setPicture(response.data[0]['profile_photo_url']);
         });
     });
   }, []);
@@ -118,7 +121,7 @@ export default function Settings({ navigation }) {
               <Image
                 style={styles.avatar}
                 source={{
-                  uri: `${user.profile_photo_url}`,
+                  uri: `${picture}`,
                 }}
               />
             </React.Fragment>
@@ -127,6 +130,12 @@ export default function Settings({ navigation }) {
 
         <View style={styles.bodyContent}>
           <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+            <Image
+              style={styles.avatar}
+              source={{
+                uri: `${picture}`,
+              }}
+            />
             <Text style={styles.editProfile}>Edit Profile</Text>
           </TouchableOpacity>
         </View>
@@ -144,7 +153,7 @@ export default function Settings({ navigation }) {
               <Image
                 style={styles.avatar}
                 source={{
-                  uri: `${user.profile_photo_url}`,
+                  uri: `${picture}`,
                 }}
               />
             </React.Fragment>
