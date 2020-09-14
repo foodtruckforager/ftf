@@ -10,12 +10,12 @@ export default function LogIn(props) {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
-  const [cameFromLogOut, setCameFromLogOut] = useState(null);
   const [ownerGoogleId, setOwnerGoogleId] = useState('');
+  const [cameFromLogOut, setCameFromLogout] = useState(null);
 
   useEffect(() => {
     if (Object.keys(props).length) {
-      setCameFromLogOut(props.navigation.state.params.previous_screen);
+      setCameFromLogout('LogOut');
     }
     retrieveData();
     setIsUserLoggedIn(false);
@@ -23,19 +23,32 @@ export default function LogIn(props) {
   }, []);
 
   useEffect(() => {
-    if (cameFromLogOut === 'LogOut') {
+    if (cameFromLogOut) {
       handleLogout();
+      setCameFromLogout(null);
     }
   }, [accessToken]);
 
   const retrieveData = async() => {
     try {
-      let value = await AsyncStorage.getItem('userData');
-      if (value !== null) {
-        value = JSON.parse(value);
-        setAccessToken(value.accessToken);
+      let userValue = await AsyncStorage.getItem('userData');
+      if (userValue !== null) {
+        userValue = JSON.parse(userValue);
+        setAccessToken(userValue.accessToken);
       } else {
         console.log('user token not found');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      let ownerValue = await AsyncStorage.getItem('ownerData');
+      if (ownerValue !== null) {
+        ownerValue = JSON.parse(ownerValue);
+        setAccessToken(ownerValue.accessToken);
+      } else {
+        console.log('owner token not found');
       }
     } catch (error) {
       console.error(error);
@@ -77,7 +90,7 @@ export default function LogIn(props) {
           setAccessToken={setAccessToken}
         />
         ) }
-        { isTruckOwnerLoggedIn && <TruckOwnerRouter ownerGoogleId={ownerGoogleId} /> }
+        { isTruckOwnerLoggedIn && <TruckOwnerRouter googleId={ownerGoogleId} /> }
       </>
     </>
   );
