@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, View, Text, Button,
+  StyleSheet, View, Text, Button, Switch,
 } from 'react-native';
+import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
+  const [isEnabled, setIsEnabled] = useState(false);
   const [truckName, setTruckName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [qrCode, setQrCode] = useState('');
@@ -42,17 +44,33 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getData();
   }, []);
 
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
   return (
     <View>
+      <Switch
+        trackColor={{ false: '767577', true: '#81b0ff' }}
+        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
       <Text>{truckName}</Text>
       <Button title="Edit" onPress={() => navigation.navigate('TruckOwnerProfileEdit')}> Click</Button>
+      <Button
+        title="Logout"
+        onPress={() => {
+          navigation.navigate('LogIn',
+            { previous_screen: 'LogOut' });
+        }}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
