@@ -1,7 +1,12 @@
 import * as Google from 'expo-google-app-auth';
 import React, { useState, useEffect } from 'react';
 import {
-  View, Button, StyleSheet, AsyncStorage, Image, Text,
+  View,
+  Button,
+  StyleSheet,
+  AsyncStorage,
+  Image,
+  Text,
 } from 'react-native';
 import axios from 'axios';
 
@@ -23,12 +28,9 @@ export default function GoogleLogIn({
     scopes: ['profile', 'email'],
   };
 
-  const storeData = async(dataKey, dataValue) => {
+  const storeData = async (dataKey, dataValue) => {
     try {
-      await AsyncStorage.setItem(
-        dataKey,
-        dataValue,
-      );
+      await AsyncStorage.setItem(dataKey, dataValue);
     } catch (error) {
       console.error(error);
     }
@@ -41,11 +43,12 @@ export default function GoogleLogIn({
         storeData('userData', JSON.stringify(result));
         setIsUserLoggedIn(true);
 
-        axios.post(`${process.env.EXPO_LocalLan}/user/new`, {
-          fullName: result.user.name,
-          googleId: result.user.id,
-          profilePhotoUrl: result.user.photoUrl,
-        })
+        axios
+          .post(`${process.env.EXPO_LocalLan}/user/new`, {
+            fullName: result.user.name,
+            googleId: result.user.id,
+            profilePhotoUrl: result.user.photoUrl,
+          })
           .then(() => {
             console.log('user account created');
           })
@@ -68,9 +71,10 @@ export default function GoogleLogIn({
         setIsTruckOwnerLoggedIn(true);
         setOwnerGoogleId(result.user.id);
 
-        axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
-          googleId: result.user.id,
-        })
+        axios
+          .post(`${process.env.EXPO_LocalLan}/truck/register`, {
+            googleId: result.user.id,
+          })
           .then(() => {
             console.log('truck successfully registered');
           })
@@ -94,10 +98,8 @@ export default function GoogleLogIn({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Food Truck Tracker
-      </Text>
-      <Image source={require('../../../assets/foodtruckstill256.png')}/>
+      <Text style={styles.title}>Food Truck Tracker</Text>
+      <Image source={require('../../../assets/foodtruckstill256.png')} />
       <View>
         <Button title="Google User Sign In" onPress={userSignIn} />
       </View>

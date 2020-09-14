@@ -5,6 +5,8 @@ import { Divider, Text } from 'react-native-elements';
 const TruckPostItem = ({ post }) => (
   <View key={post.id} style={styles.container}>
     <Text style={styles.title}>{post.title}</Text>
+    <Text>{`${post.createdAt.substring(0, 10)} | ${post.createdAt.substring(11, 16)}`}</Text>
+
     <Text>{post.message}</Text>
     <Image source={{ uri: post.photo }} style={styles.image} resizeMode="contain" />
     <Divider style={{ backgroundColor: 'blue' }} />

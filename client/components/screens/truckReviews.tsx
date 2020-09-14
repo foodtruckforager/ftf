@@ -17,15 +17,15 @@ export default function TruckReviews({ navigation }) {
     setIsVisible(!isVisible);
   };
 
+  const getTruckReviews = async () => {
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
+      .then((response) => {
+        setCurrentTruckReviews(response.data);
+      })
+      .catch((err) => console.error(err));
+  };
   useEffect(() => {
-    const getTruckReviews = async () => {
-      axios
-        .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
-        .then((response) => {
-          setCurrentTruckReviews(response.data);
-        })
-        .catch((err) => console.error(err));
-    };
     getTruckReviews();
   }, []);
 
@@ -89,6 +89,7 @@ export default function TruckReviews({ navigation }) {
           onBackdropPress={toggleOverlay}
           onReviews={true}
           currentTruck={currentTruck}
+          getTruckReviews={getTruckReviews}
         />
       </View>
     </View>
@@ -100,10 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
   },
-  infoWindow: {
-    flex: 0.2,
-    flexGrow: 10,
-  },
   reviews: {
     flex: 0.4,
     flexGrow: 10,
@@ -111,6 +108,10 @@ const styles = StyleSheet.create({
   modal: {
     flex: 0.1,
     flexGrow: 1.4,
+  },
+  infoWindow: {
+    flex: 0.2,
+    flexGrow: 10,
   },
   infoWindowShell: {
     flex: 4,

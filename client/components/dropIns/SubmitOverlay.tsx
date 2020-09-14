@@ -12,7 +12,10 @@ import axios from 'axios';
 const SubmitOverlay = ({
   onReviews,
   currentTruck,
+  getTruckReviews,
+  getTruckPosts,
 }: {
+  getTruckReviews: any;
   onReviews: boolean;
   currentTruck: object;
 }) => {
@@ -56,15 +59,26 @@ const SubmitOverlay = ({
               upvotes: 0,
             }
           )
-          .then((response) => {
-            console.log(response);
-            console.log('review created! :)');
+          .then(() => {
+            getTruckReviews();
           })
           .catch((err) => console.error(err));
       };
       submitReview();
     } else {
-      // TODO: submitPost
+      const submitPost = async () => {
+        axios
+          .post(`${process.env.EXPO_LocalLan}/truck/truckpost/new/${id}`, {
+            title,
+            message: description,
+            photo,
+          })
+          .then(() => {
+            getTruckPosts();
+          })
+          .catch((err) => console.error(err));
+      };
+      submitPost();
     }
   };
 
@@ -74,8 +88,6 @@ const SubmitOverlay = ({
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
           value = JSON.parse(value);
-          console.log('googleID')
-          console.log(value.user.id)
           setGoogleUserId(value.user.id);
         } else {
           console.log('user id not found');
@@ -92,8 +104,6 @@ const SubmitOverlay = ({
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
-          console.log('THEN:getUserIdWithGoogleUserId')
-          console.log(response.data);
           if (response.data[0] !== undefined) {
             setUserId(response.data[0].id);
           }
@@ -105,7 +115,11 @@ const SubmitOverlay = ({
 
   return (
     <View>
-      <Button title="Write Review" onPress={toggleOverlay} />
+      {onReviews ? (
+        <Button title="Write Review" onPress={toggleOverlay} />
+      ) : (
+        <Button title="Write Post" onPress={toggleOverlay} />
+      )}
       <Overlay
         isVisible={visible}
         onBackdropPress={toggleOverlay}
