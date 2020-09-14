@@ -17,5 +17,5 @@ module.exports = (sequelize, DataTypes) => sequelize.define('posts', {
   },
 }, {
   freezeTableName: true,
-  timestamps: false,
+  timestamps: true,
 });
