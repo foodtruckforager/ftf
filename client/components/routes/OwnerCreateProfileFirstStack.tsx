@@ -7,14 +7,24 @@ import TruckOwnerProfile from '../screens/TruckOwnerProfile';
 
 const Stack = createStackNavigator();
 
-const OwnerCreateProfileFirstStack = () => (
+const OwnerCreateProfileFirstStack = ({ googleId }) => (
   <View style={styles.container}>
+    {googleId && (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="TruckOwnerProfileEdit">
-        <Stack.Screen name="TruckOwnerProfileEdit" component={TruckOwnerProfileEdit} />
-        <Stack.Screen name="TruckOwnerProfile" component={TruckOwnerProfile} />
+        <Stack.Screen
+          name="TruckOwnerProfileEdit"
+          component={TruckOwnerProfileEdit}
+          initialParams={{ googleId }}
+        />
+        <Stack.Screen
+          name="TruckOwnerProfile"
+          component={TruckOwnerProfile}
+          initialParams={{ googleId }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
+    )}
   </View>
 );
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, AsyncStorage,
+  View, StyleSheet, AsyncStorage, Button,
 } from 'react-native';
 import axios from 'axios';
 import TruckOwnerProfileEdit from './TruckOwnerProfileEdit';
 import TruckOwnerProfileFirstStack from '../routes/TruckOwnerProfileFirstStack';
 import OwnerProfileFirstStack from '../routes/OwnerProfileFirstStack';
-import OwnerCreateProfileFirstStack from '../routes/OwnerProfileFirstStack';
+import OwnerCreateProfileFirstStack from '../routes/OwnerCreateProfileFirstStack';
 
 const TruckOwnerRouter = ({ googleId }) => {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
@@ -24,13 +24,14 @@ const TruckOwnerRouter = ({ googleId }) => {
     if (ownerGoogleId !== null) {
       axios.get(`${process.env.EXPO_LocalLan}/truck/login/${ownerGoogleId}`)
         .then((response) => {
-          if (response.data.full_name !== undefined) {
+          if (response.data.full_name !== null) {
+            console.log(response.data)
             setAlreadyRegistered(true);
           } else {
             setAlreadyRegistered(false);
           }
         })
-        .catch((err) => console.error('err in router use effect', err));
+        .catch((err) => console.error(err));
     }
   }, [ownerGoogleId]);
 
@@ -53,14 +54,9 @@ const TruckOwnerRouter = ({ googleId }) => {
       {alreadyRegistered
         ? (
           <OwnerProfileFirstStack googleId={ownerGoogleId} />
-          // <TruckOwnerProfile
-          //   ownerGoogleId={ownerGoogleId}
-          // />
         )
         : (
           <OwnerCreateProfileFirstStack googleId={ownerGoogleId} />
-          //   ownerGoogleId={ownerGoogleId}
-          // />
         )}
     </View>
   );

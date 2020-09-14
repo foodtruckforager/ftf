@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, View, Text, Button, Switch,
 } from 'react-native';
-import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
