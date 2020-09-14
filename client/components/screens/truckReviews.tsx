@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
@@ -62,9 +63,23 @@ export default function TruckReviews({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text> Truck Reviews </Text>
-      <Button title="Go To Details" onPress={pressHandler} />
-      <Button title="Go To Posts" onPress={pressHandlerPost} />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Reviews"
+            buttonStyle={{
+              backgroundColor: 'darkblue',
+            }}
+            onPress={() => {}}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Details" onPress={pressHandler} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Posts" onPress={pressHandlerPost} />
+        </View>
+      </View>
       <View style={styles.infoWindowShell}>
         <InfoWindow
           currentTruck={currentTruck}
@@ -99,11 +114,7 @@ export default function TruckReviews({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-  },
-  infoWindow: {
-    flex: 0.2,
-    flexGrow: 10,
+    padding: 10,
   },
   reviews: {
     flex: 0.4,
@@ -113,10 +124,28 @@ const styles = StyleSheet.create({
     flex: 0.1,
     flexGrow: 1.4,
   },
+  infoWindow: {
+    flex: 0.2,
+    flexGrow: 10,
+  },
   infoWindowShell: {
     flex: 4,
     alignItems: 'center',
     justifyContent: 'flex-start',
     flexDirection: 'column',
+  },
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    paddingHorizontal: 1,
   },
 });
