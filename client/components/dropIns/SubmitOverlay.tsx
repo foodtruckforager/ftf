@@ -13,6 +13,7 @@ const SubmitOverlay = ({
   onReviews,
   currentTruck,
   getTruckReviews,
+  getTruckPosts,
 }: {
   getTruckReviews: any;
   onReviews: boolean;
@@ -58,14 +59,26 @@ const SubmitOverlay = ({
               upvotes: 0,
             }
           )
-          .then((response) => {
+          .then(() => {
             getTruckReviews();
           })
           .catch((err) => console.error(err));
       };
       submitReview();
     } else {
-      // TODO: submitPost
+      const submitPost = async () => {
+        axios
+          .post(`${process.env.EXPO_LocalLan}/truck/truckpost/new/${id}`, {
+            title,
+            message: description,
+            photo,
+          })
+          .then(() => {
+            getTruckPosts();
+          })
+          .catch((err) => console.error(err));
+      };
+      submitPost();
     }
   };
 
@@ -102,7 +115,11 @@ const SubmitOverlay = ({
 
   return (
     <View>
-      <Button title="Write Review" onPress={toggleOverlay} />
+      {onReviews ? (
+        <Button title="Write Review" onPress={toggleOverlay} />
+      ) : (
+        <Button title="Write Post" onPress={toggleOverlay} />
+      )}
       <Overlay
         isVisible={visible}
         onBackdropPress={toggleOverlay}

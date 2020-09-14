@@ -43,5 +43,5 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
   },
 }, {
   freezeTableName: true,
-  timestamps: false,
+  timestamps: true,
 });

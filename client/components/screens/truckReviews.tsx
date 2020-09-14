@@ -101,10 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
   },
-  infoWindow: {
-    flex: 0.2,
-    flexGrow: 10,
-  },
   reviews: {
     flex: 0.4,
     flexGrow: 10,
@@ -112,6 +108,10 @@ const styles = StyleSheet.create({
   modal: {
     flex: 0.1,
     flexGrow: 1.4,
+  },
+  infoWindow: {
+    flex: 0.2,
+    flexGrow: 10,
   },
   infoWindowShell: {
     flex: 4,
