@@ -17,15 +17,15 @@ export default function TruckReviews({ navigation }) {
     setIsVisible(!isVisible);
   };
 
+  const getTruckReviews = async () => {
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
+      .then((response) => {
+        setCurrentTruckReviews(response.data);
+      })
+      .catch((err) => console.error(err));
+  };
   useEffect(() => {
-    const getTruckReviews = async () => {
-      axios
-        .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
-        .then((response) => {
-          setCurrentTruckReviews(response.data);
-        })
-        .catch((err) => console.error(err));
-    };
     getTruckReviews();
   }, []);
 
@@ -89,6 +89,7 @@ export default function TruckReviews({ navigation }) {
           onBackdropPress={toggleOverlay}
           onReviews={true}
           currentTruck={currentTruck}
+          getTruckReviews={getTruckReviews}
         />
       </View>
     </View>

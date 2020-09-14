@@ -2,7 +2,12 @@
 import * as Google from 'expo-google-app-auth';
 import React from 'react';
 import {
-  View, Button, StyleSheet, AsyncStorage, Image, Text,
+  View,
+  Button,
+  StyleSheet,
+  AsyncStorage,
+  Image,
+  Text,
 } from 'react-native';
 import axios from 'axios';
 
@@ -24,12 +29,9 @@ export default function GoogleLogIn({
     scopes: ['profile', 'email'],
   };
 
-  const storeData = async(dataKey, dataValue) => {
+  const storeData = async (dataKey, dataValue) => {
     try {
-      await AsyncStorage.setItem(
-        dataKey,
-        dataValue,
-      );
+      await AsyncStorage.setItem(dataKey, dataValue);
     } catch (error) {
       console.error(error);
     }
@@ -103,9 +105,7 @@ export default function GoogleLogIn({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Food Truck Tracker
-      </Text>
+      <Text style={styles.title}>Food Truck Tracker</Text>
       <Image source={require('../../../assets/foodtruckstill256.png')} />
       <View>
         <Button title="Google User Sign In" onPress={userSignIn} />
