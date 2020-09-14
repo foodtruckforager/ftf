@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import * as Google from 'expo-google-app-auth';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Button,
@@ -43,14 +44,17 @@ export default function GoogleLogIn({
         storeData('userData', JSON.stringify(result));
         setIsUserLoggedIn(true);
 
-        axios
-          .post(`${process.env.EXPO_LocalLan}/user/new`, {
-            fullName: result.user.name,
-            googleId: result.user.id,
-            profilePhotoUrl: result.user.photoUrl,
-          })
-          .then(() => {
-            console.log('user account created');
+        axios.post(`${process.env.EXPO_LocalLan}/user/new`, {
+          fullName: result.user.name,
+          googleId: result.user.id,
+          profilePhotoUrl: result.user.photoUrl,
+        })
+          .then((response) => {
+            if (!response.data[1]) {
+              console.log('You have logged in. Welcome Back!');
+            } else {
+              console.log('Account successfully registered');
+            }
           })
           .catch((err) => console.error(err));
 
@@ -71,12 +75,15 @@ export default function GoogleLogIn({
         setIsTruckOwnerLoggedIn(true);
         setOwnerGoogleId(result.user.id);
 
-        axios
-          .post(`${process.env.EXPO_LocalLan}/truck/register`, {
-            googleId: result.user.id,
-          })
-          .then(() => {
-            console.log('truck successfully registered');
+        axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
+          googleId: result.user.id,
+        })
+          .then((response) => {
+            if (!response.data[1]) {
+              console.log('You have logged in. Welcome Back!');
+            } else {
+              console.log('Truck successfully registered');
+            }
           })
           .catch((err) => console.error(err));
 

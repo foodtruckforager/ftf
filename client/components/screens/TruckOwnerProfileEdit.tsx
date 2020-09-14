@@ -5,10 +5,12 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import TruckOwnerProfile from './TruckOwnerProfile';
+import { NavigationActions } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
 
 const { Form } = t.form;
 
-const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
+const TruckOwnerProfileEdit = ({ navigation, googleId }) => {
   const Owner = t.struct({
     business_name: t.String,
     phone_number: t.maybe(t.String),
@@ -28,7 +30,7 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
   const handleLoginSubmit = async() => {
     const value = this._form.getValue();
 
-    await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${ownerGoogleId}`, {
+    await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${googleId}`, {
       fullName: value.business_name,
       phoneNumber: value.phone_number,
       logo: value.logo,
@@ -41,12 +43,13 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
     })
       .then(() => {
         console.log('truck was created!');
+        navigation.navigate('TruckOwnerProfile');
       })
       .catch((err) => console.error(err));
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.logInPrompt}>Add Your Business Info Below</Text>
       <Form
         type={Owner}
@@ -63,8 +66,8 @@ const TruckOwnerProfileEdit = ({ ownerGoogleId }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
     backgroundColor: '#ffffff',
   },
