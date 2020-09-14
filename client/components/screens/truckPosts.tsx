@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
 import InfoWindow from '../dropIns/InfoWindow';
@@ -54,7 +55,13 @@ export default function TruckPosts({ navigation }) {
           <Button title="Details" onPress={pressHandlerDetails} />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Posts" color="black" onPress={() => {}} />
+          <Button
+            title="Posts"
+            buttonStyle={{
+              backgroundColor: 'darkblue',
+            }}
+            onPress={() => {}}
+          />
         </View>
       </View>
       <View style={styles.infoWindowShell}>
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 24,
+    padding: 10,
   },
   modal: {
     flex: 0.1,
@@ -121,5 +128,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    paddingHorizontal: 1,
   },
 });

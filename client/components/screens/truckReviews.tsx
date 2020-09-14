@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
@@ -64,12 +65,18 @@ export default function TruckReviews({ navigation }) {
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <Button title="Reviews" color="black" onPress={() => {}} />
+          <Button
+            title="Reviews"
+            buttonStyle={{
+              backgroundColor: 'darkblue',
+            }}
+            onPress={() => {}}
+          />
         </View>
-        <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
           <Button title="Details" onPress={pressHandler} />
         </View>
-        <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
           <Button title="Posts" onPress={pressHandlerPost} />
         </View>
       </View>
@@ -107,7 +114,7 @@ export default function TruckReviews({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
+    padding: 10,
   },
   reviews: {
     flex: 0.4,
@@ -139,5 +146,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    paddingHorizontal: 1,
   },
 });

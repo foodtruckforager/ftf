@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, Button } from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Button } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -49,7 +50,13 @@ export default function TruckDetails({ navigation }) {
           <Button title="Reviews" onPress={pressHandler} />
         </View>
         <View style={style.buttonContainer}>
-          <Button title="Details" color="black" onPress={() => {}} />
+          <Button
+            title="Details"
+            buttonStyle={{
+              backgroundColor: 'darkblue',
+            }}
+            onPress={() => {}}
+          />
         </View>
         <View style={style.buttonContainer}>
           <Button title="Posts" onPress={pressHandlerPost} />
@@ -175,5 +182,6 @@ const style = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    paddingHorizontal: 1,
   },
 });
