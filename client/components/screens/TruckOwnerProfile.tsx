@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
   // const [isEnabled, setIsEnabled] = useState(false);
+  const [truckId, setTruckId] = useState(null);
   const [truckName, setTruckName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [qrCode, setQrCode] = useState('');
@@ -27,6 +28,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
           `${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`
         )
         .then((response) => {
+          setTruckId(response.data.id);
           setTruckName(response.data.full_name);
           setPhoneNumber(response.data.phone_number);
           setQrCode(response.data.qrCode);
@@ -48,33 +50,47 @@ const TruckOwnerProfile = ({ navigation, route }) => {
 
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
-    // const updateOpenAndLocation = async () => {
-    //   await axios
-    //     .get(
-    //       `${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`
-    //     )
-    //     .then((response) => {
-
-    //     })
-    //     .catch((err) => console.error(err));
-    // };
-    // updateOpenAndLocation();
+    if (latitude && longitude) {
+      const updateOpenAndLocation = async () => {
+        const updateCoordinates = {
+          latitude,
+          longitude,
+          openStatus,
+        };
+        const updateOpenStatus = { openStatus };
+        // TODO: Check if coordinates have changed or not
+        await axios
+          .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
+            latitude,
+            longitude,
+            openStatus,
+          })
+          .then((response) => {
+            alert(
+              `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`
+            );
+          })
+          .catch((err) => console.error(err));
+      };
+      updateOpenAndLocation();
+    }
   }, [openStatus]);
 
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
 
-  
   return (
     <View>
-      <View style={styles.map}>
-        <LocationSelectionMap
-          latitude={latitude}
-          longitude={longitude}
-          navigation={navigation}
-          setLatitude={setLatitude}
-          setLongitude={setLongitude}
-        />
-      </View>
+      {latitude && longitude && (
+        <View style={styles.map}>
+          <LocationSelectionMap
+            latitude={latitude}
+            longitude={longitude}
+            navigation={navigation}
+            setLatitude={setLatitude}
+            setLongitude={setLongitude}
+          />
+        </View>
+      )}
       <View>
         <Switch
           trackColor={{ false: '767577', true: '#81b0ff' }}

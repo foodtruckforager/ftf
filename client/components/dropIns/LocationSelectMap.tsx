@@ -19,8 +19,8 @@ export default function LocationSelectMap({
   setLongitude,
 }) {
   const [region, setRegion] = useState({
-    latitude: latitude || LATITUDE,
-    longitude: longitude || LONGITUDE,
+    latitude: +latitude, // || LATITUDE,
+    longitude: +longitude, // || LONGITUDE,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });

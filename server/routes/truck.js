@@ -276,6 +276,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
     closeTime,
     latitude,
     longitude,
+    openStatus,
   } = req.body;
 
   Truck.update(
@@ -289,6 +290,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       close_time: closeTime,
       latitude,
       longitude,
+      open_status: openStatus,
     },
     {
       where: {
