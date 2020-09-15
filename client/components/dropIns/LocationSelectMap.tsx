@@ -42,9 +42,9 @@ export default function LocationSelectMap({
               latitude: +latitude,
               longitude: +longitude,
             }}
-            // onDragEnd={(e) => {
-            //   console.log('dragEnd', e.nativeEvent.coordinate);
-            // }}
+            onDragEnd={(e) => {
+              console.log('dragEnd', e.nativeEvent.coordinate);
+            }}
           />
         </View>
       </MapView>
