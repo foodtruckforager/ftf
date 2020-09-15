@@ -14,14 +14,14 @@ const OwnerProfileFirstStack = ({ googleId }) => (
       <NavigationContainer independent="true">
         <Stack.Navigator initialRouteName="TruckOwnerProfile" headerMode="none">
           <Stack.Screen
-            name="Truck Owner Profile"
+            name="TruckOwnerProfile"
             component={TruckOwnerProfile}
             initialParams={{ googleId }}
           />
           <Stack.Screen
             name="TruckOwnerProfileEdit"
             component={TruckOwnerProfileEdit}
-            initialParams={{ googleId }}
+            initialParams={{ googleId, cameFromProfile: true }}
           />
           <Stack.Screen
             name="LogIn"
