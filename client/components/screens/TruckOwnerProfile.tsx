@@ -46,8 +46,24 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getData();
   }, []);
 
+  // TODO: update open status and latitude/longitude in database
+  useEffect(() => {
+    // const updateOpenAndLocation = async () => {
+    //   await axios
+    //     .get(
+    //       `${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`
+    //     )
+    //     .then((response) => {
+
+    //     })
+    //     .catch((err) => console.error(err));
+    // };
+    // updateOpenAndLocation();
+  }, [openStatus]);
+
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
 
+  
   return (
     <View>
       <View style={styles.map}>

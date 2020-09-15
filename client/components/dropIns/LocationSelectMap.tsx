@@ -24,7 +24,6 @@ export default function LocationSelectMap({
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
-  alert(latitude);
   return (
     <View style={styles.container}>
       <MapView
@@ -42,8 +41,11 @@ export default function LocationSelectMap({
               latitude: +latitude,
               longitude: +longitude,
             }}
-            onDragEnd={(e) => {
-              console.log('dragEnd', e.nativeEvent.coordinate);
+            onDragEnd={(event) => {
+              const { nativeEvent } = event;
+              const { coordinate } = nativeEvent;
+              setLatitude(coordinate.latitude);
+              setLongitude(coordinate.longitude);
             }}
           />
         </View>
