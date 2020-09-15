@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
+  // const [isEnabled, setIsEnabled] = useState(false);
   const [truckName, setTruckName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [qrCode, setQrCode] = useState('');
@@ -16,7 +16,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const [numberOfReview, setNumberOfReviews] = useState(null);
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
-  const [openStatus, setOpenStatus] = useState(null);
+  const [openStatus, setOpenStatus] = useState(false);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
 
@@ -38,24 +38,24 @@ const TruckOwnerProfile = ({ navigation, route }) => {
           setLatitude(response.data.latitude);
           setLongitude(response.data.longitude);
         })
-        .catch((err) => console.error('error in profile catch', err));
+        .catch((err) => console.error(err));
     };
     getData();
   }, []);
 
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
 
   return (
     <View>
       <Switch
         trackColor={{ false: '767577', true: '#81b0ff' }}
-        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+        thumbColor={openStatus ? '#f5dd4b' : '#f4f3f4'}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
-        value={isEnabled}
+        value={openStatus}
       />
       <Text>{truckName}</Text>
-      <Button title="Edit" onPress={() => navigation.navigate('TruckOwnerProfileEdit')}> Click</Button>
+      <Button title="Edit" onPress={() => navigation.navigate('TruckOwnerProfileEdit')} />
       <Button
         title="Logout"
         onPress={() => {
