@@ -87,19 +87,44 @@ export default function TruckDetails({ navigation }) {
     };
     if (userId) {
       retrieveCurrentUserFavorites();
+      const createUserFavorite = async () => {
+        axios
+          .put(
+            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
+          )
+          .then((response) => {
+            console.log('updateUserFavorite:');
+            console.log(response);
+          })
+          .catch((err) => console.error(err));
+      }
+      createUserFavorite();
     }
   }, [userId]);
 
   const toggleFavorite = () => {
     setFavorite(!favorite);
-    // updateFavorite(id, user.id, favorite)
-    //   .then((response) => {
-    //     setFavorite((prev) => !prev);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   };
+
+  useEffect(() => {
+    const updateUserFavorite = async () => {
+      const favoriteRemove = favorite ? `favorite` : `remove`;
+      console.log(`${favoriteRemove} route:`)
+      console.log(`${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`);
+      axios
+        .put(
+          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
+        )
+        .then((response) => {
+          console.log('updateUserFavorite:');
+          console.log(response);
+        })
+        .catch((err) => console.error(err));
+    };
+    if (userId) {
+      updateUserFavorite();
+    }
+  }, [favorite]);
 
   const pressHandler = () => {
     navigation.navigate(`TruckReviews`, {
