@@ -42,7 +42,6 @@ export default function TruckDetails({ navigation }) {
         if (value !== null) {
           value = JSON.parse(value);
           setGoogleUserId(value.user.id);
-          console.log('retrieveCurrentUserId', value.user.id);
         } else {
           console.log('user id not found');
         }
@@ -58,7 +57,6 @@ export default function TruckDetails({ navigation }) {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
-          console.log('getUserIdWithGoogleUserId:');
           if (response.data[0] !== undefined) {
             setUserId(response.data[0].id);
           }
@@ -73,8 +71,6 @@ export default function TruckDetails({ navigation }) {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
-          console.log('retrieveCurrentUserFavorites:');
-          console.log(response.data);
           const { data } = response;
           const { length } = data;
           if (length) {
@@ -89,15 +85,15 @@ export default function TruckDetails({ navigation }) {
       retrieveCurrentUserFavorites();
       const createUserFavorite = async () => {
         axios
-          .put(
+          .post(
             `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
           )
-          .then((response) => {
-            console.log('updateUserFavorite:');
-            console.log(response);
+          .then(() => {
           })
-          .catch((err) => console.error(err));
-      }
+          .catch((err) => {
+            console.log(err);
+          });
+      };
       createUserFavorite();
     }
   }, [userId]);
@@ -109,15 +105,12 @@ export default function TruckDetails({ navigation }) {
   useEffect(() => {
     const updateUserFavorite = async () => {
       const favoriteRemove = favorite ? `favorite` : `remove`;
-      console.log(`${favoriteRemove} route:`)
-      console.log(`${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`);
       axios
         .put(
           `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
         )
         .then((response) => {
-          console.log('updateUserFavorite:');
-          console.log(response);
+          console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
         })
         .catch((err) => console.error(err));
     };
