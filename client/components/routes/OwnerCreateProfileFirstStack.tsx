@@ -16,12 +16,12 @@ const OwnerCreateProfileFirstStack = ({ googleId }) => (
         <Stack.Screen
           name="TruckOwnerProfileEdit"
           component={TruckOwnerProfileEdit}
-          initialParams={{ googleId }}
+          initialParams={{ googleId, cameFromRouter: true }}
         />
         <Stack.Screen
           name="TruckOwnerProfile"
           component={TruckOwnerProfile}
-          initialParams={{ googleId }}
+          initialParams={{ googleId, cameFromRouter: true }}
         />
         <Stack.Screen
           name="LogIn"

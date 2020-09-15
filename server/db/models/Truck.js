@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('trucks', {
   },
   open_status: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   latitude: {
     type: DataTypes.DECIMAL(10, 8),
