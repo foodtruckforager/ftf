@@ -4,24 +4,21 @@ import {
   StyleSheet, View, Text, Button, SafeAreaView, ScrollView,
 } from 'react-native';
 import axios from 'axios';
-import { NavigationActions } from 'react-navigation';
-import { NavigationContainer } from '@react-navigation/native';
 import Constants from 'expo-constants';
-import TruckOwnerProfile from './TruckOwnerProfile';
 
 const { Form } = t.form;
 
 const TruckOwnerProfileEdit = ({ navigation, route }) => {
   const [cameFromProfile, setCameFromProfile] = useState(false);
-  const [cameFromRouter, setCameFromRouter] = useState(false);
+  const [cameFromCreate, setCameFromCreate] = useState(false);
   useEffect(() => {
     if (route.params.cameFromProfile) {
       setCameFromProfile(true);
     }
-    if (route.params.cameFromRouter) {
-      setCameFromRouter(true);
+    if (route.params.cameFromCreate) {
+      setCameFromCreate(true);
     }
-    console.log(route.params);
+    console.log('edit page params', route.params);
   }, []);
 
   const Owner = t.struct({
@@ -63,7 +60,7 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        { cameFromRouter && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
+        { cameFromCreate && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
         { cameFromProfile && <Text style={styles.logInPrompt}>Update Your Info Below</Text> }
         <Form
           type={Owner}
