@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -25,12 +26,41 @@ export default function TruckDetails({ navigation }) {
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.0922;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
+  const [favorite, setFavorite] = useState(false);
   const region = {
     latitude: +latitude,
     longitude: +longitude,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
+  };
+
+  // useEffect(() => {
+  //   const retrieveCurrentUserId = async () => {
+  //     try {
+  //       let value = await AsyncStorage.getItem('userData');
+  //       if (value !== null) {
+  //         value = JSON.parse(value);
+  //         // setGoogleUserId(value.user.id);
+  //       } else {
+  //         console.log('user id not found');
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   retrieveCurrentUserId();
+  // }, []);2
+  const toggleFavorite = () => {
+    
+    setFavorite(!favorite)
+    alert(favorite);
+    // updateFavorite(id, user.id, favorite)
+    //   .then((response) => {
+    //     setFavorite((prev) => !prev);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   };
 
   const pressHandler = () => {
@@ -69,6 +99,25 @@ export default function TruckDetails({ navigation }) {
           onDetails={onDetails}
           style={style.infoWindow}
         />
+        <View style={style.favorite}>
+          {favorite ? (
+            <Icon
+              raised
+              name="heart"
+              type="font-awesome"
+              color="gray"
+              onPress={toggleFavorite}
+            />
+          ) : (
+            <Icon
+              raised
+              name="heart"
+              type="font-awesome"
+              color="#f50"
+              onPress={toggleFavorite}
+            />
+          )}
+        </View>
       </View>
       <View style={style.buffer} />
       <View style={style.map}>
@@ -134,6 +183,11 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     // backgroundColor: 'red'
+  },
+  favorite: {
+    width: 270,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   infoWindow: {
     flex: 1,
