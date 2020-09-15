@@ -8,7 +8,6 @@ import LocationSelectionMap from '../dropIns/LocationSelectMap';
 import Constants from 'expo-constants';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
-  // const [isEnabled, setIsEnabled] = useState(false);
   const [truckId, setTruckId] = useState(null);
   const [truckName, setTruckName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
