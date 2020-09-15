@@ -48,24 +48,16 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getData();
   }, []);
 
-  // TODO: update open status and latitude/longitude in database
   useEffect(() => {
     if (latitude && longitude) {
       const updateOpenAndLocation = async () => {
-        const updateCoordinates = {
-          latitude,
-          longitude,
-          openStatus,
-        };
-        const updateOpenStatus = { openStatus };
-        // TODO: Check if coordinates have changed or not
         await axios
           .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
             latitude,
             longitude,
             openStatus,
           })
-          .then((response) => {
+          .then(() => {
             alert(
               `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`
             );
@@ -74,7 +66,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
       };
       updateOpenAndLocation();
     }
-  }, [openStatus]);
+  }, [openStatus, latitude, longitude]);
 
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
 
