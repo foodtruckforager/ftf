@@ -81,6 +81,7 @@ export default function TruckPosts({ navigation }) {
           />
         ))}
       </View>
+      {/* MOVE TO TRUCK OWNER PROFILE PAGE */}
       <View style={styles.modal}>
         <SubmitOverlay
           isVisible={isVisible}
