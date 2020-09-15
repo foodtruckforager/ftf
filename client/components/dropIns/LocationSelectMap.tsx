@@ -37,14 +37,14 @@ export default function LocationSelectMap({
       >
         <View>
           <Marker
+            draggable
             coordinate={{
               latitude: +latitude,
               longitude: +longitude,
             }}
-            draggable={true}
-            onDragEnd={(e) => {
-              console.log('dragEnd', e.nativeEvent.coordinate);
-            }}
+            // onDragEnd={(e) => {
+            //   console.log('dragEnd', e.nativeEvent.coordinate);
+            // }}
           />
         </View>
       </MapView>

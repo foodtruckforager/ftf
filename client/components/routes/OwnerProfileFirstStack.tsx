@@ -21,7 +21,7 @@ const OwnerProfileFirstStack = ({ googleId }) => (
           <Stack.Screen
             name="TruckOwnerProfileEdit"
             component={TruckOwnerProfileEdit}
-            initialParams={{ googleId }}
+            initialParams={{ googleId, cameFromProfile: true }}
           />
           <Stack.Screen
             name="LogIn"
