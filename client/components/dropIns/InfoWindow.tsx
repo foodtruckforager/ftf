@@ -95,7 +95,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                     5 - Math.floor(star_average)
                   )}
                 </Text>
-                <Text>{number_of_reviews} Reviews</Text>
+                {/* <Text>{number_of_reviews} Reviews</Text> */}
               </View>
             </View>
             <View>

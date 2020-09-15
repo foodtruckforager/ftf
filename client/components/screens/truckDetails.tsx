@@ -9,6 +9,9 @@ import foodIcons from '../../../assets/mapIcons.js';
 export default function TruckDetails({ navigation }) {
   const currentTruck = navigation.state.params.params.currentTruck;
   const onDetails = navigation.state.params.params.onDetails || false;
+  const [favorite, setFavorite] = useState(false);
+  const [googleUserId, setGoogleUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const {
     full_name,
     blurb,
@@ -26,34 +29,69 @@ export default function TruckDetails({ navigation }) {
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.0922;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-  const [favorite, setFavorite] = useState(false);
   const region = {
     latitude: +latitude,
     longitude: +longitude,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   };
+  useEffect(() => {
+    const retrieveCurrentUserId = async () => {
+      try {
+        let value = await AsyncStorage.getItem('userData');
+        if (value !== null) {
+          value = JSON.parse(value);
+          setGoogleUserId(value.user.id);
+          console.log('retrieveCurrentUserId', value.user.id);
+        } else {
+          console.log('user id not found');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    retrieveCurrentUserId();
+  }, []);
 
-  // useEffect(() => {
-  //   const retrieveCurrentUserId = async () => {
-  //     try {
-  //       let value = await AsyncStorage.getItem('userData');
-  //       if (value !== null) {
-  //         value = JSON.parse(value);
-  //         // setGoogleUserId(value.user.id);
-  //       } else {
-  //         console.log('user id not found');
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   retrieveCurrentUserId();
-  // }, []);2
+  useEffect(() => {
+    const getUserIdWithGoogleUserId = async () => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
+        .then((response) => {
+          console.log('getUserIdWithGoogleUserId:');
+          if (response.data[0] !== undefined) {
+            setUserId(response.data[0].id);
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    getUserIdWithGoogleUserId();
+  }, [googleUserId]);
+
+  useEffect(() => {
+    const retrieveCurrentUserFavorites = async () => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
+        .then((response) => {
+          console.log('retrieveCurrentUserFavorites:');
+          console.log(response.data);
+          const { data } = response;
+          const { length } = data;
+          if (length) {
+            if (data.id !== undefined) {
+              setFavorite(data.id);
+            }
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    if (userId) {
+      retrieveCurrentUserFavorites();
+    }
+  }, [userId]);
+
   const toggleFavorite = () => {
-    
-    setFavorite(!favorite)
-    alert(favorite);
+    setFavorite(!favorite);
     // updateFavorite(id, user.id, favorite)
     //   .then((response) => {
     //     setFavorite((prev) => !prev);
@@ -105,7 +143,7 @@ export default function TruckDetails({ navigation }) {
               raised
               name="heart"
               type="font-awesome"
-              color="gray"
+              color="#f50"
               onPress={toggleFavorite}
             />
           ) : (
@@ -113,7 +151,7 @@ export default function TruckDetails({ navigation }) {
               raised
               name="heart"
               type="font-awesome"
-              color="#f50"
+              color="gray"
               onPress={toggleFavorite}
             />
           )}
