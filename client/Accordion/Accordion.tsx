@@ -51,29 +51,14 @@ export default () => {
         .then((response) => {
           const { data } = response;
           const { length } = data;
-          console.log('top of axios call retrieveCurrentUserFavorites');
-          console.log(data);
           if (length) {
             if (data !== undefined) {
-              console.log('data before map');
-              console.log(data);
-              // let favorites = data.map((savedFavorite: Object) => {
-              //   return {
-              //     name: savedFavorite.name,
-              //     points: savedFavorite.food_genre,
-              //   };
-              // });
-              // console.log(favorites);
               const filteredFavorites = data.map((savedFavorite: Object) => {
-                console.log('savedFavorite');
-                console.log(savedFavorite);
                 return {
                   name: savedFavorite.truck.full_name,
                   points: savedFavorite.truck.food_genre,
                 };
               });
-              console.log('setFavorite');
-              console.log(filteredFavorites);
               setFavorite(filteredFavorites);
             }
           }
