@@ -75,6 +75,10 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
                   {`${truncate(full_name, 28, '')}`}
                 </Text>
+                <Text style={{ color: 'lightgrey' }}>
+                  {String.fromCharCode(9733).repeat(
+                    5 - Math.floor(star_average),
+                  )}
                 {/* <Icon name="phone" size={30} color="#900" /> */}
                 <TouchableOpacity onPress={makeCall}>
                   <Text>

@@ -18,12 +18,11 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
     if (route.params.cameFromCreate) {
       setCameFromCreate(true);
     }
-    console.log('edit page params', route.params);
   }, []);
 
   const Owner = t.struct({
     business_name: t.String,
-    phone_number: t.maybe(t.String),
+    phone_number: t.maybe(t.Number),
     logo: t.maybe(t.String),
     food_genre: t.String,
     blurb: t.maybe(t.String),
@@ -41,7 +40,7 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
     const value = this._form.getValue();
     await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
       fullName: value.business_name,
-      phoneNumber: value.phone_number,
+      phoneNumber: value.phone_number.toString(),
       logo: value.logo,
       foodGenre: value.food_genre,
       blurb: value.blurb,
