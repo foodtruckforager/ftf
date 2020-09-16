@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const {
-  User, Truck, Review, Post,
+  User, Truck, Review, Post, Visit,
 } = require('../db/db');
 
 function doStuffWithUserModel() {
@@ -568,6 +568,17 @@ function doStuffWithUserModel() {
   })
     .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
     .catch((err) => console.error(`❌${err}`));
+
+  Visit.findOrCreate({
+    where: {
+      id_user: 1,
+      id_truck: 1,
+    },
+  })
+    .then((visit) => {
+      console.log(visit);
+    })
+    .catch((err) => console.log(err));
 }
 
 doStuffWithUserModel();

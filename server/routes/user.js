@@ -251,6 +251,12 @@ userRouter.put('/update/:userId', (req, res) => {
     });
 });
 
+// add truck visits for specific user
+userRouter.put('/update/visits/:userId/:truckId', (req, res) => {
+  console.log(req.params);
+  res.send(req.params);
+});
+
 // TODO: add functionality to require badge // incorporate QR code
 userRouter.put('/update/badge/:userId', (req, res) => {
   const { userId } = req.params;
