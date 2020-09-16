@@ -15,6 +15,11 @@ export default () => {
   const [favorite, setFavorite] = useState([]);
   const [googleUserId, setGoogleUserId] = useState(null);
   const [userId, setUserId] = useState(0);
+  const [visits, setVisits] = useState([]);
+  const [badgeTheRegular, setBadgeTheRegular] = useState(false);
+  const [badgeFeastMode, setBadgeFeastMode] = useState(false);
+  const [badgeBerserkMode, setBadgeBerserkMode] = useState(false);
+  const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
 
   useEffect(() => {
     const retrieveCurrentUserId = async() => {
@@ -68,6 +73,28 @@ export default () => {
     };
     retrieveCurrentUserFavorites();
   }, [userId]);
+
+  useEffect(() => {
+    axios.get(`${process.env.EXPO_LocalLan}/user/get/visits/${userId}`)
+      .then((response) => {
+        setVisits(response.data);
+      })
+      .catch((err) => console.error(err));
+  }, [userId]);
+
+  useEffect(() => {
+    if (visits) {
+      if (visits.length > 2) {
+        setBadgeFeastMode(true);
+      }
+      if ([...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3) {
+        setBadgeAroundTheWorld(true);
+      }
+      // TODO: Five same truck ids in seven days (theRegular)
+      // TODO: 3 different truck ids in one day (berserker)
+    }
+  }, [visits]);
+
   const favoriteTrucks: ListModelFavoriteTruck = {
     name: 'User Profile Demo',
     items: favorite || [

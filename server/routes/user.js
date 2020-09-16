@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const {
-  Review, User, Upvote, Favorite, Truck,
+  Review, User, Upvote, Favorite, Truck, Visit,
 } = require('../db/db');
 
 const userRouter = Router();
@@ -81,9 +81,20 @@ userRouter.get('/favorites/:userId', (req, res) => {
     });
 });
 
-// update user's favorite trucks
-// id | id_user | id_truck | favorite
-
+// get all user's visits for badge status
+userRouter.get('/get/visits/:userId', (req, res) => {
+  const { userId } = req.params;
+  Visit.findAll({
+    where: {
+      id_user: userId,
+    },
+  })
+    .then((allVisits) => {
+      console.log(allVisits);
+      res.send(allVisits);
+    })
+    .catch((err) => console.err(err));
+});
 // create a new user
 userRouter.post('/new', (req, res) => {
   const { fullName, googleId, profilePhotoUrl } = req.body;
@@ -253,11 +264,22 @@ userRouter.put('/update/:userId', (req, res) => {
 
 // add truck visits for specific user
 userRouter.put('/update/visits/:userId/:truckId', (req, res) => {
-  console.log(req.params);
-  res.send(req.params);
+  const { userId, truckId } = req.params;
+  Visit.create({
+    id_user: userId,
+    id_truck: truckId,
+  })
+    .then((visitEntered) => {
+      console.log(visitEntered);
+      res.status(201).send('visit was recorded');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
 });
 
-// TODO: add functionality to require badge // incorporate QR code
+// route to update badges
 userRouter.put('/update/badge/:userId', (req, res) => {
   const { userId } = req.params;
   const { body } = req;
