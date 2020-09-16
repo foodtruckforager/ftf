@@ -16,12 +16,12 @@ const RootDrawerNavigator = createDrawerNavigator({
   Tracker: {
     screen: TrackerStack,
   },
-  Search: {
-    screen: Search,
-  },
-  Settings: {
-    screen: Settings,
-  },
+  // Search: {
+  //   screen: Search,
+  // },
+  // Settings: {
+  //   screen: Settings,
+  // },
   Profile: {
     screen: Accordion,
   },
@@ -31,9 +31,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   GenerateQRCode: {
     screen: GenerateQRCode,
   },
-  ImageUpload: {
-    screen: ImageUpload,
-  },
+  // ImageUpload: {
+  //   screen: ImageUpload,
+  // },
   LogOut: {
     screen: LogIn,
     params: { previous_screen: 'LogOut' },
