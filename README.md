@@ -1,6 +1,4 @@
-![🚚](https://github.com/Grouping-Operators/Food-Truck-Tracker/blob/master/assets/foodtruckstill.png)
-
-# Food-Truck-Tracker
+# 🚚 Food-Truck-Tracker
 
 Application for live tracking food trucks
 
