@@ -64,6 +64,7 @@ userRouter.get('/favorites/:userId', (req, res) => {
   Favorite.findAll({
     where: {
       id_user: userId,
+      favorite: true,
     },
     include: [
       {
