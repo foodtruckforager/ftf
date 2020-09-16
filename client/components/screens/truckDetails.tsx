@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -8,6 +9,9 @@ import foodIcons from '../../../assets/mapIcons.js';
 export default function TruckDetails({ navigation }) {
   const currentTruck = navigation.state.params.params.currentTruck;
   const onDetails = navigation.state.params.params.onDetails || false;
+  const [favorite, setFavorite] = useState(false);
+  const [googleUserId, setGoogleUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const {
     full_name,
     blurb,
@@ -25,13 +29,95 @@ export default function TruckDetails({ navigation }) {
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.0922;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
   const region = {
     latitude: +latitude,
     longitude: +longitude,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   };
+  useEffect(() => {
+    const retrieveCurrentUserId = async () => {
+      try {
+        let value = await AsyncStorage.getItem('userData');
+        if (value !== null) {
+          value = JSON.parse(value);
+          setGoogleUserId(value.user.id);
+        } else {
+          console.log('user id not found');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    retrieveCurrentUserId();
+  }, []);
+
+  useEffect(() => {
+    const getUserIdWithGoogleUserId = async () => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
+        .then((response) => {
+          if (response.data[0] !== undefined) {
+            setUserId(response.data[0].id);
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    getUserIdWithGoogleUserId();
+  }, [googleUserId]);
+
+  useEffect(() => {
+    const retrieveCurrentUserFavorites = async () => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
+        .then((response) => {
+          const { data } = response;
+          const { length } = data;
+          if (length) {
+            if (data.id !== undefined) {
+              setFavorite(data.id);
+            }
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    if (userId) {
+      retrieveCurrentUserFavorites();
+      const createUserFavorite = async () => {
+        axios
+          .post(
+            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
+          )
+          .then(() => {
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      createUserFavorite();
+    }
+  }, [userId]);
+
+  const toggleFavorite = () => {
+    setFavorite(!favorite);
+  };
+
+  useEffect(() => {
+    const updateUserFavorite = async () => {
+      const favoriteRemove = favorite ? `favorite` : `remove`;
+      axios
+        .put(
+          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
+        )
+        .then((response) => {
+          console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
+        })
+        .catch((err) => console.error(err));
+    };
+    if (userId) {
+      updateUserFavorite();
+    }
+  }, [favorite]);
 
   const pressHandler = () => {
     navigation.navigate(`TruckReviews`, {
@@ -69,6 +155,25 @@ export default function TruckDetails({ navigation }) {
           onDetails={onDetails}
           style={style.infoWindow}
         />
+        <View style={style.favorite}>
+          {favorite ? (
+            <Icon
+              raised
+              name="heart"
+              type="font-awesome"
+              color="#f50"
+              onPress={toggleFavorite}
+            />
+          ) : (
+            <Icon
+              raised
+              name="heart"
+              type="font-awesome"
+              color="gray"
+              onPress={toggleFavorite}
+            />
+          )}
+        </View>
       </View>
       <View style={style.buffer} />
       <View style={style.map}>
@@ -134,6 +239,11 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     // backgroundColor: 'red'
+  },
+  favorite: {
+    width: 270,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   infoWindow: {
     flex: 1,
