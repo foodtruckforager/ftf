@@ -64,6 +64,7 @@ userRouter.get('/favorites/:userId', (req, res) => {
   Favorite.findAll({
     where: {
       id_user: userId,
+      favorite: true,
     },
     include: [
       {
@@ -73,14 +74,15 @@ userRouter.get('/favorites/:userId', (req, res) => {
     ],
   })
     .then((favoriteTrucks) => {
-      // console.log(favoriteTrucks);
       res.send(favoriteTrucks);
     })
     .catch((err) => {
-      // console.log(err);
       res.status(500).send(err);
     });
 });
+
+// update user's favorite trucks
+// id | id_user | id_truck | favorite
 
 // create a new user
 userRouter.post('/new', (req, res) => {
@@ -136,14 +138,16 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
     });
 });
 
-// update route to add/ a user's favorite truck
+// create user truck favorite creation on load
 userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
   const { userId, truckId } = req.params;
   Favorite.findOrCreate({
     where: {
       id_user: userId,
       id_truck: truckId,
-      favorite: true,
+    },
+    defaults: {
+      favorite: false,
     },
   })
     .then((newFavorited) => {
@@ -155,59 +159,29 @@ userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
     });
 });
 
-// route to update user photo
-userRouter.post('/update/photo', (req, res) => {
-  // const { userId } = req.params;
-
-  const { profilePhotoUrl, userId } = req.body;
-  console.log('PHOTO URL', req.body);
-  User.update(
+// update route to favorite a user's favorite truck
+userRouter.put('/update/favoritetruck/favorite/:userId/:truckId', (req, res) => {
+  const { userId, truckId } = req.params;
+  Favorite.update(
     {
-      profile_photo_url: profilePhotoUrl,
+      favorite: true,
     },
     {
       where: {
-        id: userId,
+        id_user: userId,
+        id_truck: truckId,
       },
     },
   )
     .then(() => {
-      // console.log('HELLOOOOOOOOOOOOOOOOO', req);
-      res.status(201).send('successfully uploaded photo');
+      res.status(201).send('favorite was added');
     })
     .catch((err) => {
-      console.error(err);
       res.status(500).send(err);
     });
 });
 
-// route to update user
-userRouter.put('/update/:userId', (req, res) => {
-  const { userId } = req.params;
-
-  const { fullName, profilePhotoUrl } = req.body;
-
-  User.update(
-    {
-      id_user: userId,
-      full_name: fullName,
-      profile_photo_url: profilePhotoUrl,
-    },
-    {
-      where: {
-        id: userId,
-      },
-    },
-  )
-    .then(() => {
-      res.status(201).send('successfully updated user');
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send(err);
-    });
-});
-
+// update route to remove/ a user's favorite truck
 userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
   const { userId, truckId } = req.params;
   Favorite.update(
@@ -225,6 +199,54 @@ userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
       res.status(201).send('favorite was removed');
     })
     .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
+// route to update user photo
+userRouter.post('/update/photo', (req, res) => {
+  const { profilePhotoUrl, userId } = req.body;
+  console.log('PHOTO URL', req.body);
+  User.update(
+    {
+      profile_photo_url: profilePhotoUrl,
+    },
+    {
+      where: {
+        id: userId,
+      },
+    },
+  )
+    .then(() => {
+      res.status(201).send('successfully uploaded photo');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
+// route to update user
+userRouter.put('/update/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { fullName, profilePhotoUrl } = req.body;
+  User.update(
+    {
+      id_user: userId,
+      full_name: fullName,
+      profile_photo_url: profilePhotoUrl,
+    },
+    {
+      where: {
+        id: userId,
+      },
+    },
+  )
+    .then(() => {
+      res.status(201).send('successfully updated user');
+    })
+    .catch((err) => {
+      console.error(err);
       res.status(500).send(err);
     });
 });

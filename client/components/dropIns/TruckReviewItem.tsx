@@ -38,7 +38,7 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
           <Text style={{ color: 'lightgrey' }}>
             {String.fromCharCode(9733).repeat(5 - Math.floor(review_star))}
           </Text>
-      <Text>{`                                 ${createdAt.substring(0, 10)} | ${createdAt.substring(14, 19)}`}</Text>
+      <Text>{`${createdAt.substring(0, 10)} | ${createdAt.substring(14, 19)}`}</Text>
         </View>
       </View>
       <Text>{review_description}</Text>
