@@ -10,9 +10,11 @@ import { Dropdown } from 'react-native-material-dropdown';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import LocationSelectionMap from '../dropIns/LocationSelectMap';
+import SubmitOverlay from '../dropIns/SubmitOverlay';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
   const [truckId, setTruckId] = useState(null);
+  const [currentTruck, setCurrentTruck] = useState({});
   const [truckName, setTruckName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [qrCode, setQrCode] = useState('');
@@ -27,12 +29,32 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [cameFromProfileEdit, setCameFromProfileEdit] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
 
   const isFocused = useIsFocused();
+
+  const toggleOverlay = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const getTruckPosts = async() => {
+    axios
+      .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
+      .then((response) => {
+        setCurrentTruckPosts(response.data);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getTruckPosts();
+  }, []);
 
   const getData = async() => {
     await axios.get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
       .then((response) => {
+        setCurrentTruck(response.data);
         setTruckName(response.data.full_name);
         setTruckId(response.data.id);
         setPhoneNumber(response.data.phone_number);
@@ -58,6 +80,10 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   useEffect(() => {
     getData();
   }, [isFocused]);
+
+  useEffect(() => {
+    console.log(currentTruck);
+  }, [currentTruck]);
 
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
@@ -146,6 +172,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 data={[{ value: blurb }]}
               />
               <Card.Image source={{ uri: logo }} />
+              <Card.Divider />
               <Button
                 title="Edit"
                 onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
@@ -154,16 +181,26 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
                 }}
               />
+              <Card.Divider />
+              <View style={styles.modal}>
+                <SubmitOverlay
+                  isVisible={isVisible}
+                  onBackdropPress={toggleOverlay}
+                  currentTruck={currentTruck}
+                  getTruckPosts={getTruckPosts}
+                />
+              </View>
+              <Card.Divider />
+              <Button
+                title="Logout"
+                onPress={() => {
+                  navigation.navigate('LogIn', { previous_screen: 'LogOut' });
+                }}
+                buttonStyle={{
+                  borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
+                }}
+              />
             </Card>
-            <Button
-              title="Logout"
-              onPress={() => {
-                navigation.navigate('LogIn', { previous_screen: 'LogOut' });
-              }}
-              buttonStyle={{
-                borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
-              }}
-            />
           </View>
         </View>
       </ScrollView>
@@ -193,6 +230,10 @@ const styles = StyleSheet.create({
   },
   stars: {
     flexDirection: 'row',
+  },
+  modal: {
+    flex: 0.1,
+    flexGrow: 1.4,
   },
 });
 
