@@ -8,9 +8,11 @@ import {
   Linking,
   Platform,
 } from 'react-native';
-import Thumbnail from './Thumbnail';
-import { Avatar, Badge, Icon, withBadge, Image } from 'react-native-elements';
+import {
+  Avatar, Badge, Icon, withBadge, Image,
+} from 'react-native-elements';
 import { Callout } from 'react-native-maps';
+import Thumbnail from './Thumbnail';
 
 export default function InfoWindow({ currentTruck, navigation, onDetails }) {
   if (currentTruck) {
@@ -61,8 +63,10 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
         style={onDetails ? styles.customView : styles.customDetailsView}
         onPress={() => {
           const { id } = currentTruck;
-          navigation.navigate(`TruckDetails`, {
-            params: { currentTruck, id, navigation, onDetails: true },
+          navigation.navigate('TruckDetails', {
+            params: {
+              currentTruck, id, navigation, onDetails: true,
+            },
           });
         }}
       >
@@ -75,10 +79,6 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
                   {`${truncate(full_name, 28, '')}`}
                 </Text>
-                <Text style={{ color: 'lightgrey' }}>
-                  {String.fromCharCode(9733).repeat(
-                    5 - Math.floor(star_average),
-                  )}
                 {/* <Icon name="phone" size={30} color="#900" /> */}
                 <TouchableOpacity onPress={makeCall}>
                   <Text>
@@ -87,8 +87,8 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                   </Text>
                 </TouchableOpacity>
                 <Text>
-                  {food_genre.charAt(0).toUpperCase() || ''}
-                  {food_genre.slice(1) || ''}
+                  {food_genre.charAt(0).toUpperCase()}
+                  {food_genre.slice(1)}
                 </Text>
                 <View style={styles.stars}>
                   <Text style={{ color: 'orange' }}>
@@ -96,7 +96,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                   </Text>
                   <Text style={{ color: 'lightgrey' }}>
                     {String.fromCharCode(9733).repeat(
-                      5 - Math.floor(star_average)
+                      5 - Math.floor(star_average),
                     )}
                   </Text>
                   {/* <Text>{number_of_reviews} Reviews</Text> */}
@@ -107,11 +107,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
               </View>
             </View>
           </View>
-          <Text style={styles.blurb}>{`${truncate(
-            blurb,
-            truncateBlurbBy,
-            '...'
-          )}`}</Text>
+          <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
         </View>
       </Callout>
     );
