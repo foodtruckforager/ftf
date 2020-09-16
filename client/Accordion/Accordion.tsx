@@ -12,16 +12,7 @@ export default () => {
   const [favorite, setFavorite] = useState([]);
   const [googleUserId, setGoogleUserId] = useState(null);
   const [userId, setUserId] = useState(0);
-  let favorites;
-  useEffect(() => {
-  favorites = favorite
-    .map((savedFavorite) => {
-      console.log(savedFavorite);
-      return { name: savedFavorite.name, points: savedFavorite.food_genre };
-    });
-  console.log('FILTERED AND MAPPED FAVORITES::::*********************************')
-    console.log(favorites);
-  }, [favorite]);
+
   useEffect(() => {
     const retrieveCurrentUserId = async () => {
       try {
@@ -60,14 +51,30 @@ export default () => {
         .then((response) => {
           const { data } = response;
           const { length } = data;
+          console.log('top of axios call retrieveCurrentUserFavorites');
+          console.log(data);
           if (length) {
             if (data !== undefined) {
-              favorites = data
-              .map((savedFavorite: Object) => {
+              console.log('data before map');
+              console.log(data);
+              // let favorites = data.map((savedFavorite: Object) => {
+              //   return {
+              //     name: savedFavorite.name,
+              //     points: savedFavorite.food_genre,
+              //   };
+              // });
+              // console.log(favorites);
+              const filteredFavorites = data.map((savedFavorite: Object) => {
+                console.log('savedFavorite');
                 console.log(savedFavorite);
-                return { name: savedFavorite.name, points: savedFavorite.food_genre };
+                return {
+                  name: savedFavorite.truck.full_name,
+                  points: savedFavorite.truck.food_genre,
+                };
               });
-              setFavorite(favorites);
+              console.log('setFavorite');
+              console.log(filteredFavorites);
+              setFavorite(filteredFavorites);
             }
           }
         })
@@ -77,7 +84,7 @@ export default () => {
   }, [userId]);
   const favoriteTrucks: ListModelFavoriteTruck = {
     name: 'User Profile Demo',
-    items: favorites || [
+    items: favorite || [
       { name: 'Food Truck Demo 1', points: 'Favorites To Go Here' },
     ],
   };
@@ -96,7 +103,8 @@ export default () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>User Profile</Text>
-      <FavoriteTruck {...{ favoriteTrucks }} />
+      {favorite && <FavoriteTruck {...{ favoriteTrucks }} />}
+
       <Badges {...{ badges }} />
       <Settings {...{ settings }} />
       <UserPosts {...{ userPosts }} />
