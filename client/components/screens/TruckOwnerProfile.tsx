@@ -34,6 +34,12 @@ const TruckOwnerProfile = ({ navigation, route }) => {
 
   const isFocused = useIsFocused();
 
+  const navigateToQrGenerate = () => {
+    navigation.navigate('GenerateQRCode', {
+      truckId,
+    });
+  };
+
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
@@ -190,6 +196,11 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   getTruckPosts={getTruckPosts}
                 />
               </View>
+              <Card.Divider />
+              <Button
+                title="Generate QR Code"
+                onPress={navigateToQrGenerate}
+              />
               <Card.Divider />
               <Button
                 title="Logout"
