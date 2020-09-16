@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, View, Text, Button, Switch,
+  StyleSheet, View, Text, Switch, Image, SafeAreaView, ScrollView,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import {
+  Card, ListItem, Button, Icon,
+} from 'react-native-elements';
+import { Dropdown } from 'react-native-material-dropdown';
 import axios from 'axios';
-import LocationSelectionMap from '../dropIns/LocationSelectMap';
 import Constants from 'expo-constants';
+import LocationSelectionMap from '../dropIns/LocationSelectMap';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
   const [truckId, setTruckId] = useState(null);
@@ -16,7 +20,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const [foodGenre, setFoodGenre] = useState('');
   const [blurb, setBlurb] = useState('');
   const [starAverage, setStarAverage] = useState(null);
-  const [numberOfReview, setNumberOfReviews] = useState(null);
+  const [numberOfReviews, setNumberOfReviews] = useState(null);
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
   const [openStatus, setOpenStatus] = useState(false);
@@ -58,7 +62,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
     if (latitude && longitude) {
-      const updateOpenAndLocation = async () => {
+      const updateOpenAndLocation = async() => {
         await axios
           .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
             latitude,
@@ -67,7 +71,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
           })
           .then(() => {
             alert(
-              `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`
+              `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`,
             );
           })
           .catch((err) => console.error(err));
@@ -79,56 +83,116 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
 
   return (
-    <View>
-      {latitude && longitude && (
-        <View style={styles.map}>
-          <LocationSelectionMap
-            latitude={latitude}
-            longitude={longitude}
-            navigation={navigation}
-            setLatitude={setLatitude}
-            setLongitude={setLongitude}
-          />
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View>
+          {latitude && longitude && (
+          <View style={styles.map}>
+            <LocationSelectionMap
+              latitude={latitude}
+              longitude={longitude}
+              navigation={navigation}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+            />
+          </View>
+          )}
+          <View>
+            <Card>
+              <View style={styles.topTitleCard}>
+                <Card.Title>
+                  <Text>
+                    {truckName}
+                  </Text>
+                </Card.Title>
+                <View style={styles.slider}>
+                  <Switch
+                    trackColor={{ false: '767577', true: '#81b0ff' }}
+                    thumbColor={openStatus ? '#f5dd4b' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={openStatus}
+                  />
+                </View>
+              </View>
+              {/* <View style={styles.stars}>
+                <Text style={{ color: 'orange' }}>
+                  {String.fromCharCode(9733).repeat(Math.floor(4.0))}
+                </Text>
+                <Text style={{ color: 'lightgrey' }}>
+                  {String.fromCharCode(9733).repeat(
+                    5 - Math.floor(4.0),
+                  )}
+                </Text>
+                <Text>{numberOfReviews} Reviews</Text>
+              </View> */}
+              <ListItem>
+                <ListItem.Content>
+                  <ListItem.Title>Phone Number:</ListItem.Title>
+                  <ListItem.Subtitle>{phoneNumber}</ListItem.Subtitle>
+                  <Card.Divider />
+                  <ListItem.Title>Food Genre:</ListItem.Title>
+                  <ListItem.Subtitle>{foodGenre}</ListItem.Subtitle>
+                  <ListItem.Title>{starAverage}</ListItem.Title>
+                  <ListItem.Title>Open Time:</ListItem.Title>
+                  <ListItem.Subtitle>{openTime}</ListItem.Subtitle>
+                  <Card.Divider />
+                  <ListItem.Title>Close Time:</ListItem.Title>
+                  <ListItem.Subtitle>{closeTime}</ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+              <Dropdown
+                label="Blurb"
+                data={[{ value: blurb }]}
+              />
+              <Card.Image source={{ uri: logo }} />
+              <Button
+                title="Edit"
+                onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
+              // icon={<Icon name="code" color="#ffffff" />}
+                buttonStyle={{
+                  borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
+                }}
+              />
+            </Card>
+            <Button
+              title="Logout"
+              onPress={() => {
+                navigation.navigate('LogIn', { previous_screen: 'LogOut' });
+              }}
+              buttonStyle={{
+                borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
+              }}
+            />
+          </View>
         </View>
-      )}
-      <View>
-        <Switch
-          trackColor={{ false: '767577', true: '#81b0ff' }}
-          thumbColor={openStatus ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={openStatus}
-        />
-      </View>
-      <View>
-        <Text>{truckName}</Text>
-        <Button
-          title="Edit"
-          onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
-        >
-          Click
-        </Button>
-        <Button
-          title="Logout"
-          onPress={() => {
-            navigation.navigate('LogIn', { previous_screen: 'LogOut' });
-          }}
-        />
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 18,
     flex: 1,
+    marginTop: Constants.statusBarHeight,
   },
   map: {
-    padding: 300,
+    padding: 140,
     paddingTop: Constants.statusBarHeight,
+  },
+  scrollView: {
+    marginHorizontal: 20,
+  },
+  topTitleCard: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  slider: {
+    margin: -5,
+  },
+  stars: {
+    flexDirection: 'row',
   },
 });
 

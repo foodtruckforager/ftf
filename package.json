@@ -47,6 +47,7 @@
     "express": "^4.17.1",
     "fuzzy-search": "^3.2.1",
     "jpeg-js": "^0.4.2",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.4",
     "pg": "^8.3.3",
     "react": "~16.11.0",
@@ -58,8 +59,10 @@
     "react-native-gesture-handler": "~1.6.0",
     "react-native-maps": "0.27.1",
     "react-native-masked-view": "^0.2.0",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-reanimated": "~1.9.0",
     "react-native-redash": "^8.0.0",
+    "react-native-safe-area-context": "~3.0.7",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~2.9.0",
     "react-native-svg": "12.1.0",
@@ -68,8 +71,7 @@
     "react-navigation-drawer": "^2.5.0",
     "react-navigation-stack": "^2.8.2",
     "sequelize": "^6.3.4",
-    "tcomb-form-native": "^0.6.20",
-    "react-native-safe-area-context": "~3.0.7"
+    "tcomb-form-native": "^0.6.20"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
