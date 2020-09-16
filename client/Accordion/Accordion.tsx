@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, AsyncStorage } from 'react-native';
+import {
+  StyleSheet, Text, View, ScrollView, AsyncStorage,
+} from 'react-native';
 import axios from 'axios';
 import FavoriteTruck, {
   FavoriteTruck as ListModelFavoriteTruck,
@@ -7,6 +9,7 @@ import FavoriteTruck, {
 import Badges, { Badges as ListModelBadges } from './Badges';
 import Settings, { Settings as ListModelSettings } from './Settings';
 import UserPosts, { UserPosts as ListModelUserPosts } from './UserPosts';
+import UserSettings from '../../client/components/screens/settings';
 
 export default () => {
   const [favorite, setFavorite] = useState([]);
@@ -14,7 +17,7 @@ export default () => {
   const [userId, setUserId] = useState(0);
 
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -31,7 +34,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -45,7 +48,7 @@ export default () => {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async () => {
+    const retrieveCurrentUserFavorites = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -53,12 +56,10 @@ export default () => {
           const { length } = data;
           if (length) {
             if (data !== undefined) {
-              const filteredFavorites = data.map((savedFavorite: Object) => {
-                return {
-                  name: savedFavorite.truck.full_name,
-                  points: savedFavorite.truck.food_genre,
-                };
-              });
+              const filteredFavorites = data.map((savedFavorite: Object) => ({
+                name: savedFavorite.truck.full_name,
+                points: savedFavorite.truck.food_genre,
+              }));
               setFavorite(filteredFavorites);
             }
           }
@@ -87,12 +88,16 @@ export default () => {
   };
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>User Profile</Text>
-      {favorite && <FavoriteTruck {...{ favoriteTrucks }} />}
-
-      <Badges {...{ badges }} />
-      <Settings {...{ settings }} />
-      <UserPosts {...{ userPosts }} />
+      {/* <Text style={styles.title}>User Profile</Text> */}
+      <View style={styles.settings}>
+        <UserSettings />
+      </View>
+      <View>
+        {favorite && <FavoriteTruck {...{ favoriteTrucks }} />}
+        <Badges {...{ badges }} />
+        <Settings {...{ settings }} />
+      </View>
+      {/* <UserPosts {...{ userPosts }} /> */}
     </ScrollView>
   );
 };
@@ -106,5 +111,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+  },
+  settings: {
+    // flex: 0.1,
+    height: -500,
   },
 });
