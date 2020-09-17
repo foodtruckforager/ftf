@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {
-  Avatar, Badge, Icon, withBadge, Image,
+  Avatar, Badge, Card, Icon, withBadge, Image,
 } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
 import Thumbnail from './Thumbnail';
@@ -70,6 +70,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
           });
         }}
       >
+        {/* <Card> */}
         <View>
           <View style={styles.container}>
             <View style={styles.topRow}>
@@ -109,6 +110,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
           </View>
           <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
         </View>
+        {/* </Card> */}
       </Callout>
     );
   }

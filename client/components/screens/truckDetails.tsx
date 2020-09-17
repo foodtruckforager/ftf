@@ -5,6 +5,7 @@ import { Button, Icon } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
+import Header from '../dropIns/header';
 
 export default function TruckDetails({ navigation }) {
   const currentTruck = navigation.state.params.params.currentTruck;
@@ -224,6 +225,11 @@ const style = StyleSheet.create({
     flex: 6,
     justifyContent: 'flex-end',
     alignItems: 'center',
+<<<<<<< HEAD
+=======
+    // paddingTop: 200
+    marginTop: 20,
+>>>>>>> e4d148fa4984a825829b531917f45b1b9a4c67a9
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,

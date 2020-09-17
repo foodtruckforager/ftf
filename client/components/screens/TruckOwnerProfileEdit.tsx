@@ -66,6 +66,7 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
           type={Owner}
           ref={(c) => this._form = c}
           options={options}
+          multiline="true"
         />
         <Button
           title="Save"
