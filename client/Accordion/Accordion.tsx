@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet, Text, View, ScrollView, AsyncStorage,
-} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import FavoriteTruck, {
   FavoriteTruck as ListModelFavoriteTruck,
@@ -20,12 +18,13 @@ export default () => {
   const [badgeFeastMode, setBadgeFeastMode] = useState(false);
   const [badgeBerserker, setBadgeBerserker] = useState(false);
   const [badgeIGotTrucked, setBadgeIGotTrucked] = useState(false);
-  const [badgeParliamentTruckaDelic, setBadgeParliamentTruckaDelic] = useState(false);
+  const [badgeParliamentTruckaDelic, setBadgeParliamentTruckaDelic] = useState(
+    false
+  );
   const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
- 
 
   useEffect(() => {
-    const retrieveCurrentUserId = async() => {
+    const retrieveCurrentUserId = async () => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -42,7 +41,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async() => {
+    const getUserIdWithGoogleUserId = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -56,7 +55,7 @@ export default () => {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async() => {
+    const retrieveCurrentUserFavorites = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -78,13 +77,15 @@ export default () => {
   }, [userId]);
 
   useEffect(() => {
-    axios.get(`${process.env.EXPO_LocalLan}/user/get/visits/${userId}`)
+    axios
+      .get(`${process.env.EXPO_LocalLan}/user/get/visits/${userId}`)
       .then((response) => {
         setVisits(response.data);
       })
       .catch((err) => console.error(err));
   }, [userId]);
 
+  // Achievement Badge Rendering:
   useEffect(() => {
     if (visits !== []) {
       if (visits.length > 3) {
@@ -96,18 +97,149 @@ export default () => {
       if (visits.length > 15) {
         setBadgeFeastMode(true);
       }
-      if ([...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3) {
+      if (
+        [...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3
+      ) {
         setBadgeAroundTheWorld(true);
       }
 
       let berserkBoolean = false;
       visits.forEach((visit, i, visitCollection) => {
-        if (visitCollection.filter((x) => ((x.createdAt.substring(0, 10)) === visit.createdAt.substring(0, 10)) && (x.truck_id === visit.truck_id)).length > 3) {
+        if (
+          visitCollection.filter(
+            (x) =>
+              x.createdAt.substring(0, 10) ===
+                visit.createdAt.substring(0, 10) &&
+              x.truck_id === visit.truck_id
+          ).length > 3
+        ) {
           berserkBoolean = true;
         }
       });
-      setBadgeBerserker(berserkBoolean);
+      if (!badgeBerserker) {
+        setBadgeBerserker(berserkBoolean);
+      }
+
+      const daysInMonth = {
+        1: 31,
+        2: 28,
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31,
+      };
+
       // TODO: Five same truck ids in seven days (theRegular)
+      let theRegularBoolean = false;
+      visits.forEach((visit, i, visitCollection) => {
+        if (
+          visitCollection.filter(
+            (x) =>
+              x.createdAt.substring(0, 10) ===
+                visit.createdAt.substring(0, 10) ||
+              (((x.createdAt.substring(10, 11) %
+                daysInMonth[x.createdAt.getUTCMonth()] >
+              1
+                ? `${x.createdAt.substring(0, 9)}${
+                    x.createdAt.substring(10, 11) +
+                    1 -
+                    daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
+                : `${x.createdAt.substring(0, 9)}${
+                    x.createdAt.substring(10, 11) + 1
+                  }`) ||
+                (x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      x.createdAt.substring(10, 11) +
+                      2 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      x.createdAt.substring(10, 11) + 2
+                    }`) ||
+                (x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      x.createdAt.substring(10, 11) +
+                      3 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      x.createdAt.substring(10, 11) + 3
+                    }`) ||
+                (x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      x.createdAt.substring(10, 11) +
+                      4 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      x.createdAt.substring(10, 11) + 4
+                    }`) ||
+                (x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) -
+                      1 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) - 1
+                    }`) ||
+                (x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) -
+                      2 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) - 2
+                    }`) ||
+                (+x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) -
+                      3 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) - 3
+                    }`) ||
+                (+x.createdAt.substring(10, 11) %
+                  daysInMonth[x.createdAt.getUTCMonth()] >
+                1
+                  ? `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) -
+                      4 -
+                      daysInMonth[x.createdAt.getUTCMonth()]
+                    }`
+                  : `${x.createdAt.substring(0, 9)}${
+                      +x.createdAt.substring(10, 11) - 4
+                    }`)) === visit.createdAt.substring(0, 10) &&
+                x.truck_id === visit.truck_id)
+          ).length > 5
+        ) {
+          theRegularBoolean = true;
+        }
+      });
+      if (!badgeTheRegular && theRegularBoolean) {
+        setBadgeTheRegular(theRegularBoolean);
+      }
     }
   }, [visits]);
 
@@ -117,13 +249,19 @@ export default () => {
     badgeArray.push({ name: '🥉 3 trucks', points: 'I Got Trucked' });
   }
   if (badgeParliamentTruckaDelic) {
-    badgeArray.push({ name: '🥈 10 trucks', points: 'Parliament Truck-a-Delic' });
+    badgeArray.push({
+      name: '🥈 10 trucks',
+      points: 'Parliament Truck-a-Delic',
+    });
   }
   if (badgeFeastMode) {
     badgeArray.push({ name: '🥇 30 trucks', points: 'Feast Mode' });
   }
   if (badgeAroundTheWorld) {
-    badgeArray.push({ name: '🎖 5 different trucks', points: 'Around The World' });
+    badgeArray.push({
+      name: '🎖 5 different trucks',
+      points: 'Around The World',
+    });
   }
   if (badgeBerserker) {
     badgeArray.push({ name: '🏅 same truck 3x 1/week', points: 'Berserker' });
