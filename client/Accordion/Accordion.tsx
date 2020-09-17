@@ -26,7 +26,7 @@ export default () => {
   const [badgeBerserker, setBadgeBerserker] = useState(false);
   const [badgeIGotTrucked, setBadgeIGotTrucked] = useState(false);
   const [badgeParliamentTruckaDelic, setBadgeParliamentTruckaDelic] = useState(
-    false
+    false,
   );
   const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -34,7 +34,7 @@ export default () => {
     setIsVisible(!isVisible);
   };
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -51,7 +51,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -65,7 +65,7 @@ export default () => {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async () => {
+    const retrieveCurrentUserFavorites = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -117,10 +117,9 @@ export default () => {
       visits.forEach((visit, i, visitCollection) => {
         if (
           visitCollection.filter(
-            (x) =>
-              x.createdAt.substring(0, 10) ===
-                visit.createdAt.substring(0, 10) &&
-              x.truck_id === visit.truck_id
+            (x) => x.createdAt.substring(0, 10)
+                === visit.createdAt.substring(0, 10)
+              && x.truck_id === visit.truck_id,
           ).length > 3
         ) {
           berserkBoolean = true;
@@ -150,98 +149,97 @@ export default () => {
       visits.forEach((visit, i, visitCollection) => {
         if (
           visitCollection.filter(
-            (x) =>
-              x.createdAt.substring(0, 10) ===
-                visit.createdAt.substring(0, 10) ||
-              (((x.createdAt.substring(10, 11) %
-                daysInMonth[x.createdAt.getUTCMonth()] >
-              1
+            (x) => x.createdAt.substring(0, 10)
+                === visit.createdAt.substring(0, 10)
+              || (((x.createdAt.substring(10, 11)
+                % daysInMonth[x.createdAt.getUTCMonth()]
+              > 1
                 ? `${x.createdAt.substring(0, 9)}${
-                    x.createdAt.substring(10, 11) +
-                    1 -
-                    daysInMonth[x.createdAt.getUTCMonth()]
-                  }`
+                  x.createdAt.substring(10, 11)
+                    + 1
+                    - daysInMonth[x.createdAt.getUTCMonth()]
+                }`
                 : `${x.createdAt.substring(0, 9)}${
-                    x.createdAt.substring(10, 11) + 1
-                  }`) ||
-                (x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                  x.createdAt.substring(10, 11) + 1
+                }`)
+                || (x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      x.createdAt.substring(10, 11) +
-                      2 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    x.createdAt.substring(10, 11)
+                      + 2
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      x.createdAt.substring(10, 11) + 2
-                    }`) ||
-                (x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                    x.createdAt.substring(10, 11) + 2
+                  }`)
+                || (x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      x.createdAt.substring(10, 11) +
-                      3 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    x.createdAt.substring(10, 11)
+                      + 3
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      x.createdAt.substring(10, 11) + 3
-                    }`) ||
-                (x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                    x.createdAt.substring(10, 11) + 3
+                  }`)
+                || (x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      x.createdAt.substring(10, 11) +
-                      4 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    x.createdAt.substring(10, 11)
+                      + 4
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      x.createdAt.substring(10, 11) + 4
-                    }`) ||
-                (x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                    x.createdAt.substring(10, 11) + 4
+                  }`)
+                || (x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) -
-                      1 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    +x.createdAt.substring(10, 11)
+                      - 1
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) - 1
-                    }`) ||
-                (x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                    +x.createdAt.substring(10, 11) - 1
+                  }`)
+                || (x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) -
-                      2 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    +x.createdAt.substring(10, 11)
+                      - 2
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) - 2
-                    }`) ||
-                (+x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                    +x.createdAt.substring(10, 11) - 2
+                  }`)
+                || (+x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) -
-                      3 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    +x.createdAt.substring(10, 11)
+                      - 3
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) - 3
-                    }`) ||
-                (+x.createdAt.substring(10, 11) %
-                  daysInMonth[x.createdAt.getUTCMonth()] >
-                1
+                    +x.createdAt.substring(10, 11) - 3
+                  }`)
+                || (+x.createdAt.substring(10, 11)
+                  % daysInMonth[x.createdAt.getUTCMonth()]
+                > 1
                   ? `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) -
-                      4 -
-                      daysInMonth[x.createdAt.getUTCMonth()]
-                    }`
+                    +x.createdAt.substring(10, 11)
+                      - 4
+                      - daysInMonth[x.createdAt.getUTCMonth()]
+                  }`
                   : `${x.createdAt.substring(0, 9)}${
-                      +x.createdAt.substring(10, 11) - 4
-                    }`)) === visit.createdAt.substring(0, 10) &&
-                x.truck_id === visit.truck_id)
+                    +x.createdAt.substring(10, 11) - 4
+                  }`)) === visit.createdAt.substring(0, 10)
+                && x.truck_id === visit.truck_id),
           ).length > 5
         ) {
           theRegularBoolean = true;
