@@ -18,7 +18,7 @@ export default () => {
   const [visits, setVisits] = useState([]);
   const [badgeTheRegular, setBadgeTheRegular] = useState(false);
   const [badgeFeastMode, setBadgeFeastMode] = useState(false);
-  const [badgeBerserkMode, setBadgeBerserkMode] = useState(false);
+  const [badgeBerserker, setBadgeBerserker] = useState(false);
   const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
 
   useEffect(() => {
@@ -90,24 +90,31 @@ export default () => {
       if ([...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3) {
         setBadgeAroundTheWorld(true);
       }
-      // TODO: 3 different truck ids in one day (berserker)
-      // console.log('date', visits[0].createdAt);
-      // console.log('visits', visits);
+
       let berserkBoolean = false;
       visits.forEach((visit, i, visitCollection) => {
         if (visitCollection.filter((x) => ((x.createdAt.substring(0, 10)) === visit.createdAt.substring(0, 10)) && (x.truck_id === visit.truck_id)).length > 3) {
           berserkBoolean = true;
         }
       });
-      setBadgeBerserkMode(berserkBoolean);
+      setBadgeBerserker(berserkBoolean);
       // TODO: Five same truck ids in seven days (theRegular)
     }
   }, [visits]);
 
   const badgeArray = [];
-
+  // 🏆🏅🎖🥇
   if (badgeTheRegular) {
-    badgeArray.push({ name: 'The Regular', points: 'The Regular' });
+    badgeArray.push({ name: '🏆', points: 'The Regular' });
+  }
+  if (badgeFeastMode) {
+    badgeArray.push({ name: '🏅', points: 'Feast Mode' });
+  }
+  if (badgeBerserker) {
+    badgeArray.push({ name: '🎖', points: 'Berserker' });
+  }
+  if (badgeAroundTheWorld) {
+    badgeArray.push({ name: '🥇', points: 'Around The World' });
   }
 
   const favoriteTrucks: ListModelFavoriteTruck = {
@@ -116,18 +123,22 @@ export default () => {
       { name: 'Food Truck Demo 1', points: 'Favorites To Go Here' },
     ],
   };
+
   const badges: ListModelBadges = {
     name: 'Badges',
-    items: [{ name: 'Badges', points: 'Badges to go here' }],
+    items: badgeArray || [{ name: 'Badges', points: 'Badges to go here' }],
   };
+
   const settings: ListModelSettings = {
     name: 'Settings',
     items: [{ name: 'Profile', points: 'Settings to go here' }],
   };
+
   const userPosts: ListModelUserPosts = {
     name: 'User Posts',
     items: [{ name: 'User Posts', points: 'User Posts Go Here' }],
   };
+
   return (
     <ScrollView style={styles.container}>
       {/* <Text style={styles.title}>User Profile</Text> */}
