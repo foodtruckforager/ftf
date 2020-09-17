@@ -9,12 +9,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('users', {
   profile_photo_url: {
     type: DataTypes.STRING,
   },
-  lunch_break_start: {
-    type: DataTypes.STRING,
-  },
-  lunch_break_end: {
-    type: DataTypes.STRING,
-  },
 }, {
   freezeTableName: true,
   timestamps: false,

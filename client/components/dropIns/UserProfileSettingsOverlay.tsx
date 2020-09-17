@@ -13,7 +13,7 @@ const UserProfileSettingsOverlay = () => {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU'
   );
   const [googleUserId, setGoogleUserId] = useState(0);
-  const [date, setDate] = useState(new Date(1598051730000)); // lunch start
+  const [date, setDate] = useState(new Date(1598051730000)); // lunch start new Date(1598051730000)
   const [time, setTime] = useState(new Date(1598051730000)); // lunch end
   const [lunchStart, setLunchStart] = useState(true);
   const [mode, setMode] = useState('date');
