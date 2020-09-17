@@ -8,7 +8,6 @@ Welcome to Food Truck Tracker. Food Truck Tracker provides users access to food 
 
 # Dependencies
 
-Stack:
  - Babel
  - Eslint
  - Expo
