@@ -225,7 +225,7 @@ const style = StyleSheet.create({
     // backgroundColor: 'blue'
   },
   map: {
-    flex: 6,
+    flex: 4,
     // ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'center',

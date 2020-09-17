@@ -7,12 +7,15 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
+  SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import {
   Avatar, Badge, Card, Icon, withBadge, Image,
 } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
 import Thumbnail from './Thumbnail';
+import Constants from 'expo-constants';
 
 export default function InfoWindow({ currentTruck, navigation, onDetails }) {
   if (currentTruck) {
@@ -70,47 +73,51 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
           });
         }}
       >
-        {/* <Card> */}
-        <View>
-          <View style={styles.container}>
-            <View style={styles.topRow}>
-              <Thumbnail logo={logo} />
-              <View style={styles.badge}>{openBadge()}</View>
-              <View style={styles.topRowText}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-                  {`${truncate(full_name, 28, '')}`}
-                </Text>
-                {/* <Icon name="phone" size={30} color="#900" /> */}
-                <TouchableOpacity onPress={makeCall}>
+        <Card>
+          <View>
+            <View style={styles.container}>
+              <View style={styles.topRow}>
+                <Thumbnail logo={logo} />
+                <View style={styles.badge}>{openBadge()}</View>
+                <View style={styles.topRowText}>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+                    {`${truncate(full_name, 28, '')}`}
+                  </Text>
+                  {/* <Icon name="phone" size={30} color="#900" /> */}
+                  <TouchableOpacity onPress={makeCall}>
+                    <Text>
+                      {String.fromCharCode(9990)}
+                      {phone_number}
+                    </Text>
+                  </TouchableOpacity>
                   <Text>
-                    {String.fromCharCode(9990)}
-                    {phone_number}
+                    {food_genre.charAt(0).toUpperCase()}
+                    {food_genre.slice(1)}
                   </Text>
-                </TouchableOpacity>
-                <Text>
-                  {food_genre.charAt(0).toUpperCase()}
-                  {food_genre.slice(1)}
-                </Text>
-                <View style={styles.stars}>
-                  <Text style={{ color: 'orange' }}>
-                    {String.fromCharCode(9733).repeat(Math.floor(star_average))}
-                  </Text>
-                  <Text style={{ color: 'lightgrey' }}>
-                    {String.fromCharCode(9733).repeat(
-                      5 - Math.floor(star_average),
-                    )}
-                  </Text>
-                  {/* <Text>{number_of_reviews} Reviews</Text> */}
+                  <View style={styles.stars}>
+                    <Text style={{ color: 'orange' }}>
+                      {String.fromCharCode(9733).repeat(Math.floor(star_average))}
+                    </Text>
+                    <Text style={{ color: 'lightgrey' }}>
+                      {String.fromCharCode(9733).repeat(
+                        5 - Math.floor(star_average),
+                      )}
+                    </Text>
+                    {/* <Text>{number_of_reviews} Reviews</Text> */}
+                  </View>
+                </View>
+                <View>
+                  <Text>{/* Distance */}</Text>
                 </View>
               </View>
-              <View>
-                <Text>{/* Distance */}</Text>
-              </View>
             </View>
+            <SafeAreaView>
+              <ScrollView>
+                <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
+              </ScrollView>
+            </SafeAreaView>
           </View>
-          <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
-        </View>
-        {/* </Card> */}
+        </Card>
       </Callout>
     );
   }
