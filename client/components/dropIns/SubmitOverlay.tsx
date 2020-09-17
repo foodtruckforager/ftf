@@ -116,9 +116,9 @@ const SubmitOverlay = ({
   return (
     <View>
       {onReviews ? (
-        <Button title="Write Review" onPress={toggleOverlay} />
+        <Button title="Write Review" onPress={toggleOverlay} buttonStyle={styles.button} />
       ) : (
-        <Button title="Write Post" onPress={toggleOverlay} />
+        <Button title="Write Post" onPress={toggleOverlay} buttonStyle={styles.button} />
       )}
       <Overlay
         isVisible={visible}
@@ -170,5 +170,8 @@ const styles = StyleSheet.create({
   },
   slightVerticalPadding: {
     paddingVertical: 2,
+  },
+  button: {
+    borderRadius: 30,
   },
 });

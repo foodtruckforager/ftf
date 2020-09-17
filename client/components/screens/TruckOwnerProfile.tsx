@@ -130,7 +130,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
           </View>
           )}
           <View>
-            <Card>
+            <Card containerStyle={{width: 350, left: -20, right: 100 }}>
               <View style={styles.topTitleCard}>
                 <Card.Title>
                   <Text>
@@ -139,8 +139,8 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 </Card.Title>
                 <View style={styles.slider}>
                   <Switch
-                    trackColor={{ false: '767577', true: '#81b0ff' }}
-                    thumbColor={openStatus ? '#f5dd4b' : '#f4f3f4'}
+                    trackColor={{ false: '767577', true: '#00bfff' }}
+                    thumbColor={openStatus ? '#00ff7f' : '#708090'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch}
                     value={openStatus}
@@ -183,9 +183,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 title="Edit"
                 onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
               // icon={<Icon name="code" color="#ffffff" />}
-                buttonStyle={{
-                  borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
-                }}
+                buttonStyle={styles.button}
               />
               <Card.Divider />
               <View style={styles.modal}>
@@ -200,6 +198,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
               <Button
                 title="Generate QR Code"
                 onPress={navigateToQrGenerate}
+                buttonStyle={styles.button}
               />
               <Card.Divider />
               <Button
@@ -207,9 +206,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 onPress={() => {
                   navigation.navigate('LogIn', { previous_screen: 'LogOut' });
                 }}
-                buttonStyle={{
-                  borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
-                }}
+                buttonStyle={styles.button}
               />
             </Card>
           </View>
@@ -245,6 +242,12 @@ const styles = StyleSheet.create({
   modal: {
     flex: 0.1,
     flexGrow: 1.4,
+  },
+  button: {
+    borderRadius: 30,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 0,
   },
 });
 
