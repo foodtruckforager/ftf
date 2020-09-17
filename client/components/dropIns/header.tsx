@@ -17,7 +17,7 @@ export default function Header({ navigation }) {
         style={styles.icon}
         />
       <View>
-        <Text style={styles.headerText}> Food Truck Tracker </Text>
+        <Text style={styles.headerText}> Food Truck Forager </Text>
       </View>
       <Image 
         source={require('../../../assets/foodtruckstillsmall.png')}

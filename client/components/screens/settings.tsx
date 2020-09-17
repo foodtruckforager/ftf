@@ -117,9 +117,9 @@ export default function Settings({ navigation }) {
           </React.Fragment>
         ))}
         <View style={styles.bodyContent}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+          {/* <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
             <Text style={styles.editProfile}>Edit Profile Photo</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     );
