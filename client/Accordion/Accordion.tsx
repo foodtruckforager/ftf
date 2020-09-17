@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, AsyncStorage } from 'react-native';
 import {
-  StyleSheet, Text, View, ScrollView, AsyncStorage,
-} from 'react-native';
+  Button,
+  Overlay,
+  SearchBar,
+  AirbnbRating,
+} from 'react-native-elements';
 import axios from 'axios';
 import FavoriteTruck, {
   FavoriteTruck as ListModelFavoriteTruck,
@@ -10,6 +14,7 @@ import Badges, { Badges as ListModelBadges } from './Badges';
 import Settings, { Settings as ListModelSettings } from './Settings';
 import UserPosts, { UserPosts as ListModelUserPosts } from './UserPosts';
 import UserSettings from '../../client/components/screens/settings';
+import UserProfileSettingsOverlay from '../../client/components/dropIns/UserProfileSettingsOverlay';
 
 export default () => {
   const [favorite, setFavorite] = useState([]);
@@ -24,7 +29,10 @@ export default () => {
     false,
   );
   const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
-
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleOverlay = () => {
+    setIsVisible(!isVisible);
+  };
   useEffect(() => {
     const retrieveCurrentUserId = async() => {
       try {
@@ -301,7 +309,14 @@ export default () => {
       <View>
         {favorite && <FavoriteTruck {...{ favoriteTrucks }} />}
         <Badges {...{ badges }} />
-        <Settings {...{ settings }} />
+        {/* <Settings {...{ settings }} /> */}
+      </View>
+      <View style={styles.settingsOverlay}>
+        <UserProfileSettingsOverlay
+          toggleOverlay={toggleOverlay}
+          setIsVisible={setIsVisible}
+          isVisible={isVisible}
+        />
       </View>
       {/* <UserPosts {...{ userPosts }} /> */}
     </ScrollView>
@@ -319,7 +334,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   settings: {
-    // flex: 0.1,
-    height: -500,
+  },
+  settingsOverlay: {
+    marginTop: 20,
   },
 });

@@ -105,13 +105,13 @@ export default function GoogleLogIn({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Food Truck Tracker</Text>
+      <Text style={styles.title}>Food Truck Forager</Text>
       <Image source={require('../../../assets/foodtruckstill256.png')} />
       <View>
-        <Button title="Google User Sign In" onPress={userSignIn} buttonStyle={styles.buttonUser} />
+        <Button title="User Sign In" onPress={userSignIn} buttonStyle={styles.buttonUser} />
       </View>
       <View>
-        <Button title="Google Truck Owner Sign In" onPress={truckSignIn} buttonStyle={styles.buttonOwner} />
+        <Button title="Truck Owner Sign In" onPress={truckSignIn} buttonStyle={styles.buttonOwner} />
       </View>
     </View>
   );
