@@ -190,9 +190,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   title: {
-    // flexDirection: 'row',
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    alignSelf: 'center',
     fontSize: 32,
     fontWeight: 'bold',
   },
