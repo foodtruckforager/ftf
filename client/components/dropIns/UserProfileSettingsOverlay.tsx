@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Overlay, SearchBar, Text } from 'react-native-elements';
 import { View, StyleSheet, AsyncStorage, Switch } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
 const UserProfileSettingsOverlay = () => {
@@ -12,7 +13,34 @@ const UserProfileSettingsOverlay = () => {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU'
   );
   const [googleUserId, setGoogleUserId] = useState(0);
+  const [date, setDate] = useState(new Date(1598051730000)); // lunch start
+  const [time, setTime] = useState(new Date(1598051730000)); // lunch end
+  const [lunchStart, setLunchStart] = useState(true);
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    lunchStart ? setDate(currentDate) : setTime(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    // lunch break start
+    setLunchStart(true);
+    showMode('time');
+  };
+
+  const showTimepicker = () => {
+    // lunch break end
+    setLunchStart(false);
+    showMode('time');
+  };
   const toggleOverlay = () => {
     setVisible(!visible);
   };
@@ -72,23 +100,47 @@ const UserProfileSettingsOverlay = () => {
         onBackdropPress={toggleOverlay}
         fullScreen={false}
       >
-        <Text h3> 📝 User Settings </Text>
-        <SearchBar
-          placeholder="Username"
-          lightTheme={true}
-          searchIcon={false}
-          onChangeText={updateUsername}
-          value={username}
-        />
-        <View style={styles.verticalPadding}>
-          <Text>Push Notifications:</Text>
-          <Switch
-            trackColor={{ false: '767577', true: '#00bfff' }}
-            thumbColor={pushNotifications ? '#00ff7f' : '#708090'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={pushNotifications}
+        <View style={styles.row}>
+          <Text h3>User Settings</Text>
+        </View>
+        <View style={styles.slightVerticalPadding}>
+          <SearchBar
+            placeholder="Change Name"
+            lightTheme={true}
+            searchIcon={false}
+            onChangeText={updateUsername}
+            value={username}
           />
+        </View>
+        <View style={styles.verticalPadding}>
+          <View style={styles.row}>
+            <Switch
+              trackColor={{ false: '767577', true: '#00bfff' }}
+              thumbColor={pushNotifications ? '#00ff7f' : '#708090'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={pushNotifications}
+            />
+            <Text h4> Push Notifications</Text>
+          </View>
+        </View>
+        <View>
+          <View style={styles.slightVerticalPadding}>
+            <Button onPress={showDatepicker} title="Lunch Break Start" />
+          </View>
+          <View style={styles.slightVerticalPadding}>
+            <Button onPress={showTimepicker} title="Lunch Break End" />
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={lunchStart ? date : time}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
         </View>
         <View style={styles.verticalPadding}>
           <Button title="📎 Edit Profile Photo" onPress={() => {}} />
@@ -115,5 +167,9 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 30,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
