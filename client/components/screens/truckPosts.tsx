@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
 import InfoWindow from '../dropIns/InfoWindow';
-import SubmitOverlay from '../dropIns/SubmitOverlay';
 
 export default function TruckPosts({ navigation }) {
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
   const { currentTruck } = navigation.state.params.params;
   const { id } = currentTruck;
-  const [isVisible, setIsVisible] = useState(false);
-
-  const toggleOverlay = () => {
-    setIsVisible(!isVisible);
-  };
 
   const getTruckPosts = async () => {
     axios
@@ -73,23 +67,15 @@ export default function TruckPosts({ navigation }) {
         />
       </View>
       <View style={styles.posts}>
+        <ScrollView>
         {currentTruckPosts.map((post) => (
           <TruckPostItem
             currentTruck={currentTruck}
             post={post}
             key={post.id}
           />
-        ))}
+        ))}</ScrollView>
       </View>
-      {/* MOVE TO TRUCK OWNER PROFILE PAGE */}
-      {/* <View style={styles.modal}>
-        <SubmitOverlay
-          isVisible={isVisible}
-          onBackdropPress={toggleOverlay}
-          currentTruck={currentTruck}
-          getTruckPosts={getTruckPosts}
-        />
-      </View> */}
     </View>
   );
 }
