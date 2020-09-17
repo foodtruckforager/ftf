@@ -281,6 +281,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
+    paddingBottom: 10,
     flex: 1,
     paddingHorizontal: 1,
   },
