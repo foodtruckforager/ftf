@@ -132,7 +132,6 @@ export default function TruckDetails({ navigation }) {
   };
   return (
     <View style={style.container}>
-    {/* <Header /> */}
       <View style={style.buttonsContainer}>
         <View style={style.buttonContainer}>
           <Button title="Reviews" onPress={pressHandler} />
@@ -231,6 +230,7 @@ const style = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     // paddingTop: 200
+    marginTop: 20,
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,

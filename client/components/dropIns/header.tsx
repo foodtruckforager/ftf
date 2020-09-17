@@ -21,10 +21,10 @@ export default function Header({ navigation }) {
         <View>
           <Text style={styles.headerText}> Food Truck Forager </Text>
         </View>
-        <Image
+        {/* <Image
           source={require('../../../assets/foodtruckstillsmall.png')}
           style={styles.logo}
-        />
+        /> */}
       </View>
     </View>
   );
@@ -49,7 +49,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#333',
     letterSpacing: 1,
-    textAlign: 'center',
+    // textAlign: 'center',
+    alignSelf: 'center',
+    marginRight: 35,
     // paddingBottom: 10,
   },
   icon: {
@@ -62,6 +64,6 @@ const styles = StyleSheet.create({
     // paddingBottom: 100,
     // position: 'absolute',
     flexDirection: 'row',
-    // flex: 2,
+    flex: 1,
   },
 });
