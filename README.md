@@ -9,28 +9,17 @@ Welcome to Food Truck Tracker. Food Truck Tracker provides users access to food 
 # Dependencies
 
 Stack:
-
-Babel
-
-Eslint
-
-Expo
-
-Express
-
-Fetch
-
-Node
-
-PostgreSQL
-
-Sequelize
-
-React Native
-
-React Native Maps
-
-React Navigation
+ - Babel
+ - Eslint
+ - Expo
+ - Express
+ - Fetch
+ - Node
+ - PostgreSQL
+ - Sequelize
+ - React Native
+ - React Native Maps
+ - React Navigation
 
 ```javascript
 "dependencies": {
