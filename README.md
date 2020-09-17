@@ -1,4 +1,4 @@
-# 🚚 Food-Truck-Tracker
+# 🚚 Food Truck Forager
 
 Application for live tracking food trucks
 
