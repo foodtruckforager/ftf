@@ -23,7 +23,7 @@ export default function GenerateQRCode({ navigation, route }) {
         linearGradient={['blue']}
         content={route.params.truckId.toString()}
       />
-      <Button title="Profile" onPress={navigateToProfile} />
+      <Button title="Profile" onPress={navigateToProfile} buttonStyle={styles.button} />
     </View>
   );
 }
@@ -35,5 +35,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     alignItems: 'center',
     backgroundColor: '#ecf0f1',
+  },
+  button: {
+    borderRadius: 30,
+    width: 200,
+    height: 50,
+    marginBottom: 50,
   },
 });
