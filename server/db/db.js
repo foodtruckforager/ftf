@@ -8,6 +8,7 @@ const PostModel = require('./models/Post');
 const PhotoModel = require('./models/Photo');
 const UpvoteModel = require('./models/Upvote');
 const FavoriteModel = require('./models/Favorite');
+const VisitsModel = require('./models/Vists');
 
 const user = process.env.DB_USERNAME;
 const host = process.env.DB_HOST;
@@ -28,11 +29,14 @@ const Post = PostModel(sequelize, Sequelize);
 const Photo = PhotoModel(sequelize, Sequelize);
 const Upvote = UpvoteModel(sequelize, Sequelize);
 const Favorite = FavoriteModel(sequelize, Sequelize);
+const Visit = VisitsModel(sequelize, Sequelize);
 
 User.hasMany(Favorite, { foreignKey: 'id_user' });
 Truck.hasMany(Favorite, { foreignKey: 'id_truck' });
 Favorite.belongsTo(User, { foreignKey: 'id_user' });
 Favorite.belongsTo(Truck, { foreignKey: 'id_truck' });
+Visit.belongsTo(User, { foreignKey: 'id_user' });
+User.hasMany(Visit, { foreignKey: 'id_user' });
 
 const connection = async() => {
   try {
@@ -62,4 +66,5 @@ module.exports = {
   Photo,
   Upvote,
   Favorite,
+  Visit,
 };

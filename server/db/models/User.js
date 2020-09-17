@@ -6,9 +6,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('users', {
   google_id: {
     type: DataTypes.STRING,
   },
-  badge: {
-    type: DataTypes.JSON,
-  },
   profile_photo_url: {
     type: DataTypes.STRING,
   },

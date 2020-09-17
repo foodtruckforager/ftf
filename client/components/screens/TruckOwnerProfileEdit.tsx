@@ -11,6 +11,7 @@ const { Form } = t.form;
 const TruckOwnerProfileEdit = ({ navigation, route }) => {
   const [cameFromProfile, setCameFromProfile] = useState(false);
   const [cameFromCreate, setCameFromCreate] = useState(false);
+
   useEffect(() => {
     if (route.params.cameFromProfile) {
       setCameFromProfile(true);

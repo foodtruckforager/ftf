@@ -5,6 +5,7 @@ import { View, StyleSheet } from 'react-native';
 import TruckOwnerProfileEdit from '../screens/TruckOwnerProfileEdit';
 import TruckOwnerProfile from '../screens/TruckOwnerProfile';
 import LogIn from '../screens/LogIn';
+import GenerateQRCode from '../screens/GenerateQRCode';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,11 @@ const OwnerCreateProfileFirstStack = ({ googleId }) => (
           name="TruckOwnerProfile"
           component={TruckOwnerProfile}
           initialParams={{ googleId, cameFromCreate: true }}
+        />
+        <Stack.Screen
+          name="GenerateQRCode"
+          component={GenerateQRCode}
+          initialParams={{ googleId }}
         />
         <Stack.Screen
           name="LogIn"

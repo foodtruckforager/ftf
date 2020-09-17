@@ -28,9 +28,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   ScanQRCode: {
     screen: ScanQRCode,
   },
-  GenerateQRCode: {
-    screen: GenerateQRCode,
-  },
+  // GenerateQRCode: {
+  //   screen: GenerateQRCode,
+  // },
   // ImageUpload: {
   //   screen: ImageUpload,
   // },
