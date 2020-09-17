@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 import Map from '../dropIns/Map';
 import MapSearch from '../dropIns/MapSearch';
 import Constants from 'expo-constants';
+import Header from '../dropIns/header';
 
 export default function Tracker({ navigation }) {
   const [truckMarkers, setTruckMarkers] = useState([]);
@@ -10,6 +11,7 @@ export default function Tracker({ navigation }) {
 
   return (
     <View style={style.container}>
+      {/* <Header /> */}
       <View style={style.search}>
         <MapSearch search={search} setSearch={setSearch} />
       </View>

@@ -5,6 +5,7 @@ import { Button, Icon } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
+import Header from '../dropIns/header';
 
 export default function TruckDetails({ navigation }) {
   const currentTruck = navigation.state.params.params.currentTruck;
@@ -131,6 +132,7 @@ export default function TruckDetails({ navigation }) {
   };
   return (
     <View style={style.container}>
+    {/* <Header /> */}
       <View style={style.buttonsContainer}>
         <View style={style.buttonContainer}>
           <Button title="Reviews" onPress={pressHandler} />
