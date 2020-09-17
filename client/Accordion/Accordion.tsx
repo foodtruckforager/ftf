@@ -19,7 +19,10 @@ export default () => {
   const [badgeTheRegular, setBadgeTheRegular] = useState(false);
   const [badgeFeastMode, setBadgeFeastMode] = useState(false);
   const [badgeBerserker, setBadgeBerserker] = useState(false);
+  const [badgeIGotTrucked, setBadgeIGotTrucked] = useState(false);
+  const [badgeParliamentTruckaDelic, setBadgeParliamentTruckaDelic] = useState(false);
   const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
+ 
 
   useEffect(() => {
     const retrieveCurrentUserId = async() => {
@@ -84,7 +87,13 @@ export default () => {
 
   useEffect(() => {
     if (visits !== []) {
-      if (visits.length > 2) {
+      if (visits.length > 3) {
+        setBadgeIGotTrucked(true);
+      }
+      if (visits.length > 10) {
+        setBadgeParliamentTruckaDelic(true);
+      }
+      if (visits.length > 15) {
         setBadgeFeastMode(true);
       }
       if ([...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3) {
@@ -103,18 +112,24 @@ export default () => {
   }, [visits]);
 
   const badgeArray = [];
-  // 🏆🏅🎖🥇
-  if (badgeTheRegular) {
-    badgeArray.push({ name: '🏆', points: 'The Regular' });
+
+  if (badgeIGotTrucked) {
+    badgeArray.push({ name: '🥉 3 trucks', points: 'I Got Trucked' });
+  }
+  if (badgeParliamentTruckaDelic) {
+    badgeArray.push({ name: '🥈 10 trucks', points: 'Parliament Truck-a-Delic' });
   }
   if (badgeFeastMode) {
-    badgeArray.push({ name: '🏅', points: 'Feast Mode' });
-  }
-  if (badgeBerserker) {
-    badgeArray.push({ name: '🎖', points: 'Berserker' });
+    badgeArray.push({ name: '🥇 30 trucks', points: 'Feast Mode' });
   }
   if (badgeAroundTheWorld) {
-    badgeArray.push({ name: '🥇', points: 'Around The World' });
+    badgeArray.push({ name: '🎖 5 different trucks', points: 'Around The World' });
+  }
+  if (badgeBerserker) {
+    badgeArray.push({ name: '🏅 same truck 3x 1/week', points: 'Berserker' });
+  }
+  if (badgeTheRegular) {
+    badgeArray.push({ name: '🏆', points: 'The Regular' });
   }
 
   const favoriteTrucks: ListModelFavoriteTruck = {
