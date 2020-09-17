@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Divider, Text } from 'react-native-elements';
-import { Avatar, Badge } from 'react-native-elements';
+import { Divider, Text, Avatar, Card } from 'react-native-elements';
 import foodIcons from '../../../assets/mapIcons.js';
 
 const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
@@ -38,7 +37,10 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
           <Text style={{ color: 'lightgrey' }}>
             {String.fromCharCode(9733).repeat(5 - Math.floor(review_star))}
           </Text>
-      <Text>{`${createdAt.substring(0, 10)} | ${createdAt.substring(14, 19)}`}</Text>
+          <Text>{`${createdAt.substring(0, 10)} | ${createdAt.substring(
+            14,
+            19
+          )}`}</Text>
         </View>
       </View>
       <Text>{review_description}</Text>
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    flex: .4,
+    flex: 0.4,
     height: undefined,
     width: undefined,
   },
