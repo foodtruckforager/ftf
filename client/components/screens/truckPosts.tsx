@@ -4,17 +4,11 @@ import { Button } from 'react-native-elements';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
 import InfoWindow from '../dropIns/InfoWindow';
-import SubmitOverlay from '../dropIns/SubmitOverlay';
 
 export default function TruckPosts({ navigation }) {
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
   const { currentTruck } = navigation.state.params.params;
   const { id } = currentTruck;
-  const [isVisible, setIsVisible] = useState(false);
-
-  const toggleOverlay = () => {
-    setIsVisible(!isVisible);
-  };
 
   const getTruckPosts = async () => {
     axios
@@ -82,15 +76,6 @@ export default function TruckPosts({ navigation }) {
           />
         ))}</ScrollView>
       </View>
-      {/* MOVE TO TRUCK OWNER PROFILE PAGE */}
-      {/* <View style={styles.modal}>
-        <SubmitOverlay
-          isVisible={isVisible}
-          onBackdropPress={toggleOverlay}
-          currentTruck={currentTruck}
-          getTruckPosts={getTruckPosts}
-        />
-      </View> */}
     </View>
   );
 }
