@@ -83,17 +83,32 @@ export default () => {
   }, [userId]);
 
   useEffect(() => {
-    if (visits) {
+    if (visits !== []) {
       if (visits.length > 2) {
         setBadgeFeastMode(true);
       }
       if ([...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3) {
         setBadgeAroundTheWorld(true);
       }
-      // TODO: Five same truck ids in seven days (theRegular)
       // TODO: 3 different truck ids in one day (berserker)
+      // console.log('date', visits[0].createdAt);
+      // console.log('visits', visits);
+      let berserkBoolean = false;
+      visits.forEach((visit, i, visitCollection) => {
+        if (visitCollection.filter((x) => ((x.createdAt.substring(0, 10)) === visit.createdAt.substring(0, 10)) && (x.truck_id === visit.truck_id)).length > 3) {
+          berserkBoolean = true;
+        }
+      });
+      setBadgeBerserkMode(berserkBoolean);
+      // TODO: Five same truck ids in seven days (theRegular)
     }
   }, [visits]);
+
+  const badgeArray = [];
+
+  if (badgeTheRegular) {
+    badgeArray.push({ name: 'The Regular', points: 'The Regular' });
+  }
 
   const favoriteTrucks: ListModelFavoriteTruck = {
     name: 'User Profile Demo',
