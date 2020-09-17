@@ -220,17 +220,16 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    // width: '100%',
-    // height: '100%',
-    // backgroundColor: 'blue'
   },
   map: {
     flex: 6,
-    // ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'center',
+<<<<<<< HEAD
+=======
     // paddingTop: 200
     marginTop: 20,
+>>>>>>> e4d148fa4984a825829b531917f45b1b9a4c67a9
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,
@@ -240,30 +239,25 @@ const style = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     flexDirection: 'column',
-    // backgroundColor: 'red'
   },
   favorite: {
-    width: 270,
+    width: 260,
+    paddingTop: 20,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   infoWindow: {
     flex: 1,
-    // backgroundColor: 'pink',
     flexGrow: 10,
-    // alignSelf: 'stretch'
   },
   customView: {
     width: 280,
     height: 140,
-    // backgroundColor: 'yellow',
   },
   tabs: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // justifyContent: 'flex-end',
     flex: 1,
-    // backgroundColor: 'orange',
     alignItems: 'flex-end',
     paddingLeft: 40,
     paddingRight: 40,
@@ -271,10 +265,7 @@ const style = StyleSheet.create({
   infoWindowShell: {
     flex: 4,
     alignItems: 'center',
-    // backgroundColor: '#ecf0f1',
-    // backgroundColor: 'green',
     justifyContent: 'flex-start',
-    // padding: 10
     flexDirection: 'column',
   },
   title: {
