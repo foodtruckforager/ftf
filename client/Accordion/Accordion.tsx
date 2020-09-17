@@ -18,8 +18,11 @@ export default () => {
   const [visits, setVisits] = useState([]);
   const [badgeTheRegular, setBadgeTheRegular] = useState(false);
   const [badgeFeastMode, setBadgeFeastMode] = useState(false);
-  const [badgeBerserkMode, setBadgeBerserkMode] = useState(false);
+  const [badgeBerserker, setBadgeBerserker] = useState(false);
+  const [badgeIGotTrucked, setBadgeIGotTrucked] = useState(false);
+  const [badgeParliamentTruckaDelic, setBadgeParliamentTruckaDelic] = useState(false);
   const [badgeAroundTheWorld, setBadgeAroundTheWorld] = useState(false);
+ 
 
   useEffect(() => {
     const retrieveCurrentUserId = async() => {
@@ -83,17 +86,51 @@ export default () => {
   }, [userId]);
 
   useEffect(() => {
-    if (visits) {
-      if (visits.length > 2) {
+    if (visits !== []) {
+      if (visits.length > 3) {
+        setBadgeIGotTrucked(true);
+      }
+      if (visits.length > 10) {
+        setBadgeParliamentTruckaDelic(true);
+      }
+      if (visits.length > 15) {
         setBadgeFeastMode(true);
       }
       if ([...new Set(visits.map((visit: Object) => visit.id_truck))].length > 3) {
         setBadgeAroundTheWorld(true);
       }
+
+      let berserkBoolean = false;
+      visits.forEach((visit, i, visitCollection) => {
+        if (visitCollection.filter((x) => ((x.createdAt.substring(0, 10)) === visit.createdAt.substring(0, 10)) && (x.truck_id === visit.truck_id)).length > 3) {
+          berserkBoolean = true;
+        }
+      });
+      setBadgeBerserker(berserkBoolean);
       // TODO: Five same truck ids in seven days (theRegular)
-      // TODO: 3 different truck ids in one day (berserker)
     }
   }, [visits]);
+
+  const badgeArray = [];
+
+  if (badgeIGotTrucked) {
+    badgeArray.push({ name: '🥉 3 trucks', points: 'I Got Trucked' });
+  }
+  if (badgeParliamentTruckaDelic) {
+    badgeArray.push({ name: '🥈 10 trucks', points: 'Parliament Truck-a-Delic' });
+  }
+  if (badgeFeastMode) {
+    badgeArray.push({ name: '🥇 30 trucks', points: 'Feast Mode' });
+  }
+  if (badgeAroundTheWorld) {
+    badgeArray.push({ name: '🎖 5 different trucks', points: 'Around The World' });
+  }
+  if (badgeBerserker) {
+    badgeArray.push({ name: '🏅 same truck 3x 1/week', points: 'Berserker' });
+  }
+  if (badgeTheRegular) {
+    badgeArray.push({ name: '🏆', points: 'The Regular' });
+  }
 
   const favoriteTrucks: ListModelFavoriteTruck = {
     name: 'User Profile Demo',
@@ -101,18 +138,22 @@ export default () => {
       { name: 'Food Truck Demo 1', points: 'Favorites To Go Here' },
     ],
   };
+
   const badges: ListModelBadges = {
     name: 'Badges',
-    items: [{ name: 'Badges', points: 'Badges to go here' }],
+    items: badgeArray || [{ name: 'Badges', points: 'Badges to go here' }],
   };
+
   const settings: ListModelSettings = {
     name: 'Settings',
     items: [{ name: 'Profile', points: 'Settings to go here' }],
   };
+
   const userPosts: ListModelUserPosts = {
     name: 'User Posts',
     items: [{ name: 'User Posts', points: 'User Posts Go Here' }],
   };
+
   return (
     <ScrollView style={styles.container}>
       {/* <Text style={styles.title}>User Profile</Text> */}
