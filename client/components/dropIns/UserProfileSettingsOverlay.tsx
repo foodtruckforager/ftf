@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Overlay,
-  SearchBar,
-  Text,
-  AirbnbRating,
-} from 'react-native-elements';
-import { View, StyleSheet, AsyncStorage } from 'react-native';
+import { Button, Overlay, SearchBar, Text } from 'react-native-elements';
+import { View, StyleSheet, AsyncStorage, Switch } from 'react-native';
 import axios from 'axios';
 
 const UserProfileSettingsOverlay = () => {
+  const [pushNotifications, setPushNotifications] = useState(false);
   const [visible, setVisible] = useState(false);
   const [username, setUsername] = useState('');
-  const [description, setDescription] = useState('');
-  const [rating, setRating] = useState(5);
   const [userId, setUserId] = useState('');
   const [photo, setPhoto] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU'
@@ -23,15 +16,11 @@ const UserProfileSettingsOverlay = () => {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
+  const toggleSwitch = () =>
+    setPushNotifications((previousState) => !previousState);
 
   const updateUsername = (username: string) => {
     setUsername(username);
-  };
-  const updateDescription = (description: string) => {
-    setDescription(description);
-  };
-  const onFinishRating = (rating: number) => {
-    setRating(rating);
   };
 
   const onSubmit = () => {
@@ -71,9 +60,13 @@ const UserProfileSettingsOverlay = () => {
 
   return (
     <View>
-      {(
-        <Button title="Edit User Settings" onPress={toggleOverlay} buttonStyle={styles.button} />
-      )}
+      {
+        <Button
+          title="Edit User Settings"
+          onPress={toggleOverlay}
+          buttonStyle={styles.button}
+        />
+      }
       <Overlay
         isVisible={visible}
         onBackdropPress={toggleOverlay}
@@ -87,13 +80,16 @@ const UserProfileSettingsOverlay = () => {
           onChangeText={updateUsername}
           value={username}
         />
-        <SearchBar
-          placeholder="Description"
-          lightTheme={true}
-          searchIcon={false}
-          onChangeText={updateDescription}
-          value={description}
-        />
+        <View style={styles.verticalPadding}>
+          <Text>Push Notifications:</Text>
+          <Switch
+            trackColor={{ false: '767577', true: '#00bfff' }}
+            thumbColor={pushNotifications ? '#00ff7f' : '#708090'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={pushNotifications}
+          />
+        </View>
         <View style={styles.verticalPadding}>
           <Button title="📎 Edit Profile Photo" onPress={() => {}} />
           <Button

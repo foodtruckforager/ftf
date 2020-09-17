@@ -111,7 +111,7 @@ export default function GoogleLogIn({
         <Button title="User Sign In" onPress={userSignIn} buttonStyle={styles.buttonUser} />
       </View>
       <View>
-        <Button title="Food Truck Owner Sign In" onPress={truckSignIn} buttonStyle={styles.buttonOwner} />
+        <Button title="Truck Owner Sign In" onPress={truckSignIn} buttonStyle={styles.buttonOwner} />
       </View>
     </View>
   );
