@@ -14,8 +14,8 @@ import {
   Avatar, Badge, Card, Icon, withBadge, Image,
 } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
-import Thumbnail from './Thumbnail';
 import Constants from 'expo-constants';
+import Thumbnail from './Thumbnail';
 
 export default function InfoWindow({ currentTruck, navigation, onDetails }) {
   if (currentTruck) {
@@ -61,20 +61,22 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
       }
       Linking.openURL(phoneNumber);
     };
-    return (
-      <Callout
-        style={onDetails ? styles.customView : styles.customDetailsView}
-        onPress={() => {
-          const { id } = currentTruck;
-          navigation.navigate('TruckDetails', {
-            params: {
-              currentTruck, id, navigation, onDetails: true,
-            },
-          });
-        }}
-      >
-        <Card>
+
+    if (onDetails) {
+      return (
+        <Callout
+          style={onDetails ? styles.customView : styles.customDetailsView}
+          onPress={() => {
+            const { id } = currentTruck;
+            navigation.navigate('TruckDetails', {
+              params: {
+                currentTruck, id, navigation, onDetails: true,
+              },
+            });
+          }}
+        >
           <View>
+              <Card containerStyle={{width: 350, left: -50, right: 50 }}>
             <View style={styles.container}>
               <View style={styles.topRow}>
                 <Thumbnail logo={logo} />
@@ -113,11 +115,68 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
             </View>
             <SafeAreaView>
               <ScrollView>
-                <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
-              </ScrollView>
+            <Text style={styles.blurb}>{blurb}</Text>
+            </ScrollView>
             </SafeAreaView>
+              </Card>
           </View>
-        </Card>
+        </Callout>
+      );
+    } return (
+      <Callout
+        style={onDetails ? styles.customView : styles.customDetailsView}
+        onPress={() => {
+          const { id } = currentTruck;
+          navigation.navigate('TruckDetails', {
+            params: {
+              currentTruck, id, navigation, onDetails: true,
+            },
+          });
+        }}
+      >
+        <View>
+          <View style={styles.container}>
+            <View style={styles.topRow}>
+              <Thumbnail logo={logo} />
+              <View style={styles.badge}>{openBadge()}</View>
+              <View style={styles.topRowText}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+                  {`${truncate(full_name, 28, '')}`}
+                </Text>
+                {/* <Icon name="phone" size={30} color="#900" /> */}
+                <TouchableOpacity onPress={makeCall}>
+                  <Text>
+                    {String.fromCharCode(9990)}
+                    {phone_number}
+                  </Text>
+                </TouchableOpacity>
+                <Text>
+                  {food_genre.charAt(0).toUpperCase()}
+                  {food_genre.slice(1)}
+                </Text>
+                <View style={styles.stars}>
+                  <Text style={{ color: 'orange' }}>
+                    {String.fromCharCode(9733).repeat(Math.floor(star_average))}
+                  </Text>
+                  <Text style={{ color: 'lightgrey' }}>
+                    {String.fromCharCode(9733).repeat(
+                      5 - Math.floor(star_average),
+                    )}
+                  </Text>
+                  {/* <Text>{number_of_reviews} Reviews</Text> */}
+                </View>
+              </View>
+              <View>
+                <Text>{/* Distance */}</Text>
+              </View>
+            </View>
+          </View>
+          {/* <SafeAreaView>
+                  <ScrollView> */}
+          <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
+          {/* </ScrollView>
+                </SafeAreaView> */}
+        </View>
       </Callout>
     );
   }
@@ -161,5 +220,8 @@ const styles = StyleSheet.create({
   badge: {
     right: 10,
     top: -10,
+  },
+  card: {
+   width: 400,
   },
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Button, Icon, Card } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -149,6 +149,7 @@ export default function TruckDetails({ navigation }) {
           <Button title="Posts" onPress={pressHandlerPost} />
         </View>
       </View>
+      {/* <Card> */}
       <View style={style.infoWindowShell}>
         <InfoWindow
           currentTruck={currentTruck}
@@ -176,6 +177,7 @@ export default function TruckDetails({ navigation }) {
           )}
         </View>
       </View>
+      {/* </Card> */}
       <View style={style.buffer} />
       <View style={style.map}>
         <MapView
@@ -223,11 +225,9 @@ const style = StyleSheet.create({
   },
   map: {
     flex: 4,
-    // ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    // paddingTop: 200
-    marginTop: 20,
+    marginTop: -40,
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,
