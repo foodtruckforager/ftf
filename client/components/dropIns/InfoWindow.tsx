@@ -11,7 +11,12 @@ import {
   ScrollView,
 } from 'react-native';
 import {
-  Avatar, Badge, Card, Icon, withBadge, Image,
+  Avatar,
+  Badge,
+  Card,
+  Icon,
+  withBadge,
+  Image,
 } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
 import Constants from 'expo-constants';
@@ -70,66 +75,75 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
             const { id } = currentTruck;
             navigation.navigate('TruckDetails', {
               params: {
-                currentTruck, id, navigation, onDetails: true,
+                currentTruck,
+                id,
+                navigation,
+                onDetails: true,
               },
             });
           }}
         >
           <View>
-              <Card containerStyle={{width: 350, left: -50, right: 50 }}>
-            <View style={styles.container}>
-              <View style={styles.topRow}>
-                <Thumbnail logo={logo} />
-                <View style={styles.badge}>{openBadge()}</View>
-                <View style={styles.topRowText}>
-                  <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-                    {`${truncate(full_name, 28, '')}`}
-                  </Text>
-                  {/* <Icon name="phone" size={30} color="#900" /> */}
-                  <TouchableOpacity onPress={makeCall}>
+            <Card containerStyle={{ width: 350, left: -50, right: 50 }}>
+              <View style={styles.container}>
+                <View style={styles.topRow}>
+                  <Thumbnail logo={logo} />
+                  <View style={styles.badge}>{openBadge()}</View>
+                  <View style={styles.topRowText}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+                      {`${truncate(full_name, 28, '')}`}
+                    </Text>
+                    {/* <Icon name="phone" size={30} color="#900" /> */}
+                    <TouchableOpacity onPress={makeCall}>
+                      <Text>
+                        {String.fromCharCode(9990)}
+                        {phone_number}
+                      </Text>
+                    </TouchableOpacity>
                     <Text>
-                      {String.fromCharCode(9990)}
-                      {phone_number}
+                      {food_genre.charAt(0).toUpperCase()}
+                      {food_genre.slice(1)}
                     </Text>
-                  </TouchableOpacity>
-                  <Text>
-                    {food_genre.charAt(0).toUpperCase()}
-                    {food_genre.slice(1)}
-                  </Text>
-                  <View style={styles.stars}>
-                    <Text style={{ color: 'orange' }}>
-                      {String.fromCharCode(9733).repeat(Math.floor(star_average))}
-                    </Text>
-                    <Text style={{ color: 'lightgrey' }}>
-                      {String.fromCharCode(9733).repeat(
-                        5 - Math.floor(star_average),
-                      )}
-                    </Text>
-                    {/* <Text>{number_of_reviews} Reviews</Text> */}
+                    <View style={styles.stars}>
+                      <Text style={{ color: 'orange' }}>
+                        {String.fromCharCode(9733).repeat(
+                          Math.floor(star_average)
+                        )}
+                      </Text>
+                      <Text style={{ color: 'lightgrey' }}>
+                        {String.fromCharCode(9733).repeat(
+                          5 - Math.floor(star_average)
+                        )}
+                      </Text>
+                      {/* <Text>{number_of_reviews} Reviews</Text> */}
+                    </View>
+                  </View>
+                  <View>
+                    <Text>{/* Distance */}</Text>
                   </View>
                 </View>
-                <View>
-                  <Text>{/* Distance */}</Text>
-                </View>
               </View>
-            </View>
-            <SafeAreaView>
-              <ScrollView>
-            <Text style={styles.blurb}>{blurb}</Text>
-            </ScrollView>
-            </SafeAreaView>
-              </Card>
+              <SafeAreaView>
+                <ScrollView>
+                  <Text style={styles.blurb}>{blurb}</Text>
+                </ScrollView>
+              </SafeAreaView>
+            </Card>
           </View>
         </Callout>
       );
-    } return (
+    }
+    return (
       <Callout
         style={onDetails ? styles.customView : styles.customDetailsView}
         onPress={() => {
           const { id } = currentTruck;
           navigation.navigate('TruckDetails', {
             params: {
-              currentTruck, id, navigation, onDetails: true,
+              currentTruck,
+              id,
+              navigation,
+              onDetails: true,
             },
           });
         }}
@@ -140,9 +154,11 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
               <Thumbnail logo={logo} />
               <View style={styles.badge}>{openBadge()}</View>
               <View style={styles.topRowText}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-                  {`${truncate(full_name, 28, '')}`}
-                </Text>
+                <View style={{ width: 150 }}>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+                    {`${truncate(full_name, 28, '')}`}
+                  </Text>
+                </View>
                 {/* <Icon name="phone" size={30} color="#900" /> */}
                 <TouchableOpacity onPress={makeCall}>
                   <Text>
@@ -160,7 +176,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                   </Text>
                   <Text style={{ color: 'lightgrey' }}>
                     {String.fromCharCode(9733).repeat(
-                      5 - Math.floor(star_average),
+                      5 - Math.floor(star_average)
                     )}
                   </Text>
                   {/* <Text>{number_of_reviews} Reviews</Text> */}
@@ -173,7 +189,13 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
           </View>
           {/* <SafeAreaView>
                   <ScrollView> */}
-          <Text style={styles.blurb}>{`${truncate(blurb, truncateBlurbBy, '...')}`}</Text>
+          <View style={{ width: 285 }}>
+            <Text style={styles.blurb}>{`${truncate(
+              blurb,
+              truncateBlurbBy,
+              '...'
+            )}`}</Text>
+          </View>
           {/* </ScrollView>
                 </SafeAreaView> */}
         </View>
@@ -222,6 +244,6 @@ const styles = StyleSheet.create({
     top: -10,
   },
   card: {
-   width: 400,
+    width: 400,
   },
 });
