@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttonsContainer: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
