@@ -80,7 +80,7 @@ function doStuffWithUserModel() {
       close_time: '11',
       latitude: 29.9573143,
       longitude: -90.08317289999999,
-      star_average: 3,
+      star_average: 5,
     },
   })
     .then((newTruck) => {

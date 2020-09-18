@@ -64,27 +64,30 @@ export default () => {
     getUserIdWithGoogleUserId();
   }, [googleUserId]);
 
-  useEffect(() => {
-    const retrieveCurrentUserFavorites = async() => {
-      axios
-        .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
-        .then((response) => {
-          const { data } = response;
-          const { length } = data;
-          if (length) {
-            if (data !== undefined) {
-              const filteredFavorites = data.map((savedFavorite: Object) => ({
-                name: savedFavorite.truck.full_name,
-                points: savedFavorite.truck.food_genre,
-              }));
-              setFavorite(filteredFavorites);
-            }
+  const retrieveCurrentUserFavorites = async() => {
+    axios
+      .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
+      .then((response) => {
+        const { data } = response;
+        const { length } = data;
+        if (length) {
+          if (data !== undefined) {
+            const filteredFavorites = data.map((savedFavorite: Object) => ({
+              name: `🚚 ${savedFavorite.truck.full_name}`,
+              points: savedFavorite.truck.food_genre,
+            }));
+            setFavorite(filteredFavorites);
           }
-        })
-        .catch((err) => console.log('CATCH:retrieveCurrentUserFavorites', err));
-    };
+        }
+      })
+      .catch((err) => console.log('CATCH:retrieveCurrentUserFavorites', err));
+  };
+  useEffect(() => {
     retrieveCurrentUserFavorites();
   }, [userId]);
+  useEffect(() => {
+    retrieveCurrentUserFavorites();
+  }, []);
 
   useEffect(() => {
     axios
@@ -272,10 +275,10 @@ export default () => {
     });
   }
   if (badgeBerserker) {
-    badgeArray.push({ name: '🏅 same truck 3x 1/week', points: 'Berserker' });
+    badgeArray.push({ name: '🏅 same truck 3x 1/day', points: 'Berserker' });
   }
   if (badgeTheRegular) {
-    badgeArray.push({ name: '🏆', points: 'The Regular' });
+    badgeArray.push({ name: '🏆 same truck 5x 1/week', points: 'The Regular' });
   }
 
   const favoriteTrucks: ListModelFavoriteTruck = {
@@ -302,7 +305,6 @@ export default () => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* <Text style={styles.title}>User Profile</Text> */}
       <View style={styles.settings}>
         <UserSettings />
       </View>
