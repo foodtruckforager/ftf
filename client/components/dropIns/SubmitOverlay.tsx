@@ -57,7 +57,7 @@ const SubmitOverlay = ({
               reviewStar: rating,
               reviewPhoto: photo,
               upvotes: 0,
-            }
+            },
           )
           .then(() => {
             getTruckReviews();

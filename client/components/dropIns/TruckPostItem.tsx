@@ -1,15 +1,24 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { Divider, Text } from 'react-native-elements';
+import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { Divider, Text, Card } from 'react-native-elements';
 
 const TruckPostItem = ({ post }) => (
   <View key={post.id} style={styles.container}>
-    <Text style={styles.title}>{post.title}</Text>
-    <Text>{`${post.createdAt.substring(0, 10)} | ${post.createdAt.substring(11, 16)}`}</Text>
+      <Card>
+        <Card.Title>{post.title}</Card.Title>
+        <Card.Divider />
+        <Text>{`${post.createdAt.substring(0, 10)} | ${post.createdAt.substring(
+          11,
+          16
+        )}`}</Text>
 
-    <Text>{post.message}</Text>
-    <Image source={{ uri: post.photo }} style={styles.image} resizeMode="contain" />
-    <Divider style={{ backgroundColor: 'blue' }} />
+        <Text>{post.message}</Text>
+        <Card.Image
+          source={{ uri: post.photo }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </Card>
   </View>
 );
 
@@ -18,9 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    flex: 1,
-    height: undefined,
-    width: undefined,
+    padding: 20,
   },
   truck: {
     height: 100,

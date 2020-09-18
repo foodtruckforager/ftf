@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function TruckReviews({ navigation }) {
   const [currentTruckReviews, setCurrentTruckReviews] = useState([]);
@@ -89,6 +90,7 @@ export default function TruckReviews({ navigation }) {
         />
       </View>
       <View style={styles.reviews}>
+        <ScrollView>
         {currentTruckReviews.map((review) => (
           <TruckReviewItem
             currentTruck={currentTruck}
@@ -97,6 +99,7 @@ export default function TruckReviews({ navigation }) {
             key={review.id}
           />
         ))}
+          </ScrollView>
       </View>
       <View style={styles.modal}>
         <SubmitOverlay
