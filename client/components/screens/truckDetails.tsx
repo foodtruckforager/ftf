@@ -227,7 +227,7 @@ const style = StyleSheet.create({
     flex: 4,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: -40,
+    marginTop: 100,
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,
@@ -265,6 +265,8 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     flexDirection: 'column',
+    // marginBottom: 100,
+    // paddingBottom: 100,
   },
   title: {
     textAlign: 'center',
