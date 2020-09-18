@@ -225,11 +225,8 @@ const style = StyleSheet.create({
     flex: 6,
     justifyContent: 'flex-end',
     alignItems: 'center',
-<<<<<<< HEAD
-=======
     // paddingTop: 200
     marginTop: 20,
->>>>>>> e4d148fa4984a825829b531917f45b1b9a4c67a9
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,
