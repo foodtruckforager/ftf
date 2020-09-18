@@ -282,6 +282,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: -20,
   },
   buttonContainer: {
     paddingBottom: 10,

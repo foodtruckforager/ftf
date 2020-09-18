@@ -102,9 +102,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
             openStatus,
           })
           .then(() => {
-            alert(
-              `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`,
-            );
+            // alert(
+              // `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`,
+            // );
           })
           .catch((err) => console.error(err));
       };
@@ -139,9 +139,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 </Card.Title>
                 <View style={styles.slider}>
                   <Switch
-                    trackColor={{ false: '767577', true: '#00bfff' }}
-                    thumbColor={openStatus ? '#00ff7f' : '#708090'}
-                    ios_backgroundColor="#3e3e3e"
+                    // trackColor={{ false: '767577', true: '#00bfff' }}
+                    thumbColor={openStatus ? '#f0fff0' : '#7fffd4'}
+                    ios_backgroundColor="f0fff0"
                     onValueChange={toggleSwitch}
                     value={openStatus}
                   />
@@ -235,6 +235,7 @@ const styles = StyleSheet.create({
   },
   slider: {
     margin: -5,
+    marginHorizontal: 10,
   },
   stars: {
     flexDirection: 'row',
