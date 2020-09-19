@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Overlay, SearchBar, Text } from 'react-native-elements';
-import { View, StyleSheet, AsyncStorage, Switch } from 'react-native';
+import {
+  Button, Overlay, SearchBar, Text,
+} from 'react-native-elements';
+import {
+  View, StyleSheet, AsyncStorage, Switch,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
@@ -44,8 +48,7 @@ const UserProfileSettingsOverlay = () => {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
-  const toggleSwitch = () =>
-    setPushNotifications((previousState) => !previousState);
+  const toggleSwitch = () => setPushNotifications((previousState) => !previousState);
 
   const updateUsername = (username: string) => {
     setUsername(username);
@@ -56,7 +59,7 @@ const UserProfileSettingsOverlay = () => {
   };
 
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -73,7 +76,7 @@ const UserProfileSettingsOverlay = () => {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -88,13 +91,11 @@ const UserProfileSettingsOverlay = () => {
 
   return (
     <View>
-      {
-        <Button
-          title="Edit User Settings"
-          onPress={toggleOverlay}
-          buttonStyle={styles.button}
-        />
-      }
+      <Button
+        title="Edit User Settings"
+        onPress={toggleOverlay}
+        buttonStyle={styles.button}
+      />
       <Overlay
         isVisible={visible}
         onBackdropPress={toggleOverlay}
@@ -106,7 +107,7 @@ const UserProfileSettingsOverlay = () => {
         <View style={styles.slightVerticalPadding}>
           <SearchBar
             placeholder="Change Name"
-            lightTheme={true}
+            lightTheme
             searchIcon={false}
             onChangeText={updateUsername}
             value={username}
@@ -115,8 +116,8 @@ const UserProfileSettingsOverlay = () => {
         <View style={styles.verticalPadding}>
           <View style={styles.row}>
             <Switch
-              trackColor={{ false: '767577', true: '#00bfff' }}
-              thumbColor={pushNotifications ? '#00ff7f' : '#708090'}
+              trackColor={{ false: '#767577', true: '#3cb37' }}
+              thumbColor={pushNotifications ? '#FFFFFF' : '#FFFFFF'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
               value={pushNotifications}
@@ -136,7 +137,7 @@ const UserProfileSettingsOverlay = () => {
               testID="dateTimePicker"
               value={lunchStart ? date : time}
               mode={mode}
-              is24Hour={true}
+              is24Hour
               display="default"
               onChange={onChange}
             />
