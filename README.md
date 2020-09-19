@@ -1,4 +1,6 @@
-# 🚚 Food Truck Forager
+![🚚](https://i.pinimg.com/originals/98/3e/8a/983e8a20bcf166b14f23103287885cdb.gif)
+
+# Food Truck Forager
 
 Application for live tracking food trucks
 
