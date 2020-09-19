@@ -137,7 +137,6 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
 // route to get truck by google id for login
 truckRouter.get('/login/:googleId', (req, res) => {
   const { googleId } = req.params;
-  console.log('google id in server', googleId);
   Truck.findOne({
     where: {
       google_id: googleId,
@@ -145,7 +144,6 @@ truckRouter.get('/login/:googleId', (req, res) => {
   })
     .then((foundTruck) => {
       if (foundTruck) {
-        console.log('foundtruck', foundTruck);
         res.send(foundTruck);
       } else {
         res.status(404).send('truck not found');
@@ -178,6 +176,7 @@ truckRouter.post('/register', (req, res) => {
 // route to create new truck
 truckRouter.put('/create/:googleId', (req, res) => {
   const { googleId } = req.params;
+  console.log('create truck', req.params);
   const {
     fullName,
     phoneNumber,

@@ -37,9 +37,9 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
     auto: 'placeholders',
   };
 
-  const handleLoginSubmit = async() => {
+  const handleLoginSubmit = () => {
     const value = this._form.getValue();
-    await axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
+    axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
       fullName: value.business_name,
       phoneNumber: value.phone_number.toString(),
       logo: value.logo,

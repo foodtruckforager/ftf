@@ -139,9 +139,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 </Card.Title>
                 <View style={styles.slider}>
                   <Switch
-                    // trackColor={{ false: '767577', true: '#00bfff' }}
-                    thumbColor={openStatus ? '#f0fff0' : '#7fffd4'}
-                    ios_backgroundColor="f0fff0"
+                    trackColor={{ false: '#767577', true: '#3cb37' }}
+                    thumbColor={openStatus ? '#FFFFFF' : '#FFFFFF'}
+                    ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch}
                     value={openStatus}
                   />

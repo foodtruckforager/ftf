@@ -10,7 +10,7 @@ export default function LogIn(props) {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isTruckOwnerLoggedIn, setIsTruckOwnerLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
-  const [ownerGoogleId, setOwnerGoogleId] = useState('');
+  const [ownerGoogleId, setOwnerGoogleId] = useState(null);
   const [cameFromLogOut, setCameFromLogout] = useState(null);
 
   useEffect(() => {
@@ -28,6 +28,10 @@ export default function LogIn(props) {
       setCameFromLogout(null);
     }
   }, [accessToken]);
+
+  useEffect(() => {
+     console.log('use effect truck loggedd in', isTruckOwnerLoggedIn);
+  }, [isTruckOwnerLoggedIn]);
 
   const retrieveData = async() => {
     try {
@@ -84,13 +88,15 @@ export default function LogIn(props) {
         )}
       </>
       <>
+      {/* <TruckOwnerRouter googleId={ownerGoogleId} />  */}
         { isUserLoggedIn && (
         <RootDrawerNavigator
           accessToken={accessToken}
           setAccessToken={setAccessToken}
         />
         ) }
-        { isTruckOwnerLoggedIn && <TruckOwnerRouter googleId={ownerGoogleId} /> }
+        { (isTruckOwnerLoggedIn && ownerGoogleId !== null)
+        && <TruckOwnerRouter googleId={ownerGoogleId} /> }
       </>
     </>
   );

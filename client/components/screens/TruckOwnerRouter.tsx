@@ -9,31 +9,36 @@ import OwnerProfileFirstStack from '../routes/OwnerProfileFirstStack';
 import OwnerCreateProfileFirstStack from '../routes/OwnerCreateProfileFirstStack';
 
 const TruckOwnerRouter = ({ googleId }) => {
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(null);
+  const [okToLoadEditPage, setOkToLoadEditPage] = useState(null);
   const [ownerGoogleId, setOwnerGoogleId] = useState(null);
   const [dataRetrieved, setDataRetrieved] = useState(false);
 
+  // useEffect(() => {
+  //   if (dataRetrieved === false) {
+  //     retrieveData();
+  //     setDataRetrieved(true);
+  //   }
+  // }, []);
   useEffect(() => {
-    if (dataRetrieved === false) {
-      retrieveData();
-      setDataRetrieved(true);
-    }
+    console.log('google iddd in router', googleId);
   }, []);
 
   useEffect(() => {
-    if (ownerGoogleId !== null) {
-      axios.get(`${process.env.EXPO_LocalLan}/truck/login/${ownerGoogleId}`)
+    if (googleId) {
+      axios.get(`${process.env.EXPO_LocalLan}/truck/login/${googleId}`)
         .then((response) => {
           if (response.data.full_name !== null) {
             console.log(response.data)
             setAlreadyRegistered(true);
           } else {
-            setAlreadyRegistered(false);
+            console.log('else is usee effect');
+            setOkToLoadEditPage(true);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error('err in router', err));
     }
-  }, [ownerGoogleId]);
+  }, []);
 
   const retrieveData = async() => {
     try {
@@ -51,13 +56,9 @@ const TruckOwnerRouter = ({ googleId }) => {
 
   return (
     <View style={styles.container}>
-      {alreadyRegistered
-        ? (
-          <OwnerProfileFirstStack googleId={ownerGoogleId} />
-        )
-        : (
-          <OwnerCreateProfileFirstStack googleId={ownerGoogleId} />
-        )}
+      {alreadyRegistered !== null && <OwnerProfileFirstStack googleId={googleId} /> }
+      {okToLoadEditPage !== null && <OwnerCreateProfileFirstStack googleId={googleId} /> }
+      {/* <OwnerCreateProfileFirstStack googleId={googleId} /> */}
     </View>
   );
 };
