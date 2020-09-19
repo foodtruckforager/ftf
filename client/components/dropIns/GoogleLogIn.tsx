@@ -74,6 +74,7 @@ export default function GoogleLogIn({
         setAccessToken(result.accessToken);
         setIsTruckOwnerLoggedIn(true);
         setOwnerGoogleId(result.user.id);
+        console.log('truckLogged in true');
 
         axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
           googleId: result.user.id,

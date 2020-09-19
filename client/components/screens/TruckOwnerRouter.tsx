@@ -9,8 +9,8 @@ import OwnerProfileFirstStack from '../routes/OwnerProfileFirstStack';
 import OwnerCreateProfileFirstStack from '../routes/OwnerCreateProfileFirstStack';
 
 const TruckOwnerRouter = ({ googleId }) => {
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
-  const [notRegistered, setNotRegistered] = useState(false);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(null);
+  const [okToLoadEditPage, setOkToLoadEditPage] = useState(null);
   const [ownerGoogleId, setOwnerGoogleId] = useState(null);
   const [dataRetrieved, setDataRetrieved] = useState(false);
 
@@ -20,16 +20,20 @@ const TruckOwnerRouter = ({ googleId }) => {
   //     setDataRetrieved(true);
   //   }
   // }, []);
+  useEffect(() => {
+    console.log('google iddd in router', googleId);
+  }, []);
 
   useEffect(() => {
-    if (googleId !== null) {
+    if (googleId) {
       axios.get(`${process.env.EXPO_LocalLan}/truck/login/${googleId}`)
         .then((response) => {
           if (response.data.full_name !== null) {
             console.log(response.data)
             setAlreadyRegistered(true);
           } else {
-            setNotRegistered(true);
+            console.log('else is usee effect');
+            setOkToLoadEditPage(true);
           }
         })
         .catch((err) => console.error('err in router', err));
@@ -52,8 +56,9 @@ const TruckOwnerRouter = ({ googleId }) => {
 
   return (
     <View style={styles.container}>
-      {alreadyRegistered && <OwnerProfileFirstStack googleId={googleId} /> }
-      {notRegistered && <OwnerCreateProfileFirstStack googleId={googleId} /> }
+      {alreadyRegistered !== null && <OwnerProfileFirstStack googleId={googleId} /> }
+      {okToLoadEditPage !== null && <OwnerCreateProfileFirstStack googleId={googleId} /> }
+      {/* <OwnerCreateProfileFirstStack googleId={googleId} /> */}
     </View>
   );
 };
