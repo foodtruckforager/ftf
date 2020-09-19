@@ -10,30 +10,31 @@ import OwnerCreateProfileFirstStack from '../routes/OwnerCreateProfileFirstStack
 
 const TruckOwnerRouter = ({ googleId }) => {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+  const [notRegistered, setNotRegistered] = useState(false);
   const [ownerGoogleId, setOwnerGoogleId] = useState(null);
   const [dataRetrieved, setDataRetrieved] = useState(false);
 
-  useEffect(() => {
-    if (dataRetrieved === false) {
-      retrieveData();
-      setDataRetrieved(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (dataRetrieved === false) {
+  //     retrieveData();
+  //     setDataRetrieved(true);
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (ownerGoogleId !== null) {
-      axios.get(`${process.env.EXPO_LocalLan}/truck/login/${ownerGoogleId}`)
+    if (googleId !== null) {
+      axios.get(`${process.env.EXPO_LocalLan}/truck/login/${googleId}`)
         .then((response) => {
           if (response.data.full_name !== null) {
             console.log(response.data)
             setAlreadyRegistered(true);
           } else {
-            setAlreadyRegistered(false);
+            setNotRegistered(true);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error('err in router', err));
     }
-  }, [ownerGoogleId]);
+  }, []);
 
   const retrieveData = async() => {
     try {
@@ -51,13 +52,8 @@ const TruckOwnerRouter = ({ googleId }) => {
 
   return (
     <View style={styles.container}>
-      {alreadyRegistered
-        ? (
-          <OwnerProfileFirstStack googleId={ownerGoogleId} />
-        )
-        : (
-          <OwnerCreateProfileFirstStack googleId={ownerGoogleId} />
-        )}
+      {alreadyRegistered && <OwnerProfileFirstStack googleId={googleId} /> }
+      {notRegistered && <OwnerCreateProfileFirstStack googleId={googleId} /> }
     </View>
   );
 };

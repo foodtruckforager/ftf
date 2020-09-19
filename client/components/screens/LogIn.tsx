@@ -90,7 +90,7 @@ export default function LogIn(props) {
           setAccessToken={setAccessToken}
         />
         ) }
-        { isTruckOwnerLoggedIn && <TruckOwnerRouter googleId={ownerGoogleId} /> }
+        { (isTruckOwnerLoggedIn && ownerGoogleId !== null) && <TruckOwnerRouter googleId={ownerGoogleId} /> }
       </>
     </>
   );
