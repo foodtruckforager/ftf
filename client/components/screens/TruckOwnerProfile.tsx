@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, View, Text, Switch, Image, SafeAreaView, ScrollView,
+  StyleSheet, View, Text, Switch, SafeAreaView, ScrollView,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import {
-  Card, ListItem, Button, Icon,
+  Card, ListItem, Button,
 } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import axios from 'axios';
@@ -28,7 +28,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const [openStatus, setOpenStatus] = useState(false);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [cameFromProfileEdit, setCameFromProfileEdit] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
 
@@ -102,9 +101,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
             openStatus,
           })
           .then(() => {
-            // alert(
-              // `Your truck was updated with a Open Status:${openStatus}, Latitude: ${latitude}, Longitude: ${longitude}`,
-            // );
+            console.log('open stautus was updated');
           })
           .catch((err) => console.error(err));
       };
@@ -176,13 +173,13 @@ const TruckOwnerProfile = ({ navigation, route }) => {
               <Dropdown
                 label="Blurb"
                 data={[{ value: blurb }]}
+                multiline="true"
               />
               <Card.Image source={{ uri: logo }} />
               <Card.Divider />
               <Button
                 title="Edit"
                 onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
-              // icon={<Icon name="code" color="#ffffff" />}
                 buttonStyle={styles.button}
               />
               <Card.Divider />
