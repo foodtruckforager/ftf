@@ -125,17 +125,17 @@ Place in a .env file in outermost directory
 
 ```
 env_variables:
-  GOOGLE_PLACES_API_KEY           // Google Places API Credential
-  EXPO_iosClientId                // Google Development Console iOS Client ID
-  EXPO_androidClientId            // Google Development Console Android Client ID
-  EXPO_LocalLan                   // localLanAddress:ServerPort (find via ipconfig or ifconfig, default port:8080)
-  CLOUDINARY_KEY                  // key for Cloudinary image uploads
-  CLOUDINARY_PRESET               // preset for Cloudinary image uploads
-  DB_USERNAME                     // PostgreSQL login username
-  DB_PASSWORD                     // PostgreSQL password
-  DB_HOST                         // database host (default=localhost)
-  DB_PORT                         // database port (default=5432)
-  DB_DBNAME                       // database name (default=foodtruckdb)
+  GOOGLE_PLACES_API_KEY          // Google Places API Credential
+  EXPO_iosClientId               // Google Development Console iOS Client ID
+  EXPO_androidClientId           // Google Development Console Android Client ID
+  EXPO_LocalLan                  // localLanAddress:ServerPort (find via ipconfig or ifconfig, default port:8080)
+  CLOUDINARY_KEY                 // key for Cloudinary image uploads
+  CLOUDINARY_PRESET              // preset for Cloudinary image uploads
+  DB_USERNAME                    // PostgreSQL login username
+  DB_PASSWORD                    // PostgreSQL password
+  DB_HOST                        // database host (default=localhost)
+  DB_PORT                        // database port (default=5432)
+  DB_DBNAME                      // database name (default=foodtruckdb)
 ```
 
 # References
