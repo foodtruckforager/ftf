@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     // textAlign: 'center',
     alignSelf: 'center',
-    marginRight: 35,
+    marginRight: 65,
     // paddingBottom: 10,
   },
   icon: {
