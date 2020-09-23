@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import {
-  StyleSheet, View, Text, Button, SafeAreaView, ScrollView,
+  StyleSheet, Text, Button, SafeAreaView, ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
@@ -35,6 +35,11 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
 
   const options = {
     auto: 'placeholders',
+    fields: {
+      blurb: {
+        multiline: true,
+      },
+    },
   };
 
   const handleLoginSubmit = () => {
@@ -66,7 +71,6 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
           type={Owner}
           ref={(c) => this._form = c}
           options={options}
-          multiline="true"
         />
         <Button
           title="Save"
