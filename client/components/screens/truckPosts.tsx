@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import {
+  StyleSheet, View, Text, ScrollView,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
@@ -10,7 +12,7 @@ export default function TruckPosts({ navigation }) {
   const { currentTruck } = navigation.state.params.params;
   const { id } = currentTruck;
 
-  const getTruckPosts = async () => {
+  const getTruckPosts = async() => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
       .then((response) => {
@@ -24,8 +26,10 @@ export default function TruckPosts({ navigation }) {
   }, []);
 
   const pressHandler = () => {
-    navigation.navigate(`TruckReviews`, {
-      params: { currentTruck, id, navigation, onReviews: true },
+    navigation.navigate('TruckReviews', {
+      params: {
+        currentTruck, id, navigation, onReviews: true, onDetails: true,
+      },
     });
   };
   const pressHandlerDetails = () => {
@@ -62,19 +66,20 @@ export default function TruckPosts({ navigation }) {
         <InfoWindow
           currentTruck={currentTruck}
           navigation={navigation}
-          onReviews={true}
           style={styles.infoWindow}
+          onDetails={true}
         />
       </View>
       <View style={styles.posts}>
         <ScrollView>
-        {currentTruckPosts.map((post) => (
-          <TruckPostItem
-            currentTruck={currentTruck}
-            post={post}
-            key={post.id}
-          />
-        ))}</ScrollView>
+          {currentTruckPosts.map((post) => (
+            <TruckPostItem
+              currentTruck={currentTruck}
+              post={post}
+              key={post.id}
+            />
+          ))}
+        </ScrollView>
       </View>
     </View>
   );

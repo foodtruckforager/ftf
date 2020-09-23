@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
+import {
+  StyleSheet, View, AsyncStorage, Dimensions,
+} from 'react-native';
 import { Button, Icon, Card } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
 
 export default function TruckDetails({ navigation }) {
-  const currentTruck = navigation.state.params.params.currentTruck;
+  const { currentTruck } = navigation.state.params.params;
   const onDetails = navigation.state.params.params.onDetails || false;
   const [favorite, setFavorite] = useState(false);
   const [googleUserId, setGoogleUserId] = useState(null);
@@ -36,7 +38,7 @@ export default function TruckDetails({ navigation }) {
     longitudeDelta: LONGITUDE_DELTA,
   };
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -53,7 +55,7 @@ export default function TruckDetails({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -67,7 +69,7 @@ export default function TruckDetails({ navigation }) {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async () => {
+    const retrieveCurrentUserFavorites = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -83,10 +85,10 @@ export default function TruckDetails({ navigation }) {
     };
     if (userId) {
       retrieveCurrentUserFavorites();
-      const createUserFavorite = async () => {
+      const createUserFavorite = async() => {
         axios
           .post(
-            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
+            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`,
           )
           .then(() => {
           })
@@ -103,11 +105,11 @@ export default function TruckDetails({ navigation }) {
   };
 
   useEffect(() => {
-    const updateUserFavorite = async () => {
-      const favoriteRemove = favorite ? `favorite` : `remove`;
+    const updateUserFavorite = async() => {
+      const favoriteRemove = favorite ? 'favorite' : 'remove';
       axios
         .put(
-          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
+          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`,
         )
         .then((response) => {
           console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
@@ -120,13 +122,17 @@ export default function TruckDetails({ navigation }) {
   }, [favorite]);
 
   const pressHandler = () => {
-    navigation.navigate(`TruckReviews`, {
-      params: { currentTruck, id, navigation, onReviews: true },
+    navigation.navigate('TruckReviews', {
+      params: {
+        currentTruck, id, navigation, onReviews: true, onDetails: true,
+      },
     });
   };
   const pressHandlerPost = () => {
-    navigation.navigate(`TruckPosts`, {
-      params: { currentTruck, id, navigation, onPosts: true },
+    navigation.navigate('TruckPosts', {
+      params: {
+        currentTruck, id, navigation, onPosts: true, onDetails: true,
+      },
     });
   };
   return (
@@ -183,7 +189,7 @@ export default function TruckDetails({ navigation }) {
           style={style.innerMap}
           initialRegion={region}
           zoomTapEnabled={false}
-          showsUserLocation={true}
+          showsUserLocation
           followsUserLocation={false}
         >
           <View key={id}>

@@ -33,7 +33,7 @@ export default function Map({
     if (followsUserLocation) {
       setTimeout(() => {
         setFollowsUserLocation(false);
-      }, 1000);
+      }, 10);
     }
   }, [search]);
 

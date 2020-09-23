@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
-import { ScrollView } from 'react-native-gesture-handler';
 
 export default function TruckReviews({ navigation }) {
   const [currentTruckReviews, setCurrentTruckReviews] = useState([]);
   const [currentTruckReviewers, setCurrentTruckReviewers] = useState([]);
-  const currentTruck = navigation.state.params.params.currentTruck;
-  const onReviews = navigation.state.params.params.onReviews;
+  const { currentTruck } = navigation.state.params.params;
+  const { onReviews } = navigation.state.params.params;
   const { id } = currentTruck;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,7 +19,7 @@ export default function TruckReviews({ navigation }) {
     setIsVisible(!isVisible);
   };
 
-  const getTruckReviews = async () => {
+  const getTruckReviews = async() => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
       .then((response) => {
@@ -32,7 +32,7 @@ export default function TruckReviews({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const getTruckReviewers = async () => {
+    const getTruckReviewers = async() => {
       currentTruckReviews
         .map((review: object) => review.id_user)
         .forEach((reviewerId: string) => {
@@ -52,13 +52,17 @@ export default function TruckReviews({ navigation }) {
   }, [currentTruckReviews]);
 
   const pressHandler = () => {
-    navigation.navigate(`TruckDetails`, {
-      params: { currentTruck, id, navigation, onDetails: true },
+    navigation.navigate('TruckDetails', {
+      params: {
+        currentTruck, id, navigation, onDetails: true,
+      },
     });
   };
   const pressHandlerPost = () => {
-    navigation.navigate(`TruckPosts`, {
-      params: { currentTruck, id, navigation, onPost: true },
+    navigation.navigate('TruckPosts', {
+      params: {
+        currentTruck, id, navigation, onPost: true, onDetails: true,
+      },
     });
   };
 
@@ -87,25 +91,26 @@ export default function TruckReviews({ navigation }) {
           navigation={navigation}
           onReviews={onReviews}
           style={styles.infoWindow}
+          onDetails={true}
         />
       </View>
       <View style={styles.reviews}>
         <ScrollView>
-        {currentTruckReviews.map((review) => (
-          <TruckReviewItem
-            currentTruck={currentTruck}
-            currentTruckReviewers={currentTruckReviewers}
-            review={review}
-            key={review.id}
-          />
-        ))}
-          </ScrollView>
+          {currentTruckReviews.map((review) => (
+            <TruckReviewItem
+              currentTruck={currentTruck}
+              currentTruckReviewers={currentTruckReviewers}
+              review={review}
+              key={review.id}
+            />
+          ))}
+        </ScrollView>
       </View>
       <View style={styles.modal}>
         <SubmitOverlay
           isVisible={isVisible}
           onBackdropPress={toggleOverlay}
-          onReviews={true}
+          onReviews
           currentTruck={currentTruck}
           getTruckReviews={getTruckReviews}
         />
