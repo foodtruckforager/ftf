@@ -5,8 +5,6 @@ import FavoriteTruck, {
   FavoriteTruck as ListModelFavoriteTruck,
 } from './FavoriteTruck';
 import Badges, { Badges as ListModelBadges } from './Badges';
-import Settings, { Settings as ListModelSettings } from './Settings';
-import UserPosts, { UserPosts as ListModelUserPosts } from './UserPosts';
 import UserSettings from '../../client/components/screens/settings';
 import UserProfileSettingsOverlay from '../../client/components/dropIns/UserProfileSettingsOverlay';
 
@@ -305,7 +303,6 @@ export default () => {
       <View>
         {favorite && <FavoriteTruck {...{ favoriteTrucks }} />}
         <Badges {...{ badges }} />
-        {/* <Settings {...{ settings }} /> */}
       </View>
       <View style={styles.settingsOverlay}>
         <UserProfileSettingsOverlay
@@ -314,7 +311,6 @@ export default () => {
           isVisible={isVisible}
         />
       </View>
-      {/* <UserPosts {...{ userPosts }} /> */}
     </ScrollView>
   );
 };

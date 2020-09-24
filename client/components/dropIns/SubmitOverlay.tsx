@@ -25,12 +25,12 @@ const SubmitOverlay = ({
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(5);
   const [userId, setUserId] = useState('');
-  const [photo, setPhoto] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
-  );
+  const [photo, setPhoto] = useState('');
   const [googleUserId, setGoogleUserId] = useState(0);
   const [keywords, setKeywords] = useState([]);
-  const [imageUploadOverlayVisible, setImageUploadOverlayVisible] = useState(false);
+  const [imageUploadOverlayVisible, setImageUploadOverlayVisible] = useState(
+    false
+  );
   const { id }: { id: [string, number] } = currentTruck;
 
   const toggleOverlay = () => {
@@ -54,7 +54,7 @@ const SubmitOverlay = ({
   const onSubmit = () => {
     toggleOverlay();
     if (onReviews) {
-      const submitReview = async() => {
+      const submitReview = async () => {
         axios
           .post(
             `${process.env.EXPO_LocalLan}/user/review/new/${userId}/${id}`,
@@ -65,7 +65,7 @@ const SubmitOverlay = ({
               reviewPhoto: photo,
               upvotes: 0,
               keywords,
-            },
+            }
           )
           .then(() => {
             getTruckReviews();
@@ -74,7 +74,7 @@ const SubmitOverlay = ({
       };
       submitReview();
     } else {
-      const submitPost = async() => {
+      const submitPost = async () => {
         axios
           .post(`${process.env.EXPO_LocalLan}/truck/truckpost/new/${id}`, {
             title,
@@ -91,7 +91,7 @@ const SubmitOverlay = ({
   };
 
   useEffect(() => {
-    const retrieveCurrentUserId = async() => {
+    const retrieveCurrentUserId = async () => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -108,7 +108,7 @@ const SubmitOverlay = ({
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async() => {
+    const getUserIdWithGoogleUserId = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -124,9 +124,17 @@ const SubmitOverlay = ({
   return (
     <View>
       {onReviews ? (
-        <Button title="Write Review" onPress={toggleOverlay} buttonStyle={styles.button} />
+        <Button
+          title="Write Review"
+          onPress={toggleOverlay}
+          buttonStyle={styles.button}
+        />
       ) : (
-        <Button title="Write Post" onPress={toggleOverlay} buttonStyle={styles.button} />
+        <Button
+          title="Write Post"
+          onPress={toggleOverlay}
+          buttonStyle={styles.button}
+        />
       )}
       <Overlay
         isVisible={visible}
@@ -134,14 +142,14 @@ const SubmitOverlay = ({
         fullScreen={true}
       >
         <View style={styles.container}>
-          <Text h3>       📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
+          <Text h3> 📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
           {onReviews && (
-          <AirbnbRating
-            size={22}
-            defaultRating={5}
-            showRating
-            onFinishRating={onFinishRating}
-          />
+            <AirbnbRating
+              size={22}
+              defaultRating={5}
+              showRating
+              onFinishRating={onFinishRating}
+            />
           )}
           <View style={{ flex: 3 }}>
             <SearchBar
@@ -165,9 +173,11 @@ const SubmitOverlay = ({
                 imageUploadOverlayVisible={imageUploadOverlayVisible}
                 fullScreen={false}
                 onReviews={onReviews}
+                toggleImageUploadOverlay={toggleImageUploadOverlay}
                 keywords={keywords}
                 setKeywords={setKeywords}
-                toggleImageUploadOverlay={toggleImageUploadOverlay}
+                photo={photo}
+                setPhoto={setPhoto}
               />
             </View>
             <View style={{ marginTop: -50, flex: 3, borderRadius: 30 }}>
