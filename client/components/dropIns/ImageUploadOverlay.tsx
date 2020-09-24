@@ -45,22 +45,6 @@ export default class ImageUploadOverlay extends Component {
       setPhoto,
     } = this.props;
 
-    // const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-    // if (permissionResult.granted === false) {
-    //   alert('Permission to access camera roll is required!');
-    //   return;
-    // }
-    // const pickerResult = await ImagePicker.launchImageLibraryAsync({
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   base64: true,
-    // });
-    // if (pickerResult.cancelled === true) {
-    //   return;
-    // }
-
-    // this.setState({ selectedImage: { localUri: pickerResult.uri } });
-
     const base64Img = `data:image/jpg;base64,${pickerResult.base64}`;
     alert(base64Img);
 
@@ -80,7 +64,6 @@ export default class ImageUploadOverlay extends Component {
         const data = await r.json();
         this.setState({ userHasChangedPhoto: true });
         setPhoto(data.url);
-        alert('photo set!', data.url)
       })
       .catch((err) => console.log(err));
   };
@@ -126,8 +109,8 @@ export default class ImageUploadOverlay extends Component {
       const imageTensor = this.imageToTensor(rawImageData);
       const predictions = await this.model.detect(imageTensor);
       this.setState({ predictions });
-      setKeywords(predictions);
-      console.log('----------- predictions: ', predictions);
+      setKeywords(predictions.filter((x: Object) => x.class || x.score));
+      console.log('----------- predictions: ', predictions.filter((x: Object) => x.class || x.score));
     } catch (error) {
       console.log('Exception Error: ', error);
     }
@@ -163,8 +146,7 @@ export default class ImageUploadOverlay extends Component {
     return (
       <View style={styles.welcomeContainer}>
         <Text key={index} style={styles.text}>
-          Prediction: {pclass} {', '} Probability: {score} {', '} Bbox: {x}{' '}
-          {', '} {y} {', '} {w} {', '} {h}
+          Prediction: {pclass} {', '} Probability: {score} {', '}
         </Text>
       </View>
     );
