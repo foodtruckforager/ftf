@@ -8,6 +8,7 @@ import {
 } from 'react-native-elements';
 import { View, StyleSheet, AsyncStorage } from 'react-native';
 import axios from 'axios';
+import ImageUploadOverlay from './ImageUploadOverlay'; 
 
 const SubmitOverlay = ({
   onReviews,
@@ -25,13 +26,19 @@ const SubmitOverlay = ({
   const [rating, setRating] = useState(5);
   const [userId, setUserId] = useState('');
   const [photo, setPhoto] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU'
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
   );
   const [googleUserId, setGoogleUserId] = useState(0);
+  const [keywords, setKeywords] = useState([]);
+  const [imageUploadOverlayVisible, setImageUploadOverlayVisible] = useState(false);
   const { id }: { id: [string, number] } = currentTruck;
 
   const toggleOverlay = () => {
     setVisible(!visible);
+  };
+
+  const toggleImageUploadOverlay = () => {
+    setImageUploadOverlayVisible(!imageUploadOverlayVisible);
   };
 
   const updateTitle = (title: string) => {
@@ -57,6 +64,7 @@ const SubmitOverlay = ({
               reviewStar: rating,
               reviewPhoto: photo,
               upvotes: 0,
+              keywords,
             },
           )
           .then(() => {
@@ -149,7 +157,15 @@ const SubmitOverlay = ({
           value={description}
         />
         <View style={styles.verticalPadding}>
-          <Button title="📎 Attach Photo" onPress={() => {}} />
+          <ImageUploadOverlay
+            imageUploadOverlayVisible={imageUploadOverlayVisible}
+            fullScreen={false}
+            onReviews={onReviews}
+            keywords={keywords}
+            setKeywords={setKeywords}
+            toggleImageUploadOverlay={toggleImageUploadOverlay}
+          />
+          {/* <Button title="📎 Attach Photo" onPress={() => {}} /> */}
           <Button
             style={styles.slightVerticalPadding}
             title="✏️ Submit Review"

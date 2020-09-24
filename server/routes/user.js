@@ -121,7 +121,7 @@ userRouter.post('/new', (req, res) => {
 // route to add new truck review
 userRouter.post('/review/new/:userId/:truckId', (req, res) => {
   const { userId, truckId } = req.params;
-
+  console.log('heeelloo');
   const {
     reviewTitle,
     reviewDescription,
