@@ -24,7 +24,7 @@ export default ({ transition }: ChevronProps) => {
   const backgroundColor = bInterpolateColor(
     transition,
     { r: 82, g: 82, b: 81 },
-    { r: 228, g: 86, b: 69 }
+    { r: 15, g: 123, b: 215 }
   ) as Animated.Node<number>;
   return (
     <Animated.View
