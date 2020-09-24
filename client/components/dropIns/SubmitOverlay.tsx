@@ -50,7 +50,7 @@ const SubmitOverlay = ({
       const submitReview = async () => {
         axios
           .post(
-            `${process.env.EXPO_LocalLan}/user/review/new/${id}/${userId}`,
+            `${process.env.EXPO_LocalLan}/user/review/new/${userId}/${id}`,
             {
               reviewTitle: title,
               reviewDescription: description,

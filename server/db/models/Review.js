@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define(
     upvotes: {
       type: DataTypes.INTEGER,
     },
+    keywords: {
+      type: DataTypes.JSONB,
+    },
   },
   {
     freezeTableName: true,

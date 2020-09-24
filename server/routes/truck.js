@@ -244,11 +244,12 @@ truckRouter.post('/truckpost/new/:truckId', (req, res) => {
 // route to create new truck photo
 truckRouter.post('/post/photo/:truckId', (req, res) => {
   const { truckId } = req.params;
-  const { url } = req.body;
+  const { url, keywords } = req.body;
   Photo.findOrCreate({
     where: {
       id_truck: truckId,
       url,
+      keywords,
     },
   })
     .then((newPhoto) => {

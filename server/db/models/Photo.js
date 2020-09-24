@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define('photos', {
   caption: {
     type: DataTypes.STRING,
   },
+  keywords: {
+    type: DataTypes.JSONB,
+  },
 }, {
   freezeTableName: true,
   timestamps: false,
