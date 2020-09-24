@@ -8,10 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {
-  Overlay,
-  Button,
-} from 'react-native-elements';
+import { Overlay, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as tf from '@tensorflow/tfjs';
 import { fetch } from '@tensorflow/tfjs-react-native';
@@ -29,8 +26,48 @@ export default class ImageUploadOverlay extends Component {
       isModelReady: false,
       predictions: null,
       image: null,
+      userHasChangedPhoto: false,
+      selectedImage: '',
+      pickerResult: '',
     };
   }
+  /////////////
+  
+  openImagePickerAsync = async (pickerResult) => {
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`;
+    const {
+      onReviews,
+      toggleImageUploadOverlay,
+      imageUploadOverlayVisible,
+      keywords,
+      setKeywords,
+      photo,
+      setPhoto,
+    } = this.props;
+
+    const base64Img = `data:image/jpg;base64,${pickerResult.base64}`;
+    alert(base64Img);
+
+    const data = {
+      file: base64Img,
+      upload_preset: `${process.env.CLOUDINARY_UPLOAD_PRESET}`,
+    };
+
+    fetch(CLOUDINARY_URL, {
+      body: JSON.stringify(data),
+      headers: {
+        'content-type': 'application/json',
+      },
+      method: 'POST',
+    })
+      .then(async (r) => {
+        const data = await r.json();
+        this.setState({ userHasChangedPhoto: true });
+        setPhoto(data.url);
+      })
+      .catch((err) => console.log(err));
+  };
+  //////////////////////////////////////////////
 
   async componentDidMount() {
     await tf.ready(); // preparing TensorFlow
@@ -40,7 +77,7 @@ export default class ImageUploadOverlay extends Component {
     this.getPermissionAsync(); // get permission for accessing camera on mobile device
   }
 
-  getPermissionAsync = async() => {
+  getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
@@ -63,7 +100,8 @@ export default class ImageUploadOverlay extends Component {
     return tf.tensor3d(buffer, [height, width, 3]);
   }
 
-  detectObjects = async() => {
+  detectObjects = async () => {
+    const { keywords, setKeywords } = this.props;
     try {
       const imageAssetPath = Image.resolveAssetSource(this.state.image);
       const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
@@ -71,23 +109,27 @@ export default class ImageUploadOverlay extends Component {
       const imageTensor = this.imageToTensor(rawImageData);
       const predictions = await this.model.detect(imageTensor);
       this.setState({ predictions });
-      console.log('----------- predictions: ', predictions);
+      setKeywords(predictions.filter((x: Object) => x.class || x.score));
+      console.log('----------- predictions: ', predictions.filter((x: Object) => x.class || x.score));
     } catch (error) {
       console.log('Exception Error: ', error);
     }
   };
 
-  selectImage = async() => {
+  selectImage = async () => {
     try {
       const response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
+        base64: true,
       });
       if (!response.cancelled) {
         const source = { uri: response.uri };
         this.setState({ image: source });
+        this.setState({ selectedImage: { localUri: response.uri } });
         this.detectObjects();
+        this.openImagePickerAsync(response);
       }
     } catch (error) {
       console.log(error);
@@ -104,8 +146,7 @@ export default class ImageUploadOverlay extends Component {
     return (
       <View style={styles.welcomeContainer}>
         <Text key={index} style={styles.text}>
-          Prediction: {pclass} {', '} Probability: {score} {', '} Bbox: {x}{' '}
-          {', '} {y} {', '} {w} {', '} {h}
+          Prediction: {pclass} {', '} Probability: {score} {', '}
         </Text>
       </View>
     );
@@ -113,19 +154,23 @@ export default class ImageUploadOverlay extends Component {
 
   render() {
     const {
-      isTfReady, isModelReady, predictions, image,
-    } = this.state;
-    const {
-      toggleImageUploadOverlay,
       onReviews,
+      toggleImageUploadOverlay,
+      imageUploadOverlayVisible,
       keywords,
       setKeywords,
-      imageUploadOverlayVisible,
+      photo,
+      setPhoto,
     } = this.props;
+    const { isTfReady, isModelReady, predictions, image } = this.state;
     return (
       <View style={styles.container}>
         <View>
-          <Button title="📎 Attach Photo" onPress={toggleImageUploadOverlay} buttonStyle={styles.button} />
+          <Button
+            title="📎 Attach Photo"
+            onPress={toggleImageUploadOverlay}
+            buttonStyle={styles.button}
+          />
         </View>
         <Overlay
           isVisible={imageUploadOverlayVisible}
@@ -142,7 +187,6 @@ export default class ImageUploadOverlay extends Component {
                 <Text style={styles.text}>
                   TensorFlow.js ready? {isTfReady ? <Text>✅</Text> : ''}
                 </Text>
-
                 <View style={styles.loadingModelContainer}>
                   <Text style={styles.text}>COCO-SSD model ready? </Text>
                   {isModelReady ? (
@@ -156,20 +200,33 @@ export default class ImageUploadOverlay extends Component {
                 style={styles.imageWrapper}
                 onPress={isModelReady ? this.selectImage : undefined}
               >
-                {image && <Image source={image} style={styles.imageContainer} />}
+                {image && (
+                  <Image source={image} style={styles.imageContainer} />
+                )}
                 {isModelReady && !image && (
-                <Text style={styles.transparentText}>Tap to choose image</Text>
+                  <Text style={styles.transparentText}>
+                    Tap to choose image
+                  </Text>
                 )}
               </TouchableOpacity>
               <View style={styles.predictionWrapper}>
                 {isModelReady && image && (
-                <Text style={styles.text}>
-                  Predictions: {predictions ? '' : 'Detecting...'}
-                </Text>
+                  <Text style={styles.text}>
+                    Predictions: {predictions ? '' : 'Detecting...'}
+                  </Text>
                 )}
-                {isModelReady
-                && predictions
-                && predictions.map((p, index) => this.renderPrediction(p, index))}
+                {isModelReady &&
+                  predictions &&
+                  predictions.map((p, index) =>
+                    this.renderPrediction(p, index)
+                  )}
+              </View>
+              <View>
+                <Button
+                  title="📎 Attach Photo"
+                  onPress={toggleImageUploadOverlay}
+                  buttonStyle={styles.button}
+                />
               </View>
             </View>
           </ScrollView>

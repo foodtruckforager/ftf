@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
-import { nonMaxSuppressionV3Impl } from '@tensorflow/tfjs-core/dist/backends/kernel_impls';
 import Header from '../dropIns/header';
 import Tracker from '../screens/tracker';
 import Search from '../screens/search';

@@ -51,7 +51,7 @@ export default function Settings({ navigation, onSettings }) {
       })
       .catch((err) => console.log(err));
   };
-
+ // ADD THIS TO SUBMIT OVERLAY // INTEGRATE W ALREADY GOING ON AXIOS CALL
   useEffect(() => {
     if (userHasChangedPhoto) {
       axios
@@ -65,7 +65,7 @@ export default function Settings({ navigation, onSettings }) {
         .catch((err) => console.log(err));
     }
   }, [picture]);
-
+ // NOT BELOW THIS POINT THOUGH
   let googleData;
   let userData;
 
