@@ -95,6 +95,7 @@ userRouter.get('/get/visits/:userId', (req, res) => {
     })
     .catch((err) => console.err(err));
 });
+
 // create a new user
 userRouter.post('/new', (req, res) => {
   const { fullName, googleId, profilePhotoUrl } = req.body;
@@ -118,15 +119,16 @@ userRouter.post('/new', (req, res) => {
 });
 
 // route to add new truck review
-userRouter.post('/review/new/:truckId/:userId', (req, res) => {
-  const { truckId, userId } = req.params;
-
+userRouter.post('/review/new/:userId/:truckId', (req, res) => {
+  const { userId, truckId } = req.params;
+  console.log('heeelloo');
   const {
     reviewTitle,
     reviewDescription,
     reviewStar,
     reviewPhoto,
     upvotes,
+    keywords,
   } = req.body;
 
   Review.findOrCreate({
@@ -138,6 +140,7 @@ userRouter.post('/review/new/:truckId/:userId', (req, res) => {
       review_star: reviewStar,
       review_photo: reviewPhoto,
       upvotes,
+      keywords,
     },
   })
     .then((newReview) => {
@@ -192,7 +195,7 @@ userRouter.put('/update/favoritetruck/favorite/:userId/:truckId', (req, res) => 
     });
 });
 
-// update route to remove/ a user's favorite truck
+// update route to remove a user's favorite truck
 userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
   const { userId, truckId } = req.params;
   Favorite.update(
