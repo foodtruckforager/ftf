@@ -253,6 +253,9 @@ const styles = StyleSheet.create({
     height: 70,
   },
   button: {
-    borderRadius: 30,
+    borderRadius: 15,
+    padding: 10,
+    width: 300,
+    alignSelf: 'center',
   },
 });

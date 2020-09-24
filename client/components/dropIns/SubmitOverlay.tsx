@@ -8,7 +8,7 @@ import {
 } from 'react-native-elements';
 import { View, StyleSheet, AsyncStorage } from 'react-native';
 import axios from 'axios';
-import ImageUploadOverlay from './ImageUploadOverlay'; 
+import ImageUploadOverlay from './ImageUploadOverlay';
 
 const SubmitOverlay = ({
   onReviews,
@@ -54,7 +54,7 @@ const SubmitOverlay = ({
   const onSubmit = () => {
     toggleOverlay();
     if (onReviews) {
-      const submitReview = async () => {
+      const submitReview = async() => {
         axios
           .post(
             `${process.env.EXPO_LocalLan}/user/review/new/${userId}/${id}`,
@@ -74,7 +74,7 @@ const SubmitOverlay = ({
       };
       submitReview();
     } else {
-      const submitPost = async () => {
+      const submitPost = async() => {
         axios
           .post(`${process.env.EXPO_LocalLan}/truck/truckpost/new/${id}`, {
             title,
@@ -91,7 +91,7 @@ const SubmitOverlay = ({
   };
 
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -108,7 +108,7 @@ const SubmitOverlay = ({
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -131,47 +131,62 @@ const SubmitOverlay = ({
       <Overlay
         isVisible={visible}
         onBackdropPress={toggleOverlay}
-        fullScreen={false}
+        fullScreen={true}
       >
-        <Text h3> 📝 Write {onReviews ? `Review` : `Post`} </Text>
-        {onReviews && (
+        <View style={styles.container}>
+          <Text h3>       📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
+          {onReviews && (
           <AirbnbRating
             size={22}
             defaultRating={5}
             showRating
             onFinishRating={onFinishRating}
           />
-        )}
-        <SearchBar
-          placeholder="Title"
-          lightTheme={true}
-          searchIcon={false}
-          onChangeText={updateTitle}
-          value={title}
-        />
-        <SearchBar
-          placeholder="Description"
-          lightTheme={true}
-          searchIcon={false}
-          onChangeText={updateDescription}
-          value={description}
-        />
-        <View style={styles.verticalPadding}>
-          <ImageUploadOverlay
-            imageUploadOverlayVisible={imageUploadOverlayVisible}
-            fullScreen={false}
-            onReviews={onReviews}
-            keywords={keywords}
-            setKeywords={setKeywords}
-            toggleImageUploadOverlay={toggleImageUploadOverlay}
-          />
-          {/* <Button title="📎 Attach Photo" onPress={() => {}} /> */}
-          <Button
-            style={styles.slightVerticalPadding}
-            title="✏️ Submit Review"
-            onPress={onSubmit}
-          />
-          <Button title="❌ Close" onPress={toggleOverlay} />
+          )}
+          <View style={{ flex: 3 }}>
+            <SearchBar
+              placeholder="Title"
+              lightTheme
+              searchIcon={false}
+              onChangeText={updateTitle}
+              value={title}
+            />
+            <SearchBar
+              placeholder="Description"
+              lightTheme
+              searchIcon={false}
+              onChangeText={updateDescription}
+              value={description}
+            />
+          </View>
+          <View style={styles.threeBottomButtons}>
+            <View style={{ marginTop: -150, flex: 3, padding: 10 }}>
+              <ImageUploadOverlay
+                imageUploadOverlayVisible={imageUploadOverlayVisible}
+                fullScreen={false}
+                onReviews={onReviews}
+                keywords={keywords}
+                setKeywords={setKeywords}
+                toggleImageUploadOverlay={toggleImageUploadOverlay}
+              />
+            </View>
+            <View style={{ marginTop: -50, flex: 3, borderRadius: 30 }}>
+              <View style={{ paddingVertical: 4 }}>
+                <Button
+                  buttonStyle={styles.overlayButton}
+                  title="✏️ Submit Review"
+                  onPress={onSubmit}
+                />
+              </View>
+              <View style={{ paddingVertical: 4 }}>
+                <Button
+                  title="❌ Close"
+                  onPress={toggleOverlay}
+                  buttonStyle={styles.overlayButton}
+                />
+              </View>
+            </View>
+          </View>
         </View>
       </Overlay>
     </View>
@@ -181,13 +196,31 @@ const SubmitOverlay = ({
 export default SubmitOverlay;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
   verticalPadding: {
     paddingVertical: 10,
   },
+  threeBottomButtons: {
+    marginBottom: 250,
+  },
   slightVerticalPadding: {
+    padding: 20,
     paddingVertical: 2,
+    borderRadius: 30,
   },
   button: {
-    borderRadius: 30,
+    // borderRadius: 30,
+  },
+  overlayButton: {
+    borderRadius: 15,
+    paddingVertical: 10,
+    width: 300,
+    alignSelf: 'center',
+    // padding: 30,
+    // marginBottom: 300,
   },
 });
