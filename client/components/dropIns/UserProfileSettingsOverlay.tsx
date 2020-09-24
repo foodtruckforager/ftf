@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button, Overlay, SearchBar, Text,
-} from 'react-native-elements';
-import {
-  View, StyleSheet, AsyncStorage, Switch,
-} from 'react-native';
+import { Button, Overlay, SearchBar, Text } from 'react-native-elements';
+import { View, StyleSheet, AsyncStorage, Switch } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
+import UserSettings from '../screens/settings';
 
 const UserProfileSettingsOverlay = () => {
   const [pushNotifications, setPushNotifications] = useState(false);
   const [visible, setVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
-  const [photo, setPhoto] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
-  );
   const [googleUserId, setGoogleUserId] = useState(0);
   const [date, setDate] = useState(new Date(1598051730000)); // lunch start new Date(1598051730000)
   const [time, setTime] = useState(new Date(1598051730000)); // lunch end
@@ -48,7 +42,8 @@ const UserProfileSettingsOverlay = () => {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
-  const toggleSwitch = () => setPushNotifications((previousState) => !previousState);
+  const toggleSwitch = () =>
+    setPushNotifications((previousState) => !previousState);
 
   const updateUsername = (username: string) => {
     setUsername(username);
@@ -59,7 +54,7 @@ const UserProfileSettingsOverlay = () => {
   };
 
   useEffect(() => {
-    const retrieveCurrentUserId = async() => {
+    const retrieveCurrentUserId = async () => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -76,7 +71,7 @@ const UserProfileSettingsOverlay = () => {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async() => {
+    const getUserIdWithGoogleUserId = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -101,56 +96,57 @@ const UserProfileSettingsOverlay = () => {
         onBackdropPress={toggleOverlay}
         fullScreen={false}
       >
-        <View style={styles.row}>
-          <Text h3>User Settings</Text>
-        </View>
-        <View style={styles.slightVerticalPadding}>
-          <SearchBar
-            placeholder="Change Name"
-            lightTheme
-            searchIcon={false}
-            onChangeText={updateUsername}
-            value={username}
-          />
-        </View>
-        <View style={styles.verticalPadding}>
-          <View style={styles.row}>
-            <Switch
-              trackColor={{ false: '#767577', true: '#3cb37' }}
-              thumbColor={pushNotifications ? '#FFFFFF' : '#FFFFFF'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={pushNotifications}
+        <View style={styles.container}>
+          <View style={styles.userSettings}>
+            <UserSettings onSettings={true} />
+          </View>
+          <View style={styles.gap}>
+            <SearchBar
+              placeholder="Change Name"
+              lightTheme
+              searchIcon={false}
+              onChangeText={updateUsername}
+              value={username}
             />
-            <Text h4> Push Notifications</Text>
           </View>
-        </View>
-        <View>
-          <View style={styles.slightVerticalPadding}>
-            <Button onPress={showDatepicker} title="Lunch Break Start" />
+          <View style={styles.verticalPadding}>
+            <View style={styles.row}>
+              <Switch
+                trackColor={{ false: '#767577', true: '#3cb37' }}
+                thumbColor={pushNotifications ? '#FFFFFF' : '#FFFFFF'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={pushNotifications}
+              />
+              <Text h4> Push Notifications</Text>
+            </View>
           </View>
-          <View style={styles.slightVerticalPadding}>
-            <Button onPress={showTimepicker} title="Lunch Break End" />
-          </View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={lunchStart ? date : time}
-              mode={mode}
-              is24Hour
-              display="default"
-              onChange={onChange}
+          <View>
+            <View style={styles.slightVerticalPadding}>
+              <Button onPress={showDatepicker} title="Lunch Break Start" />
+            </View>
+            <View style={styles.slightVerticalPadding}>
+              <Button onPress={showTimepicker} title="Lunch Break End" />
+            </View>
+            </View>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={lunchStart ? date : time}
+                mode={mode}
+                is24Hour
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          <View style={styles.verticalPadding}>
+            <Button
+              style={styles.slightVerticalPadding}
+              title="✏️ Apply Changes"
+              onPress={onSubmit}
             />
-          )}
-        </View>
-        <View style={styles.verticalPadding}>
-          <Button title="📎 Edit Profile Photo" onPress={() => {}} />
-          <Button
-            style={styles.slightVerticalPadding}
-            title="✏️ Apply Changes"
-            onPress={onSubmit}
-          />
-          <Button title="❌ Close" onPress={toggleOverlay} />
+            <Button title="❌ Close" onPress={toggleOverlay} />
+          </View>
         </View>
       </Overlay>
     </View>
@@ -166,6 +162,10 @@ const styles = StyleSheet.create({
   slightVerticalPadding: {
     paddingVertical: 2,
   },
+  gap: {
+    marginTop: -150,
+  },
+  container: {flex: 1, justifyContent: 'space-around', flexDirection: 'column'},
   button: {
     borderRadius: 30,
   },

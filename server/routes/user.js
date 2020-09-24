@@ -231,7 +231,8 @@ userRouter.post('/update/photo', (req, res) => {
       },
     },
   )
-    .then(() => {
+    .then((updatedUser) => {
+      console.log(updatedUser);
       res.status(201).send('successfully uploaded photo');
     })
     .catch((err) => {

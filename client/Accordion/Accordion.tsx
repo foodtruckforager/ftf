@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, AsyncStorage } from 'react-native';
-import {
-  Button,
-  Overlay,
-  SearchBar,
-  AirbnbRating,
-} from 'react-native-elements';
+import { StyleSheet, View, ScrollView, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import FavoriteTruck, {
   FavoriteTruck as ListModelFavoriteTruck,
@@ -147,7 +141,7 @@ export default () => {
         12: 31,
       };
 
-      // TODO: Five same truck ids in seven days (theRegular)
+      // Five same truck ids in seven days (theRegular)
       let theRegularBoolean = false;
       visits.forEach((visit, i, visitCollection) => {
         if (

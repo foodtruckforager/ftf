@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  AsyncStorage,
-} from 'react-native';
+import { StyleSheet, View, Text, Image, AsyncStorage } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function Settings({ navigation }) {
+export default function Settings({ navigation, onSettings }) {
   const [profile, setProfile] = useState(true);
   const [getUser, setGetUser] = useState([]);
   const [picture, setPicture] = useState('');
-  const onPress = () => {
-    setProfile(!profile);
-  };
-
+  const [userHasChangedPhoto, setUserHasChangedPhoto] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
-  const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_KEY}/upload`;
+  const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`;
 
-  let cloudImage;
-
-  const openImagePickerAsync = async() => {
+  const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
     if (permissionResult.granted === false) {
       alert('Permission to access camera roll is required!');
       return;
@@ -36,7 +24,6 @@ export default function Settings({ navigation }) {
       aspect: [4, 3],
       base64: true,
     });
-
     if (pickerResult.cancelled === true) {
       return;
     }
@@ -47,7 +34,7 @@ export default function Settings({ navigation }) {
 
     const data = {
       file: base64Img,
-      upload_preset: `${process.env.CLOUDINARY_PRESET}`,
+      upload_preset: `${process.env.CLOUDINARY_UPLOAD_PRESET}`,
     };
 
     fetch(CLOUDINARY_URL, {
@@ -57,29 +44,33 @@ export default function Settings({ navigation }) {
       },
       method: 'POST',
     })
-      .then(async(r) => {
+      .then(async (r) => {
         const data = await r.json();
-        cloudImage = data.url;
-      })
-      .then(() => {
-        axios
-          .post(`${process.env.EXPO_LocalLan}/user/update/photo`, {
-            profilePhotoUrl: cloudImage,
-            userId: getUser[0].id,
-          })
-          .then(() => {
-            setPicture(cloudImage);
-          })
-          .catch((err) => console.log(err));
+        setUserHasChangedPhoto(true);
+        setPicture(data.url);
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    if (userHasChangedPhoto) {
+      axios
+        .post(`${process.env.EXPO_LocalLan}/user/update/photo`, {
+          profilePhotoUrl: picture,
+          userId: getUser[0].id,
+        })
+        .then(() => {
+          console.log('picture stored in database');
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [picture]);
 
   let googleData;
   let userData;
 
   useEffect(() => {
-    const retrieveData = async() => {
+    const retrieveData = async () => {
       try {
         const value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -104,7 +95,7 @@ export default function Settings({ navigation }) {
 
   if (profile) {
     return (
-      <View styles={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+      <View>
         {getUser.map((user) => (
           <React.Fragment key={user.id}>
             <Text style={styles.title}>{user.full_name}</Text>
@@ -116,10 +107,16 @@ export default function Settings({ navigation }) {
             />
           </React.Fragment>
         ))}
-        <View style={styles.bodyContent}>
-          {/* <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-            <Text style={styles.editProfile}>Edit Profile Photo</Text>
-          </TouchableOpacity> */}
+        <View style={{ paddingVertical: onSettings ? 112 : 65 }}>
+          {onSettings && (
+            <View style={styles.camera}>
+              <Icon
+                onPress={openImagePickerAsync}
+                name="camera"
+                type="entypo"
+              />
+            </View>
+          )}
         </View>
       </View>
     );
@@ -127,6 +124,9 @@ export default function Settings({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  camera: {
+    marginLeft: 118,
+  },
   avatar: {
     width: 130,
     height: 130,
