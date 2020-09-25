@@ -16,18 +16,25 @@ export default function PhotoForager({ navigation }) {
     if (currentTruckPosts || currentTruckReviews) {
       let reviewsPostsCombined = currentTruckPosts.map((post) => {
         if (post.keywords !== null) {
-          return post.keywords;
+          return post.keywords.map((x) => x.class);
         }
       });
       reviewsPostsCombined.push(
         ...currentTruckReviews.map((review) => {
           if (review.keywords !== null) {
-            return review.keywords;
+            return review.keywords.map((x) => x.class);
           }
         })
       );
-      alert(JSON.stringify(reviewsPostsCombined));
-      setKeywords(reviewsPostsCombined);
+      setKeywords(
+        reviewsPostsCombined
+          .filter((x) => {
+            if (Array.isArray(x)) {
+              return x;
+            }
+          })
+          .flat(1)
+      );
     }
   }, [currentTruckPosts, currentTruckReviews]);
 
@@ -51,11 +58,11 @@ export default function PhotoForager({ navigation }) {
 
   return (
     <View>
-      {/* {keywords.map((keyword) => (
-        <View key={keyword.class}>
-          <Text>{keyword.class}</Text>
+      {keywords.map((keyword) => (
+        <View key={keyword}>
+          <Text>{keyword}</Text>
         </View>
-      ))} */}
+      ))}
     </View>
   );
 }
