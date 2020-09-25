@@ -22,7 +22,7 @@ const TruckOwnerRouter = ({ googleId }) => {
             setOkToLoadEditPage(true);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     }
   }, []);
 

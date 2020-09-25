@@ -36,7 +36,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -62,7 +62,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -87,7 +87,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -112,7 +112,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -137,7 +137,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -162,7 +162,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -188,7 +188,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -213,7 +213,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -238,7 +238,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -263,7 +263,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -288,7 +288,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -313,7 +313,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -339,7 +339,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -364,7 +364,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -389,7 +389,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -414,7 +414,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -439,7 +439,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -464,7 +464,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -489,7 +489,7 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   Truck.findOrCreate({
@@ -514,14 +514,14 @@ function doStuffWithUserModel() {
       console.log(`✅ New Truck Created: ${newTruck}`);
     })
     .catch((err) => {
-      console.error(`❌${err}`);
+      console.log(`❌${err}`);
     });
 
   const foundTruck = Truck.findOne({
     where: { full_name: 'Rolling Fatties' },
   })
     .then((found) => console.log(`✅ Found truck by name ${found}`))
-    .catch((err) => console.error(`❌${err}`));
+    .catch((err) => console.log(`❌${err}`));
 
   if (foundTruck === null) return;
 
@@ -537,13 +537,13 @@ function doStuffWithUserModel() {
     },
   })
     .then(() => console.log('✅ New review created'))
-    .catch((err) => console.error(`❌${err}`));
+    .catch((err) => console.log(`❌${err}`));
 
   Review.findAll({
     where: { id_user: 1 },
   })
     .then((allReviews) => console.log(`✅ ${allReviews.length} Reviews found`))
-    .catch((err) => console.error(`❌${err}`));
+    .catch((err) => console.log(`❌${err}`));
 
   Post.findOrCreate({
     where: {
@@ -555,7 +555,7 @@ function doStuffWithUserModel() {
     },
   })
     .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
-    .catch((err) => console.error(`❌${err}`));
+    .catch((err) => console.log(`❌${err}`));
 
   Post.findOrCreate({
     where: {
@@ -567,7 +567,7 @@ function doStuffWithUserModel() {
     },
   })
     .then((newPost) => console.log(`✅ ${newPost.length} Post Created`))
-    .catch((err) => console.error(`❌${err}`));
+    .catch((err) => console.log(`❌${err}`));
 
   Visit.findOrCreate({
     where: {

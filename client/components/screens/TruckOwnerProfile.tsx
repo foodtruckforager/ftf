@@ -49,7 +49,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
       .then((response) => {
         setCurrentTruckPosts(response.data);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
         setLatitude(response.data.latitude);
         setLongitude(response.data.longitude);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
           .then(() => {
             console.log('open stautus was updated');
           })
-          .catch((err) => console.error(err));
+          .catch((err) => console.log(err));
       };
       updateOpenAndLocation();
     }

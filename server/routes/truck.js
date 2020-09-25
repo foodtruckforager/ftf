@@ -20,7 +20,7 @@ truckRouter.get('/api/google', (req, res) => {
       res.send(results);
     })
     .catch((error) => {
-      console.error(error);
+      console.log(error);
       throw error;
     });
 });
@@ -42,7 +42,7 @@ truckRouter.get('/api/geocode', (req, res) => {
       }
     })
     .catch((error) => {
-      console.error(error);
+      console.log(error);
       throw error;
     });
 });
@@ -75,7 +75,7 @@ truckRouter.get('/:truckId', (req, res) => {
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -93,7 +93,7 @@ truckRouter.get('/photo/:truckId', (req, res) => {
       res.send(photos);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -111,7 +111,7 @@ truckRouter.get('/review/:truckId', (req, res) => {
       res.send(truckReview);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -129,7 +129,7 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
       res.send(truckPosts);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -150,7 +150,7 @@ truckRouter.get('/login/:googleId', (req, res) => {
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -168,7 +168,7 @@ truckRouter.post('/register', (req, res) => {
       res.status(201).send(registeredTruck);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -210,7 +210,7 @@ truckRouter.put('/create/:googleId', (req, res) => {
       res.status(201).send(newTruck);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -222,13 +222,14 @@ truckRouter.put('/create/:googleId', (req, res) => {
 // route for truck to make a new post
 truckRouter.post('/truckpost/new/:truckId', (req, res) => {
   const { truckId } = req.params;
-  const { title, message, photo } = req.body;
+  const { title, message, photo, keywords } = req.body;
   Post.findOrCreate({
     where: {
       id_truck: truckId,
       title,
       message,
       photo,
+      keywords,
     },
   })
     .then((newTruckPost) => {
@@ -236,7 +237,7 @@ truckRouter.post('/truckpost/new/:truckId', (req, res) => {
       res.status(201).send(newTruckPost);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -257,7 +258,7 @@ truckRouter.post('/post/photo/:truckId', (req, res) => {
       res.status(201).send(newPhoto);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -307,7 +308,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       res.status(404).send('truck not found');
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send('there was an error processing request', err);
     });
 });
@@ -330,7 +331,7 @@ truckRouter.delete('/delete/photo/:truckId/:photoId', (req, res) => {
       res.status(404).send('photo not found');
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err, 'there was an error processing request');
     });
 });

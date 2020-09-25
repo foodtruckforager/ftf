@@ -21,7 +21,7 @@ userRouter.get('/googleId/:googleId', (req, res) => {
       res.send(data);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -35,7 +35,7 @@ userRouter.get('/:userId', (req, res) => {
       res.send(founduser);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -53,7 +53,7 @@ userRouter.get('/review/:userId', (req, res) => {
       res.send(foundUserReviews);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -113,7 +113,7 @@ userRouter.post('/new', (req, res) => {
       res.status(201).send(newUser);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -147,7 +147,7 @@ userRouter.post('/review/new/:userId/:truckId', (req, res) => {
       res.status(201).send(newReview);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -236,7 +236,7 @@ userRouter.post('/update/photo', (req, res) => {
       res.status(201).send('successfully uploaded photo');
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -261,7 +261,7 @@ userRouter.put('/update/:userId', (req, res) => {
       res.status(201).send('successfully updated user');
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -278,7 +278,7 @@ userRouter.put('/update/visits/:userId/:truckId', (req, res) => {
       res.status(201).send('visit was recorded');
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -302,7 +302,7 @@ userRouter.put('/update/badge/:userId', (req, res) => {
       res.status(201).send('successfully updated user badge');
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });
@@ -340,19 +340,19 @@ userRouter.put('/update/upvote/:userId/:reviewId', (req, res) => {
                   res.status(201).send('upvote has been received');
                 })
                 .catch((err) => {
-                  console.error(err);
+                  console.log(err);
                   res.status(500).send(err);
                 });
             }
           })
           .catch((err) => {
-            console.error(err);
+            console.log(err);
             res.status(500).send(err);
           });
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.status(500).send(err);
     });
 });

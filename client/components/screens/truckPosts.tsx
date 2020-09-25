@@ -18,7 +18,7 @@ export default function TruckPosts({ navigation }) {
       .then((response) => {
         setCurrentTruckPosts(response.data);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

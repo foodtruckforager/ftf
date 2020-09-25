@@ -43,7 +43,7 @@ export default function LogIn(props) {
         console.log('user token not found');
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
 
     try {
@@ -55,7 +55,7 @@ export default function LogIn(props) {
         console.log('owner token not found');
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

@@ -11,6 +11,7 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
     review_title,
     upvotes,
     createdAt,
+    keywords,
   } = review;
   const { full_name, badge, profile_photo_url } = currentTruckReviewers;
   let reviewPhoto: string = review_photo || foodIcons.defaultReviewPhoto;
@@ -55,6 +56,11 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
           source={{ uri: reviewPhoto }}
           resizeMode="cover"
         />
+        <View style={styles.stars}>
+        {keywords.map((prediction: Object) => (
+          <Text>{prediction.class}, </Text>
+        ))}
+          </View>
       </Card>
     </View>
   );

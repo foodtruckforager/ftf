@@ -22,7 +22,7 @@ export default function ScanQRCode() {
           console.log('user id not found');
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     retrieveCurrentUserId();
@@ -56,7 +56,7 @@ export default function ScanQRCode() {
       .then((response) => {
         console.log('req.parmas scan', response);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
