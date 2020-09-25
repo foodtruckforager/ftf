@@ -36,7 +36,7 @@ export default () => {
           console.log('user id not found');
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     retrieveCurrentUserId();
@@ -87,7 +87,7 @@ export default () => {
       .then((response) => {
         setVisits(response.data);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   }, [userId]);
 
   // Achievement Badge Rendering:

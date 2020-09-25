@@ -59,7 +59,7 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
         console.log('truck was created!');
         navigation.navigate('TruckOwnerProfile');
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   };
 
   return (

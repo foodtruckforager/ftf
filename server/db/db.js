@@ -43,7 +43,7 @@ const connection = async() => {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.log('Unable to connect to the database:', error);
   }
 };
 const syncModels = async() => {
@@ -51,7 +51,7 @@ const syncModels = async() => {
     await sequelize.sync();
     console.log('Models have been synced successfully.');
   } catch (error) {
-    console.error('Unable to sync models:', error);
+    console.log('Unable to sync models:', error);
   }
 };
 

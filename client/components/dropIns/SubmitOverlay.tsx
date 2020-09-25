@@ -70,7 +70,7 @@ const SubmitOverlay = ({
           .then(() => {
             getTruckReviews();
           })
-          .catch((err) => console.error(err));
+          .catch((err) => console.log(err));
       };
       submitReview();
     } else {
@@ -80,11 +80,12 @@ const SubmitOverlay = ({
             title,
             message: description,
             photo,
+            keywords,
           })
           .then(() => {
             getTruckPosts();
           })
-          .catch((err) => console.error(err));
+          .catch((err) => console.log(err));
       };
       submitPost();
     }
@@ -101,7 +102,7 @@ const SubmitOverlay = ({
           console.log('user id not found');
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     retrieveCurrentUserId();
@@ -116,7 +117,7 @@ const SubmitOverlay = ({
             setUserId(response.data[0].id);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     };
     getUserIdWithGoogleUserId();
   }, [googleUserId]);

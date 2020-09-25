@@ -25,7 +25,7 @@ export default function TruckReviews({ navigation }) {
       .then((response) => {
         setCurrentTruckReviews(response.data);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   };
   useEffect(() => {
     getTruckReviews();
@@ -44,7 +44,7 @@ export default function TruckReviews({ navigation }) {
               }
             })
             .catch((err) => {
-              console.error(err);
+              console.log(err);
             });
         });
     };

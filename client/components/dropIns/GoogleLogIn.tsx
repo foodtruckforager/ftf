@@ -33,7 +33,7 @@ export default function GoogleLogIn({
     try {
       await AsyncStorage.setItem(dataKey, dataValue);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -56,7 +56,7 @@ export default function GoogleLogIn({
               console.log('Account successfully registered');
             }
           })
-          .catch((err) => console.error(err));
+          .catch((err) => console.log(err));
 
         return result.accessToken;
       }
@@ -86,7 +86,7 @@ export default function GoogleLogIn({
               console.log('Truck successfully registered');
             }
           })
-          .catch((err) => console.error(err));
+          .catch((err) => console.log(err));
 
         return result.accessToken;
       }

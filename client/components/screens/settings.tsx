@@ -79,7 +79,7 @@ export default function Settings({ navigation, onSettings }) {
           return googleData;
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     retrieveData().then(() => {

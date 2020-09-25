@@ -64,7 +64,7 @@ const UserProfileSettingsOverlay = () => {
           console.log('user id not found');
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     retrieveCurrentUserId();
@@ -79,7 +79,7 @@ const UserProfileSettingsOverlay = () => {
             setUserId(response.data[0].id);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     };
     getUserIdWithGoogleUserId();
   }, [googleUserId]);

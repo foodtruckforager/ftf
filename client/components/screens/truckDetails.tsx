@@ -48,7 +48,7 @@ export default function TruckDetails({ navigation }) {
           console.log('user id not found');
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     retrieveCurrentUserId();
@@ -63,7 +63,7 @@ export default function TruckDetails({ navigation }) {
             setUserId(response.data[0].id);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     };
     getUserIdWithGoogleUserId();
   }, [googleUserId]);
@@ -81,7 +81,7 @@ export default function TruckDetails({ navigation }) {
             }
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     };
     if (userId) {
       retrieveCurrentUserFavorites();
@@ -114,7 +114,7 @@ export default function TruckDetails({ navigation }) {
         .then((response) => {
           console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     };
     if (userId) {
       updateUserFavorite();

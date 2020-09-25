@@ -61,7 +61,7 @@ export default function Map({
         }
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
   };
 
@@ -131,18 +131,18 @@ export default function Map({
                       getAllTrucks();
                     })
                     .catch((err) => {
-                      // console.error(err)
+                      // console.log(err)
                     });
                 }
               })
               .catch((err) => {
-                // console.error(err);
+                // console.log(err);
               });
           });
         }
       })
       .catch((err) => {
-        // console.error(err);
+        // console.log(err);
       });
   };
 
