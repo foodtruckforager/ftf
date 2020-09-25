@@ -2,7 +2,9 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 const truckRouter = require('express').Router();
-const { Truck, Photo, Review, Post } = require('../db/db');
+const {
+  Truck, Photo, Review, Post,
+} = require('../db/db');
 
 // Google Places API Route
 truckRouter.get('/api/google', (req, res) => {
@@ -215,7 +217,7 @@ truckRouter.put('/create/:googleId', (req, res) => {
       where: {
         google_id: googleId,
       },
-    }
+    },
   )
     .then((newTruck) => {
       res.status(201).send(newTruck);
@@ -233,7 +235,9 @@ truckRouter.put('/create/:googleId', (req, res) => {
 // route for truck to make a new post
 truckRouter.post('/truckpost/new/:truckId', (req, res) => {
   const { truckId } = req.params;
-  const { title, message, photo, keywords } = req.body;
+  const {
+    title, message, photo, keywords,
+  } = req.body;
   Post.findOrCreate({
     where: {
       id_truck: truckId,
@@ -308,7 +312,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       where: {
         id: truckId,
       },
-    }
+    },
   )
     .then((updatedTruck) => {
       if (updatedTruck) {
