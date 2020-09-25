@@ -46,7 +46,6 @@ export default class ImageUploadOverlay extends Component {
     } = this.props;
 
     const base64Img = `data:image/jpg;base64,${pickerResult.base64}`;
-    alert(base64Img);
 
     const data = {
       file: base64Img,
@@ -109,8 +108,10 @@ export default class ImageUploadOverlay extends Component {
       const imageTensor = this.imageToTensor(rawImageData);
       const predictions = await this.model.detect(imageTensor);
       this.setState({ predictions });
-      setKeywords(predictions.filter((x: Object) => x.class || x.score));
-      console.log('----------- predictions: ', predictions.filter((x: Object) => x.class || x.score));
+      setKeywords(predictions.map(prediction => ({ 
+        class: prediction.class,
+        confidence: prediction.score
+    })));
     } catch (error) {
       console.log('Exception Error: ', error);
     }
