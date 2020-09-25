@@ -7,6 +7,7 @@ import ScanQRCode from '../screens/ScanQRCode';
 import ImageUpload from '../screens/ImageUpload';
 import Accordion from '../../Accordion';
 import LogIn from '../screens/LogIn';
+import PhotoForager from '../screens/PhotoForager';
 
 const RootDrawerNavigator = createDrawerNavigator({
   Tracker: {
@@ -15,6 +16,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   // Search: {
   //   screen: Search,
   // },
+  PhotoForager: {
+    screen: PhotoForager,
+  },
   Profile: {
     screen: Accordion,
   },

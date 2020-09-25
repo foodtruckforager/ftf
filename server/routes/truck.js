@@ -2,9 +2,7 @@
 /* eslint-disable no-console */
 const axios = require('axios');
 const truckRouter = require('express').Router();
-const {
-  Truck, Photo, Review, Post,
-} = require('../db/db');
+const { Truck, Photo, Review, Post } = require('../db/db');
 
 // Google Places API Route
 truckRouter.get('/api/google', (req, res) => {
@@ -119,19 +117,31 @@ truckRouter.get('/review/:truckId', (req, res) => {
 // route to get all truck posts
 truckRouter.get('/truckpost/:truckId', (req, res) => {
   const { truckId } = req.params;
-  Post.findAll({
-    where: {
-      id_truck: truckId,
-    },
-  })
-    .then((truckPosts) => {
-      console.log(truckPosts);
-      res.send(truckPosts);
+  if (+truckId === 0) {
+    Post.findAll()
+      .then((truckPosts) => {
+        console.log(truckPosts);
+        res.send(truckPosts);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+  } else {
+    Post.findAll({
+      where: {
+        id_truck: truckId,
+      },
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
-    });
+      .then((truckPosts) => {
+        console.log(truckPosts);
+        res.send(truckPosts);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+  }
 });
 
 // route to get truck by google id for login
@@ -200,11 +210,12 @@ truckRouter.put('/create/:googleId', (req, res) => {
       close_time: closeTime,
       latitude,
       longitude,
-    }, {
+    },
+    {
       where: {
         google_id: googleId,
       },
-    },
+    }
   )
     .then((newTruck) => {
       res.status(201).send(newTruck);
@@ -297,7 +308,7 @@ truckRouter.put('/update/:truckId', (req, res) => {
       where: {
         id: truckId,
       },
-    },
+    }
   )
     .then((updatedTruck) => {
       if (updatedTruck) {
