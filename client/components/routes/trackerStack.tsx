@@ -8,6 +8,7 @@ import TruckDetails from '../screens/truckDetails';
 import TruckPosts from '../screens/truckPosts';
 import TruckReviews from '../screens/truckReviews';
 import Settings from '../screens/settings';
+import PhotoForager from '../screens/PhotoForager';
 
 const screens = {
   Tracker: {
@@ -24,6 +25,12 @@ const screens = {
   },
   SearchResults: {
     screen: SearchResults,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: () => <Header navigation={navigation} />,
+    }),
+  },
+  PhotoForager: {
+    screen: PhotoForager,
     navigationOptions: ({ navigation }) => ({
       headerTitle: () => <Header navigation={navigation} />,
     }),

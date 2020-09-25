@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 const { Router } = require('express');
 const sequelize = require('sequelize');
-const {
-  Review, User, Upvote, Favorite, Truck, Visit,
-} = require('../db/db');
+const { Review, User, Upvote, Favorite, Truck, Visit } = require('../db/db');
 
 const userRouter = Router();
 
@@ -43,19 +41,31 @@ userRouter.get('/:userId', (req, res) => {
 // get all of a user's reviews
 userRouter.get('/review/:userId', (req, res) => {
   const { userId } = req.params;
-  Review.findAll({
-    where: {
-      id_user: userId,
-    },
-  })
-    .then((foundUserReviews) => {
-      console.log(foundUserReviews);
-      res.send(foundUserReviews);
+  if (+userId === 0) {
+    Review.findAll()
+      .then((foundUserReviews) => {
+        console.log(foundUserReviews);
+        res.send(foundUserReviews);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+  } else {
+    Review.findAll({
+      where: {
+        id_user: userId,
+      },
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
-    });
+      .then((foundUserReviews) => {
+        console.log(foundUserReviews);
+        res.send(foundUserReviews);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+  }
 });
 
 // get all user's favorite trucks
@@ -174,26 +184,29 @@ userRouter.post('/update/favoritetruck/add/:userId/:truckId', (req, res) => {
 });
 
 // update route to favorite a user's favorite truck
-userRouter.put('/update/favoritetruck/favorite/:userId/:truckId', (req, res) => {
-  const { userId, truckId } = req.params;
-  Favorite.update(
-    {
-      favorite: true,
-    },
-    {
-      where: {
-        id_user: userId,
-        id_truck: truckId,
+userRouter.put(
+  '/update/favoritetruck/favorite/:userId/:truckId',
+  (req, res) => {
+    const { userId, truckId } = req.params;
+    Favorite.update(
+      {
+        favorite: true,
       },
-    },
-  )
-    .then(() => {
-      res.status(201).send('favorite was added');
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-});
+      {
+        where: {
+          id_user: userId,
+          id_truck: truckId,
+        },
+      }
+    )
+      .then(() => {
+        res.status(201).send('favorite was added');
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  }
+);
 
 // update route to remove a user's favorite truck
 userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
@@ -207,7 +220,7 @@ userRouter.put('/update/favoritetruck/remove/:userId/:truckId', (req, res) => {
         id_user: userId,
         id_truck: truckId,
       },
-    },
+    }
   )
     .then(() => {
       res.status(201).send('favorite was removed');
@@ -229,7 +242,7 @@ userRouter.post('/update/photo', (req, res) => {
       where: {
         id: userId,
       },
-    },
+    }
   )
     .then((updatedUser) => {
       console.log(updatedUser);
@@ -255,7 +268,7 @@ userRouter.put('/update/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    },
+    }
   )
     .then(() => {
       res.status(201).send('successfully updated user');
@@ -296,7 +309,7 @@ userRouter.put('/update/badge/:userId', (req, res) => {
       where: {
         id: userId,
       },
-    },
+    }
   )
     .then(() => {
       res.status(201).send('successfully updated user badge');
@@ -334,7 +347,7 @@ userRouter.put('/update/upvote/:userId/:reviewId', (req, res) => {
                 },
                 {
                   where: { id_user: userId },
-                },
+                }
               )
                 .then(() => {
                   res.status(201).send('upvote has been received');
