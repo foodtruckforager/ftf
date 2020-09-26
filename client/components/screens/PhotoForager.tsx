@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import axios from 'axios';
 import Cloud from 'react-native-word-cloud';
 
 export default function PhotoForager({ navigation }) {
   const [keywords, setKeywords] = useState([]);
+  const [wordCloudKeywords, setWordCloudKeywords] = useState([]);
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
   const [currentTruckReviews, setCurrentTruckReviews] = useState([]);
 
@@ -34,9 +36,16 @@ export default function PhotoForager({ navigation }) {
             return x;
           }
         })
-        .flat(1)
-        .map((word) => ({ keyword: word, frequency: 1, color: 'white' }));
+        .flat(1);
+
       setKeywords(wordCloudKeywords);
+      setWordCloudKeywords(
+        wordCloudKeywords.map((word) => ({
+          keyword: word,
+          frequency: 1,
+          color: 'white',
+        }))
+      );
     }
   }, [currentTruckPosts, currentTruckReviews]);
 
@@ -60,22 +69,41 @@ export default function PhotoForager({ navigation }) {
 
   const onPress = (e) => {
     alert(JSON.stringify(e));
-  }
+  };
   return (
     <View>
-      {/* {keywords.map((keyword) => (
-        <View key={keyword}>
-          <Text>{keyword}</Text>
-        </View>
-      ))} */}
-      <Cloud
-        keywords={keywords}
-        scale={250}
-        largestAtCenter={true}
-        drawContainerCircle={false}
-        containerCircleColor={'#345678'}
-        onPress={onPress}
-      />
+      <View style={styles.container}>
+        {keywords.map((keyword) => (
+          <View key={keyword} style={styles.buttons}>
+            <Button title={keyword} buttonStyle={styles.button}/>
+          </View>
+        ))}
+      </View>
+      <View>
+        <Cloud
+          keywords={wordCloudKeywords}
+          scale={250}
+          largestAtCenter={true}
+          drawContainerCircle={true}
+          containerCircleColor={'#345678'}
+        />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+  },
+  button: {
+    borderRadius: 15,
+  },
+  buttons: {
+    marginTop: 2,
+    width: 200,
+    alignSelf: 'center',
+  },
+  cloud: {
+    alignSelf: 'center',
+  },
+});
