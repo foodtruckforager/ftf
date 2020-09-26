@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Overlay, Image } from 'react-native-elements';
 import axios from 'axios';
 import Cloud from 'react-native-word-cloud';
 
 export default function PhotoForager({ navigation }) {
   const [keywords, setKeywords] = useState([]);
+  const [searchedKeywords, setSearchedKeywords] = useState([]);
+  const [lastPressedKeyword, setLastPressedKeyword] = useState([]);
   const [wordCloudKeywords, setWordCloudKeywords] = useState([]);
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
   const [currentTruckReviews, setCurrentTruckReviews] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     getTruckReviews();
@@ -29,7 +35,6 @@ export default function PhotoForager({ navigation }) {
           }
         })
       );
-
       const wordCloudKeywords = reviewsPostsCombined
         .filter((x) => {
           if (Array.isArray(x)) {
@@ -37,7 +42,6 @@ export default function PhotoForager({ navigation }) {
           }
         })
         .flat(1);
-
       setKeywords(wordCloudKeywords);
       setWordCloudKeywords(
         wordCloudKeywords.map((word) => ({
@@ -67,18 +71,43 @@ export default function PhotoForager({ navigation }) {
       .catch((err) => console.log(err));
   };
 
-  const onPress = (e) => {
-    alert(JSON.stringify(e));
+  const showPhotoSpread = (pressedKeyword: String) => {
+    setLastPressedKeyword(pressedKeyword);
+    let combined = currentTruckReviews.concat(currentTruckPosts);
+    let search = combined.filter((post) => {
+      if (post !== null && post.keywords !== null) {
+        if (JSON.stringify(post.keywords).includes(pressedKeyword)) {
+          return post;
+        }
+      }
+    });
+    setSearchedKeywords(search);
+    toggleOverlay();
   };
+
   return (
     <View>
       <View style={styles.container}>
         {keywords.map((keyword) => (
           <View key={keyword} style={styles.buttons}>
-            <Button title={keyword} buttonStyle={styles.button}/>
+            <Button
+              title={keyword}
+              buttonStyle={styles.button}
+              onPress={() => showPhotoSpread(keyword)}
+            />
           </View>
         ))}
       </View>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        {/* <Text>📸</Text> */}
+        {searchedKeywords.map((postOrReview) => (
+          <Image
+            key={postOrReview.id}
+            source={{ uri: postOrReview.photo }}
+            style={{ width: 200, height: 200 }}
+          />
+        ))}
+      </Overlay>
       <View>
         <Cloud
           keywords={wordCloudKeywords}
@@ -93,8 +122,7 @@ export default function PhotoForager({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   button: {
     borderRadius: 15,
   },

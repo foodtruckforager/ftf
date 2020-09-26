@@ -7,8 +7,9 @@ import SearchResults from '../screens/searchResults';
 import TruckDetails from '../screens/truckDetails';
 import TruckPosts from '../screens/truckPosts';
 import TruckReviews from '../screens/truckReviews';
-import Settings from '../screens/settings';
 import PhotoForager from '../screens/PhotoForager';
+import PhotoKeywordResult from '../screens/PhotoForager';
+import Settings from '../screens/settings';
 
 const screens = {
   Tracker: {
@@ -64,7 +65,7 @@ const screens = {
 const TrackerStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#444',
-    headerStyle: { backgroundColor: '#eee', height: 90},
+    headerStyle: { backgroundColor: '#eee', height: 90 },
     headerBackTitleVisible: false,
     headerTitleAlign: 'left',
     headerMode: 'screen',
