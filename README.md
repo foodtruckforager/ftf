@@ -6,7 +6,7 @@ Application for live tracking food trucks
 
 # Description
 
-Welcome to Food Truck Forager. Food Truck Forager provides users access to food trucks in their area. Food trucks load automatically as a user traverses to new areas within Google Maps or Apple Maps. Users can save their favorite trucks, review trucks, and earn achievements based on how often they visit food trucks. Additionally users can receive push notifications for trucks in their area!
+Welcome to Food Truck Forager. Food Truck Forager provides users access to food trucks in their area. Food trucks load automatically as a user traverses to new areas within Google Maps or Apple Maps. Users can save their favorite trucks, review trucks, and earn achievements based on how often they visit food trucks. Additionally, users can receive push notifications for trucks in their area! All photos uploaded are automatically tagged via machine learning AI image classification for screen reader accessibility options and photo content search.
 
 # Dependencies
 
@@ -21,6 +21,7 @@ Welcome to Food Truck Forager. Food Truck Forager provides users access to food 
  - React Native
  - React Native Maps
  - React Navigation
+ - TensorFlow.js
 
 ```javascript
 "dependencies": {
