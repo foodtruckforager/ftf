@@ -66,7 +66,7 @@ export default () => {
           if (data !== undefined) {
             const filteredFavorites = data.map((savedFavorite: Object) => ({
               name: `🚚 ${savedFavorite.truck.full_name}`,
-              points: savedFavorite.truck.food_genre,
+              points: savedFavorite.truck.food_genre.charAt(0).toUpperCase() + savedFavorite.truck.food_genre.slice(1),
             }));
             setFavorite(filteredFavorites);
           }
