@@ -4,7 +4,6 @@ import { createAppContainer } from 'react-navigation';
 import TrackerStack from './trackerStack';
 import Search from '../screens/search';
 import ScanQRCode from '../screens/ScanQRCode';
-import ImageUpload from '../screens/ImageUpload';
 import Accordion from '../../Accordion';
 import LogIn from '../screens/LogIn';
 import PhotoForager from '../screens/PhotoForager';
@@ -24,9 +23,6 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   ScanQRCode: {
     screen: ScanQRCode,
-  },
-  ImageUpload: {
-    screen: ImageUpload,
   },
   LogOut: {
     screen: LogIn,
