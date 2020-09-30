@@ -1,17 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
-import { Divider, Text, Card } from 'react-native-elements';
+import { View, StyleSheet } from 'react-native';
+import { Text, Card } from 'react-native-elements';
+import TimeAgo from 'react-native-timeago';
 
 const TruckPostItem = ({ post }) => (
   <View key={post.id} style={styles.container}>
     <Card>
       <Card.Title>{post.title}</Card.Title>
       <Card.Divider />
-      <Text>{`${post.createdAt.substring(0, 10)} | ${post.createdAt.substring(
-        11,
-        16
-      )}`}</Text>
-
+      <TimeAgo time={post.createdAt} />
       <Text>{post.message}</Text>
       <Card.Image
         source={{ uri: post.photo }}
