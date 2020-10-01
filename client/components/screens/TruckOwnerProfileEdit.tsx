@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import {
-  StyleSheet, Text, Button, SafeAreaView, ScrollView,
+  StyleSheet, Text, Button, SafeAreaView, ScrollView, KeyboardAvoidingView,
 } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
@@ -63,21 +63,25 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
   };
 
   return (
+    // <KeyboardAvoidingView>
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         { cameFromCreate && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
         { cameFromProfile && <Text style={styles.logInPrompt}>Update Your Info Below</Text> }
+        <KeyboardAvoidingView behavior="padding">
         <Form
           type={Owner}
           ref={(c) => this._form = c}
           options={options}
         />
+        </KeyboardAvoidingView>
         <Button
           title="Save"
           onPress={handleLoginSubmit}
         />
       </ScrollView>
     </SafeAreaView>
+    // </KeyboardAvoidingView>
   );
 };
 

@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   button: {
-    // borderRadius: 30,
+    borderRadius: 15,
   },
   overlayButton: {
     borderRadius: 15,
