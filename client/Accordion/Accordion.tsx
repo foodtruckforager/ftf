@@ -95,14 +95,6 @@ export default () => {
     retrieveCurrentUserVisits();
   }, []);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     retrieveCurrentUserVisits();
-  //     retrieveCurrentUserFavorites();
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   // Achievement Badge Rendering:
   useEffect(() => {
     if (visits !== []) {
