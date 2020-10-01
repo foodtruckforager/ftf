@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { Divider, Text, Avatar, Card } from 'react-native-elements';
+import { View, StyleSheet } from 'react-native';
+import { Text, Avatar, Card } from 'react-native-elements';
 import foodIcons from '../../../assets/mapIcons.js';
+import TimeAgo from 'react-native-timeago';
 
 const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
   const {
@@ -20,47 +21,43 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
   return (
     <View key={review.id} style={styles.container}>
       <Card>
-          <View style={styles.reviewHeader}>
-            <View style={styles.avatarNameBadge}>
-              <Avatar
-                rounded
-                source={{
-                  uri: profilePhoto,
-                }}
-                />
-              <Text>{full_name}</Text>
-              <Text>{userBadges}</Text>
-            </View>
-              </View>
-                <Card.Title>
-            <Text style={styles.title}>{review_title}</Text>
+        <View style={styles.reviewHeader}>
+          <View style={styles.avatarNameBadge}>
+            <Avatar
+              rounded
+              source={{
+                uri: profilePhoto,
+              }}
+            />
+            <Text>{full_name}</Text>
+            <Text>{userBadges}</Text>
+          </View>
+        </View>
+        <Card.Title>
+          <Text style={styles.title}>{review_title}</Text>
         </Card.Title>
         <View style={styles.column}>
-            <View style={styles.stars}>
-              <Text style={{ color: 'orange' }}>
-                {String.fromCharCode(9733).repeat(Math.floor(review_star))}
-              </Text>
-              <Text style={{ color: 'lightgrey' }}>
-                {String.fromCharCode(9733).repeat(5 - Math.floor(review_star))}
-            </Text></View>
-            <View>
-              <Text>{`${createdAt.substring(0, 10)} | ${createdAt.substring(
-                14,
-                19
-              )}`}</Text></View>
-            </View>
-        <Card.Divider/>
+          <View style={styles.stars}>
+            <Text style={{ color: 'orange' }}>
+              {String.fromCharCode(9733).repeat(Math.floor(review_star))}
+            </Text>
+            <Text style={{ color: 'lightgrey' }}>
+              {String.fromCharCode(9733).repeat(5 - Math.floor(review_star))}
+            </Text>
+          </View>
+          <View>
+            <TimeAgo time={createdAt} />
+          </View>
+        </View>
+        <Card.Divider />
         <Text>{review_description}</Text>
         <Text>{`${upvotes} 👍`}</Text>
-        <Card.Image
-          source={{ uri: reviewPhoto }}
-          resizeMode="cover"
-        />
+        <Card.Image source={{ uri: reviewPhoto }} resizeMode="cover" />
         <View style={styles.stars}>
-        {keywords.map((prediction: Object) => (
-          <Text>{prediction.class}, </Text>
-        ))}
-          </View>
+          {keywords.map((prediction: Object) => (
+            <Text>{prediction.class}, </Text>
+          ))}
+        </View>
       </Card>
     </View>
   );
