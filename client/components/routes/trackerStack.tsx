@@ -30,12 +30,12 @@ const screens = {
       headerTitle: () => <Header navigation={navigation} />,
     }),
   },
-  PhotoForager: {
-    screen: PhotoForager,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: () => <Header navigation={navigation} />,
-    }),
-  },
+  // PhotoForager: {
+  //   screen: PhotoForager,
+  //   navigationOptions: ({ navigation }) => ({
+  //     headerTitle: () => <Header navigation={navigation} />,
+  //   }),
+  // },
   TruckDetails: {
     screen: TruckDetails,
     navigationOptions: ({ navigation }) => ({

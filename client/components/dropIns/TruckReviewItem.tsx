@@ -18,6 +18,10 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
   let reviewPhoto: string = review_photo || foodIcons.defaultReviewPhoto;
   let profilePhoto: string = profile_photo_url || foodIcons.defaultProfilePhoto;
   let userBadges = badge || '🎖';
+  const keywordsMapped = review.keywords
+  .map((prediction: Object) => `${prediction.class}, `).join('')
+    .slice(0, -2);
+  
   return (
     <View key={review.id} style={styles.container}>
       <Card>
@@ -54,9 +58,7 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
         <Text>{`${upvotes} 👍`}</Text>
         <Card.Image source={{ uri: reviewPhoto }} resizeMode="cover" />
         <View style={styles.stars}>
-          {keywords.map((prediction: Object) => (
-            <Text>{prediction.class}, </Text>
-          ))}
+            <Text>{keywordsMapped}</Text>
         </View>
       </Card>
     </View>
