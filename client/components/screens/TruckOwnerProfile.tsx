@@ -177,6 +177,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
               />
               <Card.Image source={{ uri: logo }} />
               <Card.Divider />
+              {/* <View style={{justifyContent: 'space-around'}}> */}
               <Button
                 title="Edit"
                 onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
@@ -205,6 +206,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 }}
                 buttonStyle={styles.button}
               />
+            {/* </View> */}
             </Card>
           </View>
         </View>
@@ -240,9 +242,10 @@ const styles = StyleSheet.create({
   modal: {
     flex: 0.1,
     flexGrow: 1.4,
+    borderRadius: 15,
   },
   button: {
-    borderRadius: 30,
+    borderRadius: 15,
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 0,

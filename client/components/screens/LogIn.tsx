@@ -30,7 +30,7 @@ export default function LogIn(props) {
   }, [accessToken]);
 
   useEffect(() => {
-     console.log('use effect truck loggedd in', isTruckOwnerLoggedIn);
+     console.log(isTruckOwnerLoggedIn);
   }, [isTruckOwnerLoggedIn]);
 
   const retrieveData = async() => {
