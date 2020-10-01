@@ -64,7 +64,7 @@ export default function PhotoForager({ navigation }) {
 
   const getTruckReviews = async () => {
     axios
-      .get(`${process.env.EXPO_LocalLan}/truck/review/0`)
+      .get(`${process.env.EXPO_LocalLan}/user/review/0`)
       .then((response) => {
         setCurrentTruckReviews(response.data);
       })
