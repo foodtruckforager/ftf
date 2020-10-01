@@ -29,7 +29,7 @@ export default function GoogleLogIn({
     scopes: ['profile', 'email'],
   };
 
-  const storeData = async (dataKey, dataValue) => {
+  const storeData = async(dataKey, dataValue) => {
     try {
       await AsyncStorage.setItem(dataKey, dataValue);
     } catch (error) {
@@ -74,7 +74,6 @@ export default function GoogleLogIn({
         setAccessToken(result.accessToken);
         setIsTruckOwnerLoggedIn(true);
         setOwnerGoogleId(result.user.id);
-        console.log('truckLogged in true');
 
         axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
           googleId: result.user.id,
@@ -107,7 +106,10 @@ export default function GoogleLogIn({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Food Truck Forager</Text>
-      <Image source={require('../../../assets/foodtruckstill256.png')} />
+      <Image
+        source={require('../../../assets/tacoTruck.gif')}
+        style={styles.truckGif}
+      />
       <View>
         <Button title="User Sign In" onPress={userSignIn} buttonStyle={styles.buttonUser} />
       </View>
@@ -128,17 +130,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     position: 'absolute',
-    top: 130,
+    top: 50,
     fontWeight: 'bold',
   },
+  truckGif: {
+    width: 250,
+    height: 200,
+    marginBottom: 50,
+  },
   buttonUser: {
-    borderRadius: 30,
+    borderRadius: 15,
     padding: 15,
     marginBottom: 5,
     width: 300,
   },
   buttonOwner: {
-    borderRadius: 30,
+    borderRadius: 15,
     padding: 15,
     marginTop: 25,
     width: 310,
