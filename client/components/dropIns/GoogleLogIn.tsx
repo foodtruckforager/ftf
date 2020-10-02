@@ -43,6 +43,7 @@ export default function GoogleLogIn({
       if (result.type === 'success') {
         storeData('userData', JSON.stringify(result));
         setIsUserLoggedIn(true);
+        console.log('success in user login')
 
         axios.post(`${process.env.EXPO_LocalLan}/user/new`, {
           fullName: result.user.name,

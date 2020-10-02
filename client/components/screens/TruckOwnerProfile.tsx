@@ -45,7 +45,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
 
   const getTruckPosts = async() => {
     axios
-      .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
+      .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${truckId}`)
       .then((response) => {
         setCurrentTruckPosts(response.data);
       })
@@ -57,6 +57,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   }, []);
 
   const getData = async() => {
+    console.log('google id in profile get', route.params.googleId)
     await axios.get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
       .then((response) => {
         setCurrentTruck(response.data);
@@ -79,6 +80,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    console.log(route.params);
     getData();
   }, []);
 
@@ -87,7 +89,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    console.log(currentTruck);
+    console.log('current truck in profile', currentTruck);
   }, [currentTruck]);
 
   // TODO: update open status and latitude/longitude in database
@@ -101,7 +103,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
             openStatus,
           })
           .then(() => {
-            console.log('open stautus was updated');
+            console.log('open status was updated');
           })
           .catch((err) => console.log(err));
       };
@@ -175,7 +177,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 data={[{ value: blurb }]}
                 multiline="true"
               />
-              <Card.Image source={{ uri: logo }} />
+              {/* <Card.Image source={{ uri: logo }} /> */}
               <Card.Divider />
               {/* <View style={{justifyContent: 'space-around'}}> */}
               <Button

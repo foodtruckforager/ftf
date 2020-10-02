@@ -29,13 +29,13 @@ export default function Map({
   });
   const [followsUserLocation, setFollowsUserLocation] = useState(true);
 
-  useEffect(() => {
-    if (followsUserLocation) {
-      setTimeout(() => {
-        setFollowsUserLocation(false);
-      }, 10);
-    }
-  }, [search]);
+  // useEffect(() => {
+  //   if (followsUserLocation) {
+  //     setTimeout(() => {
+  //       setFollowsUserLocation(false);
+  //     }, 10);
+  //   }
+  // }, [search]);
 
   const getAllTrucks = () => {
     axios

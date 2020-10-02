@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, AsyncStorage } from 'react-native';
+import {
+  StyleSheet, View, Text, Image, AsyncStorage,
+} from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
@@ -13,7 +15,7 @@ export default function Settings({ navigation, onSettings }) {
 
   const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`;
 
-  const openImagePickerAsync = async () => {
+  const openImagePickerAsync = async() => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
     if (permissionResult.granted === false) {
       alert('Permission to access camera roll is required!');
@@ -44,14 +46,14 @@ export default function Settings({ navigation, onSettings }) {
       },
       method: 'POST',
     })
-      .then(async (r) => {
+      .then(async(r) => {
         const data = await r.json();
         setUserHasChangedPhoto(true);
         setPicture(data.url);
       })
       .catch((err) => console.log(err));
   };
- // ADD THIS TO SUBMIT OVERLAY // INTEGRATE W ALREADY GOING ON AXIOS CALL
+  // ADD THIS TO SUBMIT OVERLAY // INTEGRATE W ALREADY GOING ON AXIOS CALL
   useEffect(() => {
     if (userHasChangedPhoto) {
       axios
@@ -65,12 +67,12 @@ export default function Settings({ navigation, onSettings }) {
         .catch((err) => console.log(err));
     }
   }, [picture]);
- // NOT BELOW THIS POINT THOUGH
+  // NOT BELOW THIS POINT THOUGH
   let googleData;
   let userData;
 
   useEffect(() => {
-    const retrieveData = async () => {
+    const retrieveData = async() => {
       try {
         const value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -82,15 +84,19 @@ export default function Settings({ navigation, onSettings }) {
         console.log(error);
       }
     };
-    retrieveData().then(() => {
-      axios
-        .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleData.id}`)
-        .then((response) => {
-          userData = response.data[0].id;
-          setGetUser(response.data);
-          setPicture(response.data[0].profile_photo_url);
-        });
-    });
+    retrieveData()
+      .then((response) => {
+        console.log('response in user settings', response)
+        console.log('googleData', googleData)
+        axios
+          .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleData.id}`)
+          .then((response) => {
+            console.log('log after get', response)
+            userData = response.data[0].id;
+            setGetUser(response.data);
+            setPicture(response.data[0].profile_photo_url);
+          });
+      });
   }, []);
 
   if (profile) {
