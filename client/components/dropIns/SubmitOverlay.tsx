@@ -187,7 +187,7 @@ const SubmitOverlay = ({
               <View style={{ paddingVertical: 4 }}>
                 <Button
                   buttonStyle={styles.overlayButton}
-                  title="✏️ Submit Review"
+                  title={`✏️ Submit ${onReviews ? 'Review' : 'Post'} `}
                   onPress={onSubmit}
                 />
               </View>
