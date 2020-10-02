@@ -2,11 +2,11 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 
 import TrackerStack from './trackerStack';
-import Search from '../screens/search';
 import ScanQRCode from '../screens/ScanQRCode';
 import Accordion from '../../Accordion';
 import LogIn from '../screens/LogIn';
-import PhotoForager from '../screens/PhotoForager';
+// import Search from '../screens/search';
+// import PhotoForager from '../screens/PhotoForager';
 
 const RootDrawerNavigator = createDrawerNavigator({
   Tracker: {
@@ -15,9 +15,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   // Search: {
   //   screen: Search,
   // },
-  PhotoForager: {
-    screen: PhotoForager,
-  },
+  // PhotoForager: {
+  //   screen: PhotoForager,
+  // },
   Profile: {
     screen: Accordion,
   },
