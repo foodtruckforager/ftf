@@ -143,7 +143,9 @@ const SubmitOverlay = ({
         fullScreen={true}
       >
         <View style={styles.container}>
-          <Text h3> 📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
+          <View style={styles.centerText}>
+            <Text h3> 📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
+          </View>
           {onReviews && (
             <AirbnbRating
               size={22}
@@ -231,7 +233,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: 300,
     alignSelf: 'center',
-    // padding: 30,
-    // marginBottom: 300,
+  },
+  centerText: {
+    flex: .4,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
