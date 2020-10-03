@@ -12,8 +12,9 @@ const TruckPostItem = ({ post }) => {
     <View key={post.id} style={styles.container}>
       <Card>
         <Card.Title>{post.title}</Card.Title>
+        <View style={styles.alignRight}>
+        <TimeAgo time={post.createdAt} /></View>
         <Card.Divider />
-        <TimeAgo time={post.createdAt} />
         <Text>{post.message}</Text>
         <Card.Image
           source={{ uri: post.photo }}
@@ -31,6 +32,12 @@ const TruckPostItem = ({ post }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  alignRight: {
+    flex: .4,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   stars: {
     flexDirection: 'row',
