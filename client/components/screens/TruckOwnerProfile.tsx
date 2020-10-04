@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, View, Text, Switch, SafeAreaView, ScrollView,
+  StyleSheet, View, Switch, SafeAreaView, ScrollView,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import {
-  Card, ListItem, Button,
+  Card, ListItem, Button, Text,
 } from 'react-native-elements';
-import { Dropdown } from 'react-native-material-dropdown';
+import ViewMoreText from 'react-native-view-more-text';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import LocationSelectionMap from '../dropIns/LocationSelectMap';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
+import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
   const [truckId, setTruckId] = useState(null);
@@ -21,8 +22,8 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const [logo, setlogo] = useState('');
   const [foodGenre, setFoodGenre] = useState('');
   const [blurb, setBlurb] = useState('');
-  const [starAverage, setStarAverage] = useState(null);
-  const [numberOfReviews, setNumberOfReviews] = useState(null);
+  const [starAverage, setStarAverage] = useState(0);
+  const [numberOfReviews, setNumberOfReviews] = useState(0);
   const [openTime, setOpenTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
   const [openStatus, setOpenStatus] = useState(false);
@@ -45,7 +46,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
 
   const getTruckPosts = async() => {
     axios
-      .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${id}`)
+      .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${truckId}`)
       .then((response) => {
         setCurrentTruckPosts(response.data);
       })
@@ -79,6 +80,8 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    // console.log('route.params in profile use effect', route.params);
+    // console.log('env varaiable in owner', process.env.EXPO_LocalLan)
     getData();
   }, []);
 
@@ -87,7 +90,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    console.log(currentTruck);
+    console.log('current truck in profile', currentTruck);
   }, [currentTruck]);
 
   // TODO: update open status and latitude/longitude in database
@@ -101,7 +104,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
             openStatus,
           })
           .then(() => {
-            console.log('open stautus was updated');
+            console.log('open status was updated');
           })
           .catch((err) => console.log(err));
       };
@@ -110,6 +113,14 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   }, [openStatus, latitude, longitude]);
 
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
+
+  const renderViewMore = (onPress) => (
+    <Text style={styles.renderViewBlurb} onPress={onPress}>View More</Text>
+  );
+
+  const renderViewLess = (onPress) => (
+    <Text style={styles.renderViewBlurb} onPress={onPress}>View Less</Text>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -127,14 +138,38 @@ const TruckOwnerProfile = ({ navigation, route }) => {
           </View>
           )}
           <View>
-            <Card containerStyle={{width: 350, left: -20, right: 100 }}>
+            <Card containerStyle={styles.cardContainer}>
               <View style={styles.topTitleCard}>
-                <Card.Title>
-                  <Text>
-                    {truckName}
-                  </Text>
-                </Card.Title>
+                <View style={styles.businessTitle}>
+                  <Card.Title>
+                    <Text h2>
+                      {truckName}
+                    </Text>
+                  </Card.Title>
+                </View>
+              </View>
+              {/* <View style={styles.stars}>
+                <Text style={{ color: 'orange' }}>
+                  {String.fromCharCode(9733).repeat(Math.floor(starAverage))}
+                </Text>
+                <Text style={{ color: 'lightgrey' }}>
+                  {String.fromCharCode(9733).repeat(
+                    5 - Math.floor(starAverage),
+                  )}
+                </Text>
+              </View> */}
+              <View style={styles.logoSliderRow}>
+                <ListItem
+                  leftAvatar={{
+                    source: { uri: logo },
+                    size: 'large',
+                  }}
+                />
                 <View style={styles.slider}>
+                  <View style={styles.openStatusText}>
+                    {openStatus && <Text>Open</Text>}
+                    {!openStatus && <Text>Closed</Text>}
+                  </View>
                   <Switch
                     trackColor={{ false: '#767577', true: '#3cb37' }}
                     thumbColor={openStatus ? '#FFFFFF' : '#FFFFFF'}
@@ -144,40 +179,66 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   />
                 </View>
               </View>
-              {/* <View style={styles.stars}>
-                <Text style={{ color: 'orange' }}>
-                  {String.fromCharCode(9733).repeat(Math.floor(4.0))}
+              <View style={styles.listItem}>
+                <ListItem>
+                  <ListItem.Content>
+                    <View style={styles.listItemTitle}>
+                      <ListItem.Title><Text h4>Phone#:</Text></ListItem.Title>
+                      <View style={styles.listItemSubTitlePhoneNumber}>
+                        <ListItem.Subtitle>
+                          <Text style={styles.listItemSubTitleText}>
+                            {phoneNumber}
+                          </Text>
+                        </ListItem.Subtitle>
+                      </View>
+                    </View>
+                    <Card.Divider />
+                    <View style={styles.listItemTitle}>
+                      <ListItem.Title><Text h4>Food:</Text></ListItem.Title>
+                      <View style={styles.listItemSubTitleFoodGenre}>
+                        <ListItem.Subtitle>
+                          <Text style={styles.listItemSubTitleText}>
+                            {foodGenre}
+                          </Text>
+                        </ListItem.Subtitle>
+                      </View>
+                    </View>
+                    <Card.Divider />
+                    <View style={styles.listItemTitle}>
+                      <ListItem.Title><Text h4>Open:</Text></ListItem.Title>
+                      <View style={styles.listItemSubTitleOpenTime}>
+                        <ListItem.Subtitle>
+                          <Text style={styles.listItemSubTitleText}>
+                            {openTime}
+                          </Text>
+                        </ListItem.Subtitle>
+                      </View>
+                    </View>
+                    <Card.Divider />
+                    <View style={styles.listItemTitle}>
+                      <ListItem.Title><Text h4>Close:</Text></ListItem.Title>
+                      <View style={styles.listItemSubTitleCloseTime}>
+                        <ListItem.Subtitle>
+                          <Text style={styles.listItemSubTitleText}>
+                            {closeTime}
+                          </Text>
+                        </ListItem.Subtitle>
+                      </View>
+                    </View>
+                  </ListItem.Content>
+                </ListItem>
+              </View>
+              <ViewMoreText
+                numberOfLines={3}
+                renderViewMore={renderViewMore}
+                renderViewLess={renderViewLess}
+                textStyle={{ textAlign: 'left' }}
+              >
+                <Text>
+                  {blurb}
                 </Text>
-                <Text style={{ color: 'lightgrey' }}>
-                  {String.fromCharCode(9733).repeat(
-                    5 - Math.floor(4.0),
-                  )}
-                </Text>
-                <Text>{numberOfReviews} Reviews</Text>
-              </View> */}
-              <ListItem>
-                <ListItem.Content>
-                  <ListItem.Title>Phone Number:</ListItem.Title>
-                  <ListItem.Subtitle>{phoneNumber}</ListItem.Subtitle>
-                  <Card.Divider />
-                  <ListItem.Title>Food Genre:</ListItem.Title>
-                  <ListItem.Subtitle>{foodGenre}</ListItem.Subtitle>
-                  <ListItem.Title>{starAverage}</ListItem.Title>
-                  <ListItem.Title>Open Time:</ListItem.Title>
-                  <ListItem.Subtitle>{openTime}</ListItem.Subtitle>
-                  <Card.Divider />
-                  <ListItem.Title>Close Time:</ListItem.Title>
-                  <ListItem.Subtitle>{closeTime}</ListItem.Subtitle>
-                </ListItem.Content>
-              </ListItem>
-              <Dropdown
-                label="Blurb"
-                data={[{ value: blurb }]}
-                multiline="true"
-              />
-              <Card.Image source={{ uri: logo }} />
+              </ViewMoreText>
               <Card.Divider />
-              {/* <View style={{justifyContent: 'space-around'}}> */}
               <Button
                 title="Edit"
                 onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
@@ -206,7 +267,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 }}
                 buttonStyle={styles.button}
               />
-            {/* </View> */}
             </Card>
           </View>
         </View>
@@ -220,6 +280,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
   },
+  cardContainer: {
+    width: 350,
+    left: -20,
+    right: 100,
+  },
   map: {
     padding: 140,
     paddingTop: Constants.statusBarHeight,
@@ -232,12 +297,63 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
+  businessTitle: {
+    flex: 1,
+    alignSelf: 'center',
+  },
+  logoSliderRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   slider: {
-    margin: -5,
+    marginTop: 7,
     marginHorizontal: 10,
+    flexDirection: 'column',
+  },
+  openStatusText: {
+    marginTop: 8,
+    paddingLeft: 6,
+    marginBottom: 10,
+  },
+  listItem: {
+    marginTop: -6,
+  },
+  listItemTitle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+
+  },
+  listItemSubTitlePhoneNumber: {
+    marginTop: 5,
+    marginLeft: 80,
+  },
+  listItemSubTitleText: {
+    fontSize: 20,
+    flex: 2,
+    alignSelf: 'flex-end',
+  },
+  listItemSubTitleFoodGenre: {
+    marginTop: 4,
+    marginLeft: 155,
+  },
+  listItemSubTitleOpenTime: {
+    marginTop: 5,
+    marginLeft: 167,
+  },
+  listItemSubTitleCloseTime: {
+    marginTop: 5,
+    marginLeft: 172,
   },
   stars: {
     flexDirection: 'row',
+    marginBottom: 3,
+    marginLeft: 13,
+  },
+  renderViewBlurb: {
+    paddingTop: 5,
+    color: 'blue',
   },
   modal: {
     flex: 0.1,
