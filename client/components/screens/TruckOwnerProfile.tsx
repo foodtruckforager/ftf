@@ -6,11 +6,12 @@ import { useIsFocused } from '@react-navigation/native';
 import {
   Card, ListItem, Button, Text,
 } from 'react-native-elements';
-import { Dropdown } from 'react-native-material-dropdown';
+import ViewMoreText from 'react-native-view-more-text';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import LocationSelectionMap from '../dropIns/LocationSelectMap';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
+import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
   const [truckId, setTruckId] = useState(null);
@@ -79,7 +80,8 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    console.log(route.params);
+    // console.log('route.params in profile use effect', route.params);
+    // console.log('env varaiable in owner', process.env.EXPO_LocalLan)
     getData();
   }, []);
 
@@ -111,6 +113,14 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   }, [openStatus, latitude, longitude]);
 
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
+
+  const renderViewMore = (onPress) => (
+    <Text style={styles.renderViewBlurb} onPress={onPress}>View More</Text>
+  );
+
+  const renderViewLess = (onPress) => (
+    <Text style={styles.renderViewBlurb} onPress={onPress}>View Less</Text>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -151,7 +161,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
               <View style={styles.logoSliderRow}>
                 <ListItem
                   leftAvatar={{
-                    source: { uri: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.VJDlOjo_PyQUYJJRWGN4awHaHa%26pid%3DApi&f=1' },
+                    source: { uri: logo },
                     size: 'large',
                   }}
                 />
@@ -172,7 +182,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
               <View style={styles.listItem}>
                 <ListItem>
                   <ListItem.Content>
-                    <View style={styles.listItemtitle}>
+                    <View style={styles.listItemTitle}>
                       <ListItem.Title><Text h4>Phone#:</Text></ListItem.Title>
                       <View style={styles.listItemSubTitlePhoneNumber}>
                         <ListItem.Subtitle>
@@ -183,7 +193,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                       </View>
                     </View>
                     <Card.Divider />
-                    <View style={styles.listItemtitle}>
+                    <View style={styles.listItemTitle}>
                       <ListItem.Title><Text h4>Food:</Text></ListItem.Title>
                       <View style={styles.listItemSubTitleFoodGenre}>
                         <ListItem.Subtitle>
@@ -194,7 +204,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                       </View>
                     </View>
                     <Card.Divider />
-                    <View style={styles.listItemtitle}>
+                    <View style={styles.listItemTitle}>
                       <ListItem.Title><Text h4>Open:</Text></ListItem.Title>
                       <View style={styles.listItemSubTitleOpenTime}>
                         <ListItem.Subtitle>
@@ -205,7 +215,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                       </View>
                     </View>
                     <Card.Divider />
-                    <View style={styles.listItemtitle}>
+                    <View style={styles.listItemTitle}>
                       <ListItem.Title><Text h4>Close:</Text></ListItem.Title>
                       <View style={styles.listItemSubTitleCloseTime}>
                         <ListItem.Subtitle>
@@ -218,11 +228,16 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   </ListItem.Content>
                 </ListItem>
               </View>
-              <Dropdown
-                label="Blurb"
-                data={[{ value: blurb }]}
-                multiline="true"
-              />
+              <ViewMoreText
+                numberOfLines={3}
+                renderViewMore={renderViewMore}
+                renderViewLess={renderViewLess}
+                textStyle={{ textAlign: 'left' }}
+              >
+                <Text>
+                  {blurb}
+                </Text>
+              </ViewMoreText>
               <Card.Divider />
               <Button
                 title="Edit"
@@ -304,31 +319,41 @@ const styles = StyleSheet.create({
   listItem: {
     marginTop: -6,
   },
-  listItemtitle: {
+  listItemTitle: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-around',
+
   },
   listItemSubTitlePhoneNumber: {
-    marginTop: 7,
-    marginLeft: 102,
+    marginTop: 5,
+    marginLeft: 80,
   },
   listItemSubTitleText: {
-    fontSize: 18,
+    fontSize: 20,
+    flex: 2,
+    alignSelf: 'flex-end',
   },
   listItemSubTitleFoodGenre: {
-    marginTop: 7,
-    marginLeft: 180,
+    marginTop: 4,
+    marginLeft: 155,
   },
   listItemSubTitleOpenTime: {
-    marginLeft: 200,
+    marginTop: 5,
+    marginLeft: 167,
   },
   listItemSubTitleCloseTime: {
-    marginLeft: 200,
+    marginTop: 5,
+    marginLeft: 172,
   },
   stars: {
     flexDirection: 'row',
     marginBottom: 3,
     marginLeft: 13,
+  },
+  renderViewBlurb: {
+    paddingTop: 5,
+    color: 'blue',
   },
   modal: {
     flex: 0.1,

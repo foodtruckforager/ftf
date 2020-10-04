@@ -29,15 +29,16 @@ export default function Map({
   });
   const [followsUserLocation, setFollowsUserLocation] = useState(true);
 
-  // useEffect(() => {
-  //   if (followsUserLocation) {
-  //     setTimeout(() => {
-  //       setFollowsUserLocation(false);
-  //     }, 10);
-  //   }
-  // }, [search]);
+  useEffect(() => {
+    if (followsUserLocation) {
+      setTimeout(() => {
+        setFollowsUserLocation(false);
+      }, 10);
+    }
+  }, [search]);
 
   const getAllTrucks = () => {
+    console.log(process.env.EXPO_LocalLan)
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {

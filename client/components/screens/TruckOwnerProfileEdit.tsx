@@ -44,7 +44,10 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
 
   const handleLoginSubmit = () => {
     const value = this._form.getValue();
-    console.log('click')
+    console.log('click');
+    console.log(route.params.googleId);
+    console.log(value);
+    console.log(process.env.EXPO_LocalLan)
     axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
       fullName: value.business_name,
       phoneNumber: value.phone_number.toString(),

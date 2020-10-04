@@ -17,9 +17,9 @@ const TruckOwnerRouter = ({ googleId }) => {
     console.log(process.env.EXPO_LocalLan);
     if (googleId) {
       axios.get(`${process.env.EXPO_LocalLan}/truck/login/${googleId}`)
-      // axios.get(`http://192.168.0.34:5000/truck/login/${googleId}`)
+      // axios.get(`http://192.168.1.183:5000/truck/login/${googleId}`)
         .then((response) => {
-          // console.log('response in useEffect get in router', response);
+          console.log('response in useEffect get in router', response);
 
 
           if (response.data.full_name !== null) {

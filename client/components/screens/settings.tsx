@@ -99,7 +99,7 @@ export default function Settings({ navigation, onSettings }) {
       });
   }, []);
 
-  if (profile) {
+  // if (profile) {
     return (
       <View>
         {getUser.map((user) => (
@@ -127,7 +127,7 @@ export default function Settings({ navigation, onSettings }) {
       </View>
     );
   }
-}
+// }
 
 const styles = StyleSheet.create({
   camera: {
