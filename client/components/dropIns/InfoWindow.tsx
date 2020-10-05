@@ -1,29 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   StyleSheet,
   View,
   Text,
-  // Image,
   TouchableOpacity,
   Linking,
   Platform,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import {
-  Avatar,
-  Badge,
-  Card,
-  Icon,
-  withBadge,
-  Image,
-} from 'react-native-elements';
+import { Badge, Card } from 'react-native-elements';
 import { Callout } from 'react-native-maps';
-import Constants from 'expo-constants';
 import Thumbnail from './Thumbnail';
 
 export default function InfoWindow({ currentTruck, navigation, onDetails }) {
   if (currentTruck) {
+    const [currentTruckAverageRating, setCurrentTruckAverageRating] = useState(
+      0
+    );
+    const [
+      currentTruckNumberOfReviews,
+      setCurrentTruckNumberOfReviews,
+    ] = useState(0);
+    const getTruckReviews = async () => {
+      axios
+        .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
+        .then((response) => {
+          const { data } = response;
+          const ratings = data.map((review: Object) => +review.review_star);
+          const numberOfReviews = ratings.length;
+          const average =
+            ratings.reduce((a: Number, b: Number) => a + b) / numberOfReviews;
+          setCurrentTruckAverageRating(average);
+          setCurrentTruckNumberOfReviews(numberOfReviews);
+        })
+        .catch((err) => console.log(err));
+    };
+    useEffect(() => {
+      getTruckReviews();
+    }, []);
+
     const truncateBlurbBy = onDetails ? 9999 : 80;
 
     const truncate = (elem: string, limit: number, after: string) => {
@@ -36,10 +53,8 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
       full_name,
       blurb,
       logo,
-      star_average,
       phone_number,
       food_genre,
-      number_of_reviews,
       open_status,
       id,
     } = currentTruck;
@@ -93,7 +108,6 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
                       {`${truncate(full_name, 28, '')}`}
                     </Text>
-                    {/* <Icon name="phone" size={30} color="#900" /> */}
                     <TouchableOpacity onPress={makeCall}>
                       <Text>
                         {String.fromCharCode(9990)}
@@ -107,19 +121,16 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                     <View style={styles.stars}>
                       <Text style={{ color: 'orange' }}>
                         {String.fromCharCode(9733).repeat(
-                          Math.floor(star_average)
+                          Math.floor(currentTruckAverageRating)
                         )}
                       </Text>
                       <Text style={{ color: 'lightgrey' }}>
                         {String.fromCharCode(9733).repeat(
-                          5 - Math.floor(star_average)
+                          5 - Math.floor(currentTruckAverageRating)
                         )}
                       </Text>
-                      {/* <Text>{number_of_reviews} Reviews</Text> */}
+                      <Text>  ({currentTruckNumberOfReviews} Reviews)</Text>
                     </View>
-                  </View>
-                  <View>
-                    <Text>{/* Distance */}</Text>
                   </View>
                 </View>
               </View>
@@ -159,7 +170,6 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                     {`${truncate(full_name, 28, '')}`}
                   </Text>
                 </View>
-                {/* <Icon name="phone" size={30} color="#900" /> */}
                 <TouchableOpacity onPress={makeCall}>
                   <Text>
                     {String.fromCharCode(9990)}
@@ -172,23 +182,20 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                 </Text>
                 <View style={styles.stars}>
                   <Text style={{ color: 'orange' }}>
-                    {String.fromCharCode(9733).repeat(Math.floor(star_average))}
+                    {String.fromCharCode(9733).repeat(
+                      Math.floor(currentTruckAverageRating)
+                    )}
                   </Text>
                   <Text style={{ color: 'lightgrey' }}>
                     {String.fromCharCode(9733).repeat(
-                      5 - Math.floor(star_average)
+                      5 - Math.floor(currentTruckAverageRating)
                     )}
                   </Text>
-                  {/* <Text>{number_of_reviews} Reviews</Text> */}
+                  <Text>  ({currentTruckNumberOfReviews} Reviews)</Text>
                 </View>
-              </View>
-              <View>
-                <Text>{/* Distance */}</Text>
               </View>
             </View>
           </View>
-          {/* <SafeAreaView>
-                  <ScrollView> */}
           <View style={{ width: 285 }}>
             <Text style={styles.blurb}>{`${truncate(
               blurb,
@@ -196,8 +203,6 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
               '...'
             )}`}</Text>
           </View>
-          {/* </ScrollView>
-                </SafeAreaView> */}
         </View>
       </Callout>
     );
