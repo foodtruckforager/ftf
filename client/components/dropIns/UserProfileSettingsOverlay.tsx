@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Overlay, SearchBar, Text } from 'react-native-elements';
-import { View, StyleSheet, AsyncStorage, Switch } from 'react-native';
+import {
+  Button, Overlay, SearchBar, Text,
+} from 'react-native-elements';
+import {
+  View, StyleSheet, AsyncStorage, Switch,
+} from 'react-native';
+import { useTheme } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import UserSettings from '../screens/settings';
@@ -16,6 +21,8 @@ const UserProfileSettingsOverlay = () => {
   const [lunchStart, setLunchStart] = useState(true);
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
+  const { colors } = useTheme();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -42,8 +49,7 @@ const UserProfileSettingsOverlay = () => {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
-  const toggleSwitch = () =>
-    setPushNotifications((previousState) => !previousState);
+  const toggleSwitch = () => setPushNotifications((previousState) => !previousState);
 
   const updateUsername = (username: string) => {
     setUsername(username);
@@ -54,7 +60,7 @@ const UserProfileSettingsOverlay = () => {
   };
 
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -71,7 +77,7 @@ const UserProfileSettingsOverlay = () => {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -84,6 +90,47 @@ const UserProfileSettingsOverlay = () => {
     getUserIdWithGoogleUserId();
   }, [googleUserId]);
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'space-around',
+      flexDirection: 'column',
+      backgroundColor: colors.background,
+    },
+    overlayStyle: {
+      backgroundColor: colors.backgroundCard,
+    },
+    searchBarContainer: {
+      backgroundColor: colors.backgroundCard,
+    },
+    nameInputContainerStyle: {
+      backgroundColor: colors.backgroundCard,
+      width: 230,
+      alignSelf: 'center',
+      borderRadius: 2,
+    },
+    verticalPadding: {
+      paddingVertical: 10,
+    },
+    slightVerticalPadding: {
+      paddingVertical: 2,
+    },
+    gap: {
+      marginTop: -150,
+    },
+    button: {
+      borderRadius: 15,
+      backgroundColor: colors.button,
+      width: 230,
+      padding: 5,
+      alignSelf: 'center',
+    },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+  });
+
   return (
     <View>
       <Button
@@ -95,10 +142,11 @@ const UserProfileSettingsOverlay = () => {
         isVisible={visible}
         onBackdropPress={toggleOverlay}
         fullScreen={false}
+        overlayStyle={styles.overlayStyle}
       >
         <View style={styles.container}>
           <View style={styles.userSettings}>
-            <UserSettings onSettings={true} />
+            <UserSettings onSettings />
           </View>
           <View style={styles.gap}>
             <SearchBar
@@ -107,12 +155,14 @@ const UserProfileSettingsOverlay = () => {
               searchIcon={false}
               onChangeText={updateUsername}
               value={username}
+              containerStyle={styles.searchBarContainer}
+              inputContainerStyle={styles.nameInputContainerStyle}
             />
           </View>
           <View style={styles.verticalPadding}>
             <View style={styles.row}>
               <Switch
-                trackColor={{ false: '#767577', true: '#3cb37' }}
+                trackColor={{ false: '#767577', true: '#27AE5F' }}
                 thumbColor={pushNotifications ? '#FFFFFF' : '#FFFFFF'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
@@ -123,29 +173,42 @@ const UserProfileSettingsOverlay = () => {
           </View>
           <View>
             <View style={styles.slightVerticalPadding}>
-              <Button onPress={showDatepicker} title="Lunch Break Start" />
+              <Button
+                onPress={showDatepicker}
+                title="Lunch Break Start"
+                buttonStyle={styles.button}
+              />
             </View>
             <View style={styles.slightVerticalPadding}>
-              <Button onPress={showTimepicker} title="Lunch Break End" />
-            </View>
-            </View>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={lunchStart ? date : time}
-                mode={mode}
-                is24Hour
-                display="default"
-                onChange={onChange}
+              <Button
+                onPress={showTimepicker}
+                title="Lunch Break End"
+                buttonStyle={styles.button}
               />
-            )}
+            </View>
+          </View>
+          {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={lunchStart ? date : time}
+            mode={mode}
+            is24Hour
+            display="default"
+            onChange={onChange}
+          />
+          )}
           <View style={styles.verticalPadding}>
             <Button
               style={styles.slightVerticalPadding}
               title="✏️ Apply Changes"
               onPress={onSubmit}
+              buttonStyle={styles.button}
             />
-            <Button title="❌ Close" onPress={toggleOverlay} />
+            <Button
+              title="❌ Close"
+              onPress={toggleOverlay}
+              buttonStyle={styles.button}
+            />
           </View>
         </View>
       </Overlay>
@@ -154,23 +217,3 @@ const UserProfileSettingsOverlay = () => {
 };
 
 export default UserProfileSettingsOverlay;
-
-const styles = StyleSheet.create({
-  verticalPadding: {
-    paddingVertical: 10,
-  },
-  slightVerticalPadding: {
-    paddingVertical: 2,
-  },
-  gap: {
-    marginTop: -150,
-  },
-  container: {flex: 1, justifyContent: 'space-around', flexDirection: 'column'},
-  button: {
-    borderRadius: 30,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});

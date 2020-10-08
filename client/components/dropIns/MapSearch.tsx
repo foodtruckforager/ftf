@@ -9,7 +9,7 @@ export default function MapSearch({ search, setSearch }) {
         placeholder="Search by Type of Food..."
         onChangeText={(text) => setSearch(text.toLowerCase())}
         value={search}
-        leftIcon={{ type: 'material', name: 'search' }}
+        leftIcon={{ type: 'material', name: 'search', color: 'grey' }}
       />
     </View>
   );

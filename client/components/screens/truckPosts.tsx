@@ -3,6 +3,7 @@ import {
   StyleSheet, View, Text, ScrollView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import TruckPostItem from '../dropIns/TruckPostItem';
 import InfoWindow from '../dropIns/InfoWindow';
@@ -11,6 +12,8 @@ export default function TruckPosts({ navigation }) {
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
   const { currentTruck } = navigation.state.params.params;
   const { id } = currentTruck;
+
+  const { colors } = useTheme();
 
   const getTruckPosts = async() => {
     axios
@@ -42,6 +45,46 @@ export default function TruckPosts({ navigation }) {
       },
     });
   };
+
+  const styles = StyleSheet.create({
+    posts: {
+      flex: 0.4,
+      flexGrow: 10,
+    },
+    container: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: colors.backgroundCard,
+    },
+    modal: {
+      flex: 0.1,
+      flexGrow: 1.4,
+    },
+    infoWindow: {
+      flex: 0.2,
+      flexGrow: 10,
+    },
+    infoWindowShell: {
+      flex: 4,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+    },
+    fixToText: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    buttonsContainer: {
+      flex: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    buttonContainer: {
+      flex: 1,
+      paddingHorizontal: 1,
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -84,42 +127,3 @@ export default function TruckPosts({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  posts: {
-    flex: 0.4,
-    flexGrow: 10,
-  },
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  modal: {
-    flex: 0.1,
-    flexGrow: 1.4,
-  },
-  infoWindow: {
-    flex: 0.2,
-    flexGrow: 10,
-  },
-  infoWindowShell: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonsContainer: {
-    flex: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    flex: 1,
-    paddingHorizontal: 1,
-  },
-});

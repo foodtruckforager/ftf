@@ -11,27 +11,28 @@ import {
   ScrollView,
 } from 'react-native';
 import { Badge, Card } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import { Callout } from 'react-native-maps';
 import Thumbnail from './Thumbnail';
 
 export default function InfoWindow({ currentTruck, navigation, onDetails }) {
   if (currentTruck) {
     const [currentTruckAverageRating, setCurrentTruckAverageRating] = useState(
-      0
+      0,
     );
     const [
       currentTruckNumberOfReviews,
       setCurrentTruckNumberOfReviews,
     ] = useState(0);
-    const getTruckReviews = async () => {
+
+    const getTruckReviews = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/truck/review/${id}`)
         .then((response) => {
           const { data } = response;
           const ratings = data.map((review: Object) => +review.review_star);
           const numberOfReviews = ratings.length;
-          const average =
-            ratings.reduce((a: Number, b: Number) => a + b) / numberOfReviews;
+          const average = ratings.reduce((a: Number, b: Number) => a + b) / numberOfReviews;
           setCurrentTruckAverageRating(average);
           setCurrentTruckNumberOfReviews(numberOfReviews);
         })
@@ -82,6 +83,60 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
       Linking.openURL(phoneNumber);
     };
 
+    const { colors } = useTheme();
+
+    const styles = StyleSheet.create({
+      customView: {
+        width: 280,
+        height: 140,
+      },
+      customDetailsView: {
+        padding: 8,
+        width: 420,
+        height: 800,
+      },
+      cardContainer: {
+        width: 350,
+        left: -50,
+        right: 50,
+        backgroundColor: colors.background,
+      },
+      detailsContainer: {
+        paddingTop: 10,
+        backgroundColor: colors.background,
+      },
+      trackerContainer: {
+        paddingTop: 10,
+      },
+      topRow: {
+        flexDirection: 'row',
+      },
+      topRowText: {
+        flexDirection: 'column',
+        paddingLeft: 10,
+      },
+      middleDistanceLine: {
+        flexDirection: 'row',
+        paddingTop: 10,
+      },
+      stars: {
+        flexDirection: 'row',
+      },
+      blurb: {
+        flexWrap: 'wrap',
+      },
+      style: {
+        paddingLeft: 10,
+      },
+      badge: {
+        right: 10,
+        top: -10,
+      },
+      card: {
+        width: 400,
+      },
+    });
+
     if (onDetails) {
       return (
         <Callout
@@ -99,8 +154,8 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
           }}
         >
           <View>
-            <Card containerStyle={{ width: 350, left: -50, right: 50 }}>
-              <View style={styles.container}>
+            <Card containerStyle={styles.cardContainer}>
+              <View style={styles.detailsContainer}>
                 <View style={styles.topRow}>
                   <Thumbnail logo={logo} />
                   <View style={styles.badge}>{openBadge()}</View>
@@ -121,12 +176,12 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                     <View style={styles.stars}>
                       <Text style={{ color: 'orange' }}>
                         {String.fromCharCode(9733).repeat(
-                          Math.floor(currentTruckAverageRating)
+                          Math.floor(currentTruckAverageRating),
                         )}
                       </Text>
-                      <Text style={{ color: 'lightgrey' }}>
+                      <Text style={{ color: 'black' }}>
                         {String.fromCharCode(9733).repeat(
-                          5 - Math.floor(currentTruckAverageRating)
+                          5 - Math.floor(currentTruckAverageRating),
                         )}
                       </Text>
                       <Text>  ({currentTruckNumberOfReviews} Reviews)</Text>
@@ -145,7 +200,9 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
       );
     }
     return (
+      // <View>
       <Callout
+      // containerStyle={{backgroundColor: colors.background}}
         style={onDetails ? styles.customView : styles.customDetailsView}
         onPress={() => {
           const { id } = currentTruck;
@@ -160,7 +217,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
         }}
       >
         <View>
-          <View style={styles.container}>
+          <View style={styles.trackerContainer}>
             <View style={styles.topRow}>
               <Thumbnail logo={logo} />
               <View style={styles.badge}>{openBadge()}</View>
@@ -183,12 +240,12 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                 <View style={styles.stars}>
                   <Text style={{ color: 'orange' }}>
                     {String.fromCharCode(9733).repeat(
-                      Math.floor(currentTruckAverageRating)
+                      Math.floor(currentTruckAverageRating),
                     )}
                   </Text>
                   <Text style={{ color: 'lightgrey' }}>
                     {String.fromCharCode(9733).repeat(
-                      5 - Math.floor(currentTruckAverageRating)
+                      5 - Math.floor(currentTruckAverageRating),
                     )}
                   </Text>
                   <Text>  ({currentTruckNumberOfReviews} Reviews)</Text>
@@ -200,55 +257,13 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
             <Text style={styles.blurb}>{`${truncate(
               blurb,
               truncateBlurbBy,
-              '...'
-            )}`}</Text>
+              '...',
+            )}`}
+            </Text>
           </View>
         </View>
       </Callout>
+      // </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  customView: {
-    width: 280,
-    height: 140,
-  },
-  customDetailsView: {
-    padding: 8,
-    width: 420,
-    height: 800,
-  },
-  container: {
-    paddingTop: 10,
-    backgroundColor: '#FFFFFF',
-  },
-  topRow: {
-    flexDirection: 'row',
-  },
-  topRowText: {
-    flexDirection: 'column',
-    paddingLeft: 10,
-  },
-  middleDistanceLine: {
-    flexDirection: 'row',
-    paddingTop: 10,
-  },
-  stars: {
-    flexDirection: 'row',
-  },
-  blurb: {
-    flexWrap: 'wrap',
-    backgroundColor: '#FFFFFF',
-  },
-  style: {
-    paddingLeft: 10,
-  },
-  badge: {
-    right: 10,
-    top: -10,
-  },
-  card: {
-    width: 400,
-  },
-});

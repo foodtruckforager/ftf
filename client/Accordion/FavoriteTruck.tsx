@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 import Animated, { Easing } from 'react-native-reanimated';
 import { bInterpolate, bin, useTransition } from 'react-native-redash';
@@ -7,37 +8,20 @@ import Chevron from './Chevron';
 import Item, { LIST_ITEM_HEIGHT, ListItem } from './ListItem';
 
 const { not, interpolate } = Animated;
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 16,
-    backgroundColor: 'white',
-    padding: 16,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  items: {
-    overflow: 'hidden',
-  },
-});
 
 export interface FavoriteTruck {
   name: string;
   items: ListItem[];
 }
-
 interface ListProps {
   favoriteTrucks: FavoriteTruck;
 }
 
 export default ({ favoriteTrucks }: ListProps) => {
   const [open, setOpen] = useState(false);
+
+  const { colors } = useTheme();
+
   const transition = useTransition(
     open,
     not(bin(open)),
@@ -54,8 +38,32 @@ export default ({ favoriteTrucks }: ListProps) => {
     inputRange: [0, 16 / 400],
     outputRange: [8, 0],
   });
+
+  const styles = StyleSheet.create({
+    topContainer: {
+      backgroundColor: colors.background,
+    },
+    container: {
+      marginTop: 16,
+      backgroundColor: colors.background,
+      padding: 16,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    items: {
+      overflow: 'hidden',
+    },
+  });
+
   return (
-    <>
+    <View style={styles.topContainer}>
       <TouchableWithoutFeedback onPress={() => setOpen((prev) => !prev)}>
         <Animated.View
           style={[
@@ -78,6 +86,6 @@ export default ({ favoriteTrucks }: ListProps) => {
           />
         ))}
       </Animated.View>
-    </>
+    </View>
   );
 };

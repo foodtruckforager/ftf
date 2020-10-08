@@ -3,7 +3,8 @@ import axios from 'axios';
 import {
   StyleSheet, View, AsyncStorage, Dimensions,
 } from 'react-native';
-import { Button, Icon, Card } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -27,6 +28,7 @@ export default function TruckDetails({ navigation }) {
     latitude,
     longitude,
   } = currentTruck;
+
   const { width, height } = Dimensions.get('window');
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.0922;
@@ -37,6 +39,9 @@ export default function TruckDetails({ navigation }) {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   };
+
+  const { colors } = useTheme();
+
   useEffect(() => {
     const retrieveCurrentUserId = async() => {
       try {
@@ -128,6 +133,7 @@ export default function TruckDetails({ navigation }) {
       },
     });
   };
+
   const pressHandlerPost = () => {
     navigation.navigate('TruckPosts', {
       params: {
@@ -135,13 +141,96 @@ export default function TruckDetails({ navigation }) {
       },
     });
   };
+
+  const styles = StyleSheet.create({
+    tabOutline: {
+      backgroundColor: 'lightgrey',
+      borderRadius: 10,
+    },
+    buffer: {
+      // padding:10
+    },
+    container: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: colors.backgroundCard,
+    },
+    map: {
+      flex: 4,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      marginTop: 100,
+    },
+    innerMap: {
+      ...StyleSheet.absoluteFillObject,
+    },
+    navigation: {
+      flex: 0.5,
+      alignItems: 'stretch',
+      justifyContent: 'center',
+      flexDirection: 'column',
+    },
+    favorite: {
+      width: 180,
+      marginTop: 63,
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+    },
+    infoWindow: {
+      flex: 1,
+      flexGrow: 10,
+    },
+    customView: {
+      width: 280,
+      height: 140,
+    },
+    tabs: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      flex: 1,
+      alignItems: 'flex-end',
+      paddingLeft: 40,
+      paddingRight: 40,
+    },
+    infoWindowShell: {
+      flex: 4,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+    },
+    title: {
+      textAlign: 'center',
+      marginVertical: 8,
+    },
+    fixToText: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      flex: 1,
+    },
+    buttonsContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingBottom: -20,
+    },
+    buttonContainer: {
+      paddingBottom: 10,
+      flex: 1,
+      paddingHorizontal: 1,
+    },
+    iconContainer: {
+      backgroundColor: colors.background,
+    },
+  });
+
   return (
-    <View style={style.container}>
-      <View style={style.buttonsContainer}>
-        <View style={style.buttonContainer}>
+    <View style={styles.container}>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
           <Button title="Reviews" onPress={pressHandler} />
         </View>
-        <View style={style.buttonContainer}>
+        <View style={styles.buttonContainer}>
           <Button
             title="Details"
             buttonStyle={{
@@ -150,43 +239,49 @@ export default function TruckDetails({ navigation }) {
             onPress={() => {}}
           />
         </View>
-        <View style={style.buttonContainer}>
+        <View style={styles.buttonContainer}>
           <Button title="Posts" onPress={pressHandlerPost} />
         </View>
       </View>
       {/* <Card> */}
-      <View style={style.infoWindowShell}>
+      <View style={styles.infoWindowShell}>
         <InfoWindow
           currentTruck={currentTruck}
           navigation={navigation}
           onDetails={onDetails}
-          style={style.infoWindow}
+          style={styles.infoWindow}
         />
-        <View style={style.favorite}>
+        <View style={styles.favorite}>
           {favorite ? (
             <Icon
-              raised
               name="heart"
               type="font-awesome"
               color="#f50"
+              underlayColor="#BCD6F0"
+              containerStyle={styles.iconContainer}
               onPress={toggleFavorite}
             />
           ) : (
             <Icon
-              raised
+              // raised
               name="heart"
               type="font-awesome"
               color="gray"
+              underlayColor="#BCD6F0"
+              containerStyle={styles.iconContainer}
+              // iconStyle={{color: colors.background, borderColor: 'green'}}
+              // size={50}
               onPress={toggleFavorite}
             />
           )}
+          {/* </Text> */}
         </View>
       </View>
       {/* </Card> */}
-      <View style={style.buffer} />
-      <View style={style.map}>
+      <View style={styles.buffer} />
+      <View style={styles.map}>
         <MapView
-          style={style.innerMap}
+          style={styles.innerMap}
           initialRegion={region}
           zoomTapEnabled={false}
           showsUserLocation
@@ -200,7 +295,7 @@ export default function TruckDetails({ navigation }) {
               }}
               image={foodIcons[food_genre]}
             >
-              <Callout style={style.customView}>
+              <Callout style={styles.customView}>
                 <View>
                   <InfoWindow
                     currentTruck={currentTruck}
@@ -215,83 +310,3 @@ export default function TruckDetails({ navigation }) {
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  tabOutline: {
-    backgroundColor: 'lightgrey',
-    borderRadius: 10,
-  },
-  buffer: {
-    // padding:10
-  },
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  map: {
-    flex: 4,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: 100,
-  },
-  innerMap: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  navigation: {
-    flex: 0.5,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  favorite: {
-    width: 260,
-    paddingTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  infoWindow: {
-    flex: 1,
-    flexGrow: 10,
-  },
-  customView: {
-    width: 280,
-    height: 140,
-  },
-  tabs: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flex: 1,
-    alignItems: 'flex-end',
-    paddingLeft: 40,
-    paddingRight: 40,
-  },
-  infoWindowShell: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    // marginBottom: 100,
-    // paddingBottom: 100,
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  buttonsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: -20,
-  },
-  buttonContainer: {
-    paddingBottom: 10,
-    flex: 1,
-    paddingHorizontal: 1,
-  },
-});

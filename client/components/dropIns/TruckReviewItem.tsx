@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Avatar, Card } from 'react-native-elements';
-import foodIcons from '../../../assets/mapIcons.js';
+import { useTheme } from 'react-native-paper';
 import TimeAgo from 'react-native-timeago';
+import foodIcons from '../../../assets/mapIcons.js';
 
 const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
   const {
@@ -15,16 +16,62 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
     keywords,
   } = review;
   const { full_name, badge, profile_photo_url } = currentTruckReviewers;
-  let reviewPhoto: string = review_photo || foodIcons.defaultReviewPhoto;
-  let profilePhoto: string = profile_photo_url || foodIcons.defaultProfilePhoto;
-  let userBadges = badge || '🎖';
+  const reviewPhoto: string = review_photo || foodIcons.defaultReviewPhoto;
+  const profilePhoto: string = profile_photo_url || foodIcons.defaultProfilePhoto;
+  const userBadges = badge || '🎖';
+
+  const { colors } = useTheme();
+
   const keywordsMapped = keywords
-  .map((prediction: Object) => `${prediction.class}, `).join('')
+    .map((prediction: Object) => `${prediction.class}, `).join('')
     .slice(0, -2);
-  
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    cardContainerStyle: {
+      backgroundColor: colors.background,
+    },
+    avatarNameBadge: {
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    column: {
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    reviewHeader: {
+      flexShrink: 1,
+      flex: 0.7,
+    },
+    stars: {
+      flexDirection: 'row',
+    },
+    image: {
+      flex: 0.4,
+      height: undefined,
+      width: undefined,
+    },
+    truck: {
+      height: 100,
+      width: 100,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      padding: 2,
+    },
+    message: {
+      padding: 2,
+    },
+  });
+
   return (
     <View key={review.id} style={styles.container}>
-      <Card>
+      <Card containerStyle={styles.cardContainerStyle}>
         <View style={styles.reviewHeader}>
           <View style={styles.avatarNameBadge}>
             <Avatar
@@ -36,8 +83,8 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
             <Text>{full_name}</Text>
             <Text>{userBadges}       </Text>
             <View>
-            <TimeAgo time={createdAt} />
-          </View>
+              <TimeAgo time={createdAt} />
+            </View>
           </View>
         </View>
         <Card.Title>
@@ -58,52 +105,11 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
         <Text>{`${upvotes} 👍`}</Text>
         <Card.Image source={{ uri: reviewPhoto }} resizeMode="cover" />
         <View style={styles.stars}>
-            <Text>{keywordsMapped}</Text>
+          <Text>{keywordsMapped}</Text>
         </View>
       </Card>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  avatarNameBadge: {
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  column: {
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  reviewHeader: {
-    // alignItems: 'center',
-    flexShrink: 1,
-    flex: 0.7,
-  },
-  stars: {
-    flexDirection: 'row',
-  },
-  container: {
-    flex: 1,
-  },
-  image: {
-    flex: 0.4,
-    height: undefined,
-    width: undefined,
-  },
-  truck: {
-    height: 100,
-    width: 100,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    padding: 2,
-  },
-  message: {
-    padding: 2,
-  },
-});
 
 export default TruckReviewItem;
