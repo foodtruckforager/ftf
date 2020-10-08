@@ -179,8 +179,8 @@ export default function TruckDetails({ navigation }) {
       flexDirection: 'column',
     },
     favorite: {
-      width: 260,
-      paddingTop: 20,
+      width: 220,
+      marginTop: 60,
       flexDirection: 'row',
       justifyContent: 'flex-end',
     },

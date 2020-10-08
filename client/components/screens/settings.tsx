@@ -107,8 +107,8 @@ export default function Settings({ navigation, onSettings }) {
       marginLeft: 118,
     },
     avatar: {
-      width: 130,
-      height: 130,
+      width: 126,
+      height: 126,
       borderRadius: 63,
       borderWidth: 4,
       borderColor: colors.backgroundCard,
