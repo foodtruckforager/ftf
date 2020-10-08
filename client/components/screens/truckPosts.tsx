@@ -87,8 +87,11 @@ export default function TruckPosts({ navigation }) {
 
 const styles = StyleSheet.create({
   posts: {
-    flex: 0.4,
     flexGrow: 10,
+    paddingTop: 30,
+    flex: 0.2,
+    marginBottom: -20,
+    marginHorizontal: -12,
   },
   container: {
     flex: 1,
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttonsContainer: {
-    flex: 2,
+    flex: 1.18,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

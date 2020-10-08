@@ -125,8 +125,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   reviews: {
-    flex: 0.4,
+    paddingTop: 53,
+    flex: 0.2,
     flexGrow: 10,
+    marginHorizontal: -12,
   },
   modal: {
     flex: 0.1,
@@ -147,10 +149,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttonsContainer: {
-    flex: 2,
+    flex: 1.3,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: -20,
   },
   buttonContainer: {
     flex: 1,
