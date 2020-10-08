@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import {
-  StyleSheet, Text, Button, SafeAreaView, ScrollView, KeyboardAvoidingView,
+  StyleSheet, View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView,
 } from 'react-native';
+import { Button } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import Constants from 'expo-constants';
 
@@ -11,6 +13,8 @@ const { Form } = t.form;
 const TruckOwnerProfileEdit = ({ navigation, route }) => {
   const [cameFromProfile, setCameFromProfile] = useState(false);
   const [cameFromCreate, setCameFromCreate] = useState(false);
+
+  const { colors } = useTheme();
 
   useEffect(() => {
     if (route.params.cameFromProfile) {
@@ -44,6 +48,10 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
 
   const handleLoginSubmit = () => {
     const value = this._form.getValue();
+    console.log('click');
+    console.log(route.params.googleId);
+    console.log(value);
+    console.log(process.env.EXPO_LocalLan);
     axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
       fullName: value.business_name,
       phoneNumber: value.phone_number.toString(),
@@ -62,43 +70,45 @@ const TruckOwnerProfileEdit = ({ navigation, route }) => {
       .catch((err) => console.log(err));
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      marginTop: Constants.statusBarHeight,
+    },
+    scrollView: {
+      marginHorizontal: 20,
+    },
+    logInPrompt: {
+      margin: 24,
+      fontSize: 18,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+  });
+
   return (
     // <KeyboardAvoidingView>
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        { cameFromCreate && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
-        { cameFromProfile && <Text style={styles.logInPrompt}>Update Your Info Below</Text> }
-        <KeyboardAvoidingView behavior="padding">
-        <Form
-          type={Owner}
-          ref={(c) => this._form = c}
-          options={options}
-        />
-        </KeyboardAvoidingView>
-        <Button
-          title="Save"
-          onPress={handleLoginSubmit}
-        />
-      </ScrollView>
-    </SafeAreaView>
+    <View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          { cameFromCreate && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
+          { cameFromProfile && <Text style={styles.logInPrompt}>Update Your Info Below</Text> }
+          <KeyboardAvoidingView behavior="padding">
+            <Form
+              type={Owner}
+              ref={(c) => this._form = c}
+              options={options}
+            />
+          </KeyboardAvoidingView>
+          <Button
+            title="Save"
+            onPress={handleLoginSubmit}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    </View>
     // </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
-  scrollView: {
-    marginHorizontal: 20,
-  },
-  logInPrompt: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
 
 export default TruckOwnerProfileEdit;

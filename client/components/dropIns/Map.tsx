@@ -38,6 +38,7 @@ export default function Map({
   }, [search]);
 
   const getAllTrucks = () => {
+    console.log(process.env.EXPO_LocalLan)
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/`)
       .then((response) => {

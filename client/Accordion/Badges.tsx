@@ -3,6 +3,7 @@ import {
   View, StyleSheet, Text, TouchableWithoutFeedback,
 } from 'react-native';
 import { Tooltip } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import Animated, { Easing } from 'react-native-reanimated';
 import { bInterpolate, bin, useTransition } from 'react-native-redash';
 import Chevron from './Chevron';
@@ -28,6 +29,9 @@ export default ({ badges }: ListProps) => {
     400,
     Easing.inOut(Easing.ease),
   );
+
+  const { colors } = useTheme();
+
   const height = bInterpolate(
     transition,
     0,
@@ -37,8 +41,39 @@ export default ({ badges }: ListProps) => {
     inputRange: [0, 16 / 400],
     outputRange: [8, 0],
   });
+
+  const styles = StyleSheet.create({
+    container: {
+      marginTop: 16,
+      backgroundColor: colors.background,
+      padding: 16,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    items: {
+      overflow: 'hidden',
+    },
+    toolTipContainerStyle: {
+      width: 300,
+      height: 150,
+    },
+    toolTipPopover: {
+      color: 'white',
+    },
+    toolTipBadgesTitle: {
+      textDecorationLine: 'underline',
+    },
+  });
+
   return (
-    <>
+    <View>
       <TouchableWithoutFeedback onPress={() => setOpen((prev) => !prev)}>
         <Animated.View
           style={[
@@ -94,36 +129,6 @@ export default ({ badges }: ListProps) => {
           <Item {...{ item, key }} isLast={key === badges.items.length - 1} />
         ))}
       </Animated.View>
-    </>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 16,
-    backgroundColor: 'white',
-    padding: 16,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  items: {
-    overflow: 'hidden',
-  },
-  toolTipContainerStyle: {
-    width: 300,
-    height: 150,
-  },
-  toolTipPopover: {
-    color: 'white',
-  },
-  toolTipBadgesTitle: {
-    textDecorationLine: 'underline',
-  },
-});

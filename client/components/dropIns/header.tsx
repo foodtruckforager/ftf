@@ -2,68 +2,64 @@ import React from 'react';
 import {
   StyleSheet, Text, View, Image,
 } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Header({ navigation }) {
+  const { colors } = useTheme();
+
   const openMenu = () => {
     navigation.openDrawer();
   };
-  return (
-    <View style={styles.outer}>
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: 'row',
+      backgroundColor: colors.primary,
+    },
+    header: {
+      width: '100%',
+      height: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: colors.primary,
+    },
+    logo: {
+      alignContent: 'flex-end',
+    },
+    headerText: {
+      flex: 1,
+      backgroundColor: colors.primary,
+      fontWeight: 'bold',
+      fontSize: 20,
+      color: 'white',
+      letterSpacing: 1,
+      alignSelf: 'center',
+      marginRight: 65,
+    },
+    icon: {
+      alignContent: 'flex-start',
+      backgroundColor: colors.primary,
+    },
+  });
+
+  return (
+    <View style={styles.container}>
       <View style={styles.header}>
-        <MaterialIcons
-          name="menu"
-          size={28}
-          onPress={openMenu}
-          style={styles.icon}
-        />
-        <View>
+        <View style={{ backgroundColor: colors.primary }}>
+          <MaterialIcons
+            name="menu"
+            size={28}
+            onPress={openMenu}
+            style={{ color: 'white' }}
+          />
+        </View>
+        <View style={{ backgroundColor: colors.primary }}>
           <Text style={styles.headerText}> Food Truck Forager </Text>
         </View>
-        {/* <Image
-          source={require('../../../assets/foodtruckstillsmall.png')}
-          style={styles.logo}
-        /> */}
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    // flex: 5,
-  },
-  logo: {
-    // right: -50,
-    alignContent: 'flex-end',
-  },
-  headerText: {
-    // flex: 1,
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#333',
-    letterSpacing: 1,
-    // textAlign: 'center',
-    alignSelf: 'center',
-    marginRight: 65,
-    // paddingBottom: 10,
-  },
-  icon: {
-    // position: 'absolute',
-    // left: -50,
-    alignContent: 'flex-start',
-  },
-  outer: {
-    // paddingTop: 100,
-    // paddingBottom: 100,
-    // position: 'absolute',
-    flexDirection: 'row',
-    flex: 1,
-  },
-});

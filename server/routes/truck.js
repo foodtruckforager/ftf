@@ -148,6 +148,7 @@ truckRouter.get('/truckpost/:truckId', (req, res) => {
 
 // route to get truck by google id for login
 truckRouter.get('/login/:googleId', (req, res) => {
+  console.log('login route owner hit');
   const { googleId } = req.params;
   Truck.findOne({
     where: {

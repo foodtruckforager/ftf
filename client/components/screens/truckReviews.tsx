@@ -3,6 +3,7 @@ import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useTheme } from 'react-native-paper';
 import TruckReviewItem from '../dropIns/TruckReviewItem';
 import InfoWindow from '../dropIns/InfoWindow';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
@@ -14,6 +15,8 @@ export default function TruckReviews({ navigation }) {
   const { onReviews } = navigation.state.params.params;
   const { id } = currentTruck;
   const [isVisible, setIsVisible] = useState(false);
+
+  const { colors } = useTheme();
 
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
@@ -58,6 +61,7 @@ export default function TruckReviews({ navigation }) {
       },
     });
   };
+
   const pressHandlerPost = () => {
     navigation.navigate('TruckPosts', {
       params: {
@@ -65,6 +69,46 @@ export default function TruckReviews({ navigation }) {
       },
     });
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: colors.backgroundCard,
+    },
+    reviews: {
+      flex: 0.4,
+      flexGrow: 10,
+    },
+    modal: {
+      flex: 0.1,
+      flexGrow: 1.4,
+    },
+    infoWindow: {
+      flex: 0.2,
+      flexGrow: 10,
+    },
+    infoWindowShell: {
+      flex: 4,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+    },
+    fixToText: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    buttonsContainer: {
+      flex: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    buttonContainer: {
+      flex: 1,
+      paddingHorizontal: 1,
+    },
+  });
 
   return (
     <View style={styles.container}>

@@ -7,11 +7,12 @@ import {
   Card, ListItem, Button, Text,
 } from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
+import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import Constants from 'expo-constants';
+import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import LocationSelectionMap from '../dropIns/LocationSelectMap';
 import SubmitOverlay from '../dropIns/SubmitOverlay';
-import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 
 const TruckOwnerProfile = ({ navigation, route }) => {
   const [truckId, setTruckId] = useState(null);
@@ -33,6 +34,8 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const [currentTruckPosts, setCurrentTruckPosts] = useState([]);
 
   const isFocused = useIsFocused();
+
+  const { colors } = useTheme();
 
   const navigateToQrGenerate = () => {
     navigation.navigate('GenerateQRCode', {
@@ -80,8 +83,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    // console.log('route.params in profile use effect', route.params);
-    // console.log('env varaiable in owner', process.env.EXPO_LocalLan)
     getData();
   }, []);
 
@@ -122,33 +123,140 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     <Text style={styles.renderViewBlurb} onPress={onPress}>View Less</Text>
   );
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.backgroundCard,
+    },
+    safeAreaContainer: {
+      flex: 1,
+      marginTop: Constants.statusBarHeight,
+    },
+    cardContainer: {
+      width: 350,
+      left: -20,
+      right: 100,
+      backgroundColor: colors.background,
+    },
+    map: {
+      padding: 140,
+      paddingTop: Constants.statusBarHeight,
+    },
+    scrollView: {
+      marginHorizontal: 20,
+    },
+    topTitleCard: {
+      flex: 1,
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+    },
+    businessTitle: {
+      flex: 1,
+      alignSelf: 'center',
+    },
+    logoContainer: {
+      backgroundColor: colors.background,
+    },
+    logoSliderRow: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    slider: {
+      marginTop: 7,
+      marginHorizontal: 10,
+      flexDirection: 'column',
+    },
+    openStatusText: {
+      marginTop: 8,
+      paddingLeft: 6,
+      marginBottom: 10,
+    },
+    listItem: {
+      marginTop: -6,
+      backgroundColor: colors.background,
+    },
+    listItemContainerStyle: {
+      backgroundColor: colors.background,
+    },
+    listItemTitle: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      backgroundColor: colors.background,
+    },
+    listItemSubTitlePhoneNumber: {
+      marginTop: 2,
+      marginLeft: 50,
+    },
+    listItemSubTitleText: {
+      fontSize: 22,
+      flex: 2,
+      alignSelf: 'flex-end',
+    },
+    listItemSubTitleFoodGenre: {
+      marginTop: 2,
+      marginLeft: 135,
+    },
+    listItemSubTitleOpenTime: {
+      marginTop: 2,
+      marginLeft: 155,
+    },
+    listItemSubTitleCloseTime: {
+      marginTop: 2,
+      marginLeft: 163,
+    },
+    stars: {
+      flexDirection: 'row',
+      marginBottom: 3,
+      marginLeft: 13,
+    },
+    renderViewBlurb: {
+      paddingTop: 5,
+      color: 'blue',
+    },
+    modal: {
+      flex: 0.1,
+      flexGrow: 1.4,
+      borderRadius: 15,
+    },
+    button: {
+      borderRadius: 15,
+      marginLeft: 0,
+      marginRight: 0,
+      marginBottom: 0,
+      backgroundColor: colors.backgroundCard,
+    },
+  });
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View>
-          {latitude && longitude && (
-          <View style={styles.map}>
-            <LocationSelectionMap
-              latitude={latitude}
-              longitude={longitude}
-              navigation={navigation}
-              setLatitude={setLatitude}
-              setLongitude={setLongitude}
-            />
-          </View>
-          )}
+    <View style={styles.container}>
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <ScrollView style={styles.scrollView}>
           <View>
-            <Card containerStyle={styles.cardContainer}>
-              <View style={styles.topTitleCard}>
-                <View style={styles.businessTitle}>
-                  <Card.Title>
-                    <Text h2>
-                      {truckName}
-                    </Text>
-                  </Card.Title>
+            {latitude && longitude && (
+            <View style={styles.map}>
+              <LocationSelectionMap
+                latitude={latitude}
+                longitude={longitude}
+                navigation={navigation}
+                setLatitude={setLatitude}
+                setLongitude={setLongitude}
+              />
+            </View>
+            )}
+            <View>
+              <Card containerStyle={styles.cardContainer}>
+                <View style={styles.topTitleCard}>
+                  <View style={styles.businessTitle}>
+                    <Card.Title>
+                      <Text h2>
+                        {truckName}
+                      </Text>
+                    </Card.Title>
+                  </View>
                 </View>
-              </View>
-              {/* <View style={styles.stars}>
+                {/* <View style={styles.stars}>
                 <Text style={{ color: 'orange' }}>
                   {String.fromCharCode(9733).repeat(Math.floor(starAverage))}
                 </Text>
@@ -158,214 +266,123 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   )}
                 </Text>
               </View> */}
-              <View style={styles.logoSliderRow}>
-                <ListItem
-                  leftAvatar={{
-                    source: { uri: logo },
-                    size: 'large',
-                  }}
-                />
-                <View style={styles.slider}>
-                  <View style={styles.openStatusText}>
-                    {openStatus && <Text>Open</Text>}
-                    {!openStatus && <Text>Closed</Text>}
+                <View style={styles.logoSliderRow}>
+                  <ListItem
+                    containerStyle={styles.logoContainer}
+                    leftAvatar={{
+                      source: { uri: logo },
+                      size: 'large',
+                    }}
+                  />
+                  <View style={styles.slider}>
+                    <View style={styles.openStatusText}>
+                      {openStatus && <Text>Open</Text>}
+                      {!openStatus && <Text>Closed</Text>}
+                    </View>
+                    <Switch
+                      trackColor={{ false: '#767577', true: '#27AE5F' }}
+                      thumbColor={openStatus ? '#FFFFFF' : '#FFFFFF'}
+                      ios_backgroundColor="#3e3e3e"
+                      onValueChange={toggleSwitch}
+                      value={openStatus}
+                    />
                   </View>
-                  <Switch
-                    trackColor={{ false: '#767577', true: '#3cb37' }}
-                    thumbColor={openStatus ? '#FFFFFF' : '#FFFFFF'}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={openStatus}
+                </View>
+                <View style={styles.listItem}>
+                  <ListItem containerStyle={styles.listItemContainerStyle}>
+                    <ListItem.Content style={styles.listItemContainerStyle}>
+                      <View style={styles.listItemTitle}>
+                        <ListItem.Title><Text h4>Phone#:</Text></ListItem.Title>
+                        <View style={styles.listItemSubTitlePhoneNumber}>
+                          <ListItem.Subtitle>
+                            <Text h4>
+                              {phoneNumber}
+                            </Text>
+                          </ListItem.Subtitle>
+                        </View>
+                      </View>
+                      <Card.Divider />
+                      <View style={styles.listItemTitle}>
+                        <ListItem.Title><Text h4>Food:</Text></ListItem.Title>
+                        <View style={styles.listItemSubTitleFoodGenre}>
+                          <ListItem.Subtitle>
+                            <Text h4>
+                              {foodGenre}
+                            </Text>
+                          </ListItem.Subtitle>
+                        </View>
+                      </View>
+                      <Card.Divider />
+                      <View style={styles.listItemTitle}>
+                        <ListItem.Title><Text h4>Open:</Text></ListItem.Title>
+                        <View style={styles.listItemSubTitleOpenTime}>
+                          <ListItem.Subtitle>
+                            <Text h4>
+                              {openTime}
+                            </Text>
+                          </ListItem.Subtitle>
+                        </View>
+                      </View>
+                      <Card.Divider />
+                      <View style={styles.listItemTitle}>
+                        <ListItem.Title><Text h4>Close:</Text></ListItem.Title>
+                        <View style={styles.listItemSubTitleCloseTime}>
+                          <ListItem.Subtitle>
+                            <Text h4>
+                              {closeTime}
+                            </Text>
+                          </ListItem.Subtitle>
+                        </View>
+                      </View>
+                    </ListItem.Content>
+                  </ListItem>
+                </View>
+                <ViewMoreText
+                  numberOfLines={3}
+                  renderViewMore={renderViewMore}
+                  renderViewLess={renderViewLess}
+                  textStyle={{ textAlign: 'left' }}
+                >
+                  <Text>
+                    {blurb}
+                  </Text>
+                </ViewMoreText>
+                <Card.Divider />
+                <Button
+                  title="Edit"
+                  onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
+                  buttonStyle={styles.button}
+                />
+                <Card.Divider />
+                <View style={styles.modal}>
+                  <SubmitOverlay
+                    isVisible={isVisible}
+                    onBackdropPress={toggleOverlay}
+                    currentTruck={currentTruck}
+                    getTruckPosts={getTruckPosts}
                   />
                 </View>
-              </View>
-              <View style={styles.listItem}>
-                <ListItem>
-                  <ListItem.Content>
-                    <View style={styles.listItemTitle}>
-                      <ListItem.Title><Text h4>Phone#:</Text></ListItem.Title>
-                      <View style={styles.listItemSubTitlePhoneNumber}>
-                        <ListItem.Subtitle>
-                          <Text style={styles.listItemSubTitleText}>
-                            {phoneNumber}
-                          </Text>
-                        </ListItem.Subtitle>
-                      </View>
-                    </View>
-                    <Card.Divider />
-                    <View style={styles.listItemTitle}>
-                      <ListItem.Title><Text h4>Food:</Text></ListItem.Title>
-                      <View style={styles.listItemSubTitleFoodGenre}>
-                        <ListItem.Subtitle>
-                          <Text style={styles.listItemSubTitleText}>
-                            {foodGenre}
-                          </Text>
-                        </ListItem.Subtitle>
-                      </View>
-                    </View>
-                    <Card.Divider />
-                    <View style={styles.listItemTitle}>
-                      <ListItem.Title><Text h4>Open:</Text></ListItem.Title>
-                      <View style={styles.listItemSubTitleOpenTime}>
-                        <ListItem.Subtitle>
-                          <Text style={styles.listItemSubTitleText}>
-                            {openTime}
-                          </Text>
-                        </ListItem.Subtitle>
-                      </View>
-                    </View>
-                    <Card.Divider />
-                    <View style={styles.listItemTitle}>
-                      <ListItem.Title><Text h4>Close:</Text></ListItem.Title>
-                      <View style={styles.listItemSubTitleCloseTime}>
-                        <ListItem.Subtitle>
-                          <Text style={styles.listItemSubTitleText}>
-                            {closeTime}
-                          </Text>
-                        </ListItem.Subtitle>
-                      </View>
-                    </View>
-                  </ListItem.Content>
-                </ListItem>
-              </View>
-              <ViewMoreText
-                numberOfLines={3}
-                renderViewMore={renderViewMore}
-                renderViewLess={renderViewLess}
-                textStyle={{ textAlign: 'left' }}
-              >
-                <Text>
-                  {blurb}
-                </Text>
-              </ViewMoreText>
-              <Card.Divider />
-              <Button
-                title="Edit"
-                onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
-                buttonStyle={styles.button}
-              />
-              <Card.Divider />
-              <View style={styles.modal}>
-                <SubmitOverlay
-                  isVisible={isVisible}
-                  onBackdropPress={toggleOverlay}
-                  currentTruck={currentTruck}
-                  getTruckPosts={getTruckPosts}
+                <Card.Divider />
+                <Button
+                  title="Generate QR Code"
+                  onPress={navigateToQrGenerate}
+                  buttonStyle={styles.button}
                 />
-              </View>
-              <Card.Divider />
-              <Button
-                title="Generate QR Code"
-                onPress={navigateToQrGenerate}
-                buttonStyle={styles.button}
-              />
-              <Card.Divider />
-              <Button
-                title="Logout"
-                onPress={() => {
-                  navigation.navigate('LogIn', { previous_screen: 'LogOut' });
-                }}
-                buttonStyle={styles.button}
-              />
-            </Card>
+                <Card.Divider />
+                <Button
+                  title="Logout"
+                  onPress={() => {
+                    navigation.navigate('LogIn', { previous_screen: 'LogOut' });
+                  }}
+                  buttonStyle={styles.button}
+                />
+              </Card>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
-  cardContainer: {
-    width: 350,
-    left: -20,
-    right: 100,
-  },
-  map: {
-    padding: 140,
-    paddingTop: Constants.statusBarHeight,
-  },
-  scrollView: {
-    marginHorizontal: 20,
-  },
-  topTitleCard: {
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  businessTitle: {
-    flex: 1,
-    alignSelf: 'center',
-  },
-  logoSliderRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  slider: {
-    marginTop: 7,
-    marginHorizontal: 10,
-    flexDirection: 'column',
-  },
-  openStatusText: {
-    marginTop: 8,
-    paddingLeft: 6,
-    marginBottom: 10,
-  },
-  listItem: {
-    marginTop: -6,
-  },
-  listItemTitle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-
-  },
-  listItemSubTitlePhoneNumber: {
-    marginTop: 5,
-    marginLeft: 80,
-  },
-  listItemSubTitleText: {
-    fontSize: 20,
-    flex: 2,
-    alignSelf: 'flex-end',
-  },
-  listItemSubTitleFoodGenre: {
-    marginTop: 4,
-    marginLeft: 155,
-  },
-  listItemSubTitleOpenTime: {
-    marginTop: 5,
-    marginLeft: 167,
-  },
-  listItemSubTitleCloseTime: {
-    marginTop: 5,
-    marginLeft: 172,
-  },
-  stars: {
-    flexDirection: 'row',
-    marginBottom: 3,
-    marginLeft: 13,
-  },
-  renderViewBlurb: {
-    paddingTop: 5,
-    color: 'blue',
-  },
-  modal: {
-    flex: 0.1,
-    flexGrow: 1.4,
-    borderRadius: 15,
-  },
-  button: {
-    borderRadius: 15,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0,
-  },
-});
 
 export default TruckOwnerProfile;

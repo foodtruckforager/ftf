@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { Overlay, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as tf from '@tensorflow/tfjs';
@@ -35,6 +36,8 @@ const ImageUploadOverlay = ({
   const [userHasChangedPhoto, setUserHasChangedPhoto] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [pickerResult, setPickerResult] = useState('');
+
+  const { colors } = useTheme();
 
   const openImagePickerAsync = async (pickerResult) => {
     const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`;
@@ -150,6 +153,91 @@ const ImageUploadOverlay = ({
     );
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    welcomeContainer: {
+      alignItems: 'center',
+      marginTop: 10,
+      marginBottom: 20,
+    },
+    contentContainer: {
+      paddingTop: 10,
+    },
+    loadingContainer: {
+      marginTop: 20,
+      justifyContent: 'center',
+    },
+    text: {
+      color: '#000000',
+      fontSize: 16,
+    },
+    loadingModelContainer: {
+      flexDirection: 'row',
+      marginTop: 10,
+    },
+    imageWrapper: {
+      width: 280,
+      height: 280,
+      padding: 10,
+      borderColor: '#000000',
+      borderWidth: 5,
+      borderStyle: 'dashed',
+      marginTop: 40,
+      marginBottom: 10,
+      position: 'relative',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    imageContainer: {
+      width: 250,
+      height: 250,
+      position: 'absolute',
+      top: 10,
+      left: 10,
+      bottom: 10,
+      right: 10,
+    },
+    predictionWrapper: {
+      height: 100,
+      width: '100%',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    transparentText: {
+      color: '#000000',
+      opacity: 0.7,
+    },
+    footer: {
+      marginTop: 40,
+    },
+    poweredBy: {
+      fontSize: 20,
+      color: '#e69e34',
+      marginBottom: 6,
+    },
+    tfLogo: {
+      width: 125,
+      height: 70,
+    },
+    button: {
+      borderRadius: 15,
+      padding: 10,
+      width: 300,
+      alignSelf: 'center',
+      backgroundColor: colors.button,
+    },
+    attachPhotoButton: {
+      borderRadius: 15,
+      padding: 10,
+      width: 270,
+      alignSelf: 'center',
+      backgroundColor: colors.button,
+    },
+  });
+
   return (
     <View style={styles.container}>
       <View>
@@ -163,6 +251,7 @@ const ImageUploadOverlay = ({
         isVisible={imageUploadOverlayVisible}
         onBackdropPress={toggleImageUploadOverlay}
         fullScreen={false}
+        overlayStyle={{ backgroundColor: colors.backgroundCard }}
       >
         <ScrollView
           style={styles.container}
@@ -206,7 +295,7 @@ const ImageUploadOverlay = ({
               <Button
                 title="📎 Attach Photo"
                 onPress={toggleImageUploadOverlay}
-                buttonStyle={styles.button}
+                buttonStyle={styles.attachPhotoButton}
               />
             </View>
           </View>
@@ -219,82 +308,5 @@ const ImageUploadOverlay = ({
 ImageUploadOverlay.navigationOptions = {
   header: null,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  contentContainer: {
-    paddingTop: 10,
-  },
-  loadingContainer: {
-    marginTop: 20,
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#000000',
-    fontSize: 16,
-  },
-  loadingModelContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  imageWrapper: {
-    width: 280,
-    height: 280,
-    padding: 10,
-    borderColor: '#000000',
-    borderWidth: 5,
-    borderStyle: 'dashed',
-    marginTop: 40,
-    marginBottom: 10,
-    position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imageContainer: {
-    width: 250,
-    height: 250,
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    bottom: 10,
-    right: 10,
-  },
-  predictionWrapper: {
-    height: 100,
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  transparentText: {
-    color: '#000000',
-    opacity: 0.7,
-  },
-  footer: {
-    marginTop: 40,
-  },
-  poweredBy: {
-    fontSize: 20,
-    color: '#e69e34',
-    marginBottom: 6,
-  },
-  tfLogo: {
-    width: 125,
-    height: 70,
-  },
-  button: {
-    borderRadius: 15,
-    padding: 10,
-    width: 300,
-    alignSelf: 'center',
-  },
-});
 
 export default ImageUploadOverlay;

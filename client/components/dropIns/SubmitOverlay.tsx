@@ -7,6 +7,7 @@ import {
   AirbnbRating,
 } from 'react-native-elements';
 import { View, StyleSheet, AsyncStorage } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import ImageUploadOverlay from './ImageUploadOverlay';
 
@@ -29,7 +30,7 @@ const SubmitOverlay = ({
   const [googleUserId, setGoogleUserId] = useState(0);
   const [keywords, setKeywords] = useState([]);
   const [imageUploadOverlayVisible, setImageUploadOverlayVisible] = useState(
-    false
+    false,
   );
   const { id }: { id: [string, number] } = currentTruck;
 
@@ -54,7 +55,7 @@ const SubmitOverlay = ({
   const onSubmit = () => {
     toggleOverlay();
     if (onReviews) {
-      const submitReview = async () => {
+      const submitReview = async() => {
         axios
           .post(
             `${process.env.EXPO_LocalLan}/user/review/new/${userId}/${id}`,
@@ -65,7 +66,7 @@ const SubmitOverlay = ({
               reviewPhoto: photo,
               upvotes: 0,
               keywords,
-            }
+            },
           )
           .then(() => {
             getTruckReviews();
@@ -74,7 +75,7 @@ const SubmitOverlay = ({
       };
       submitReview();
     } else {
-      const submitPost = async () => {
+      const submitPost = async() => {
         axios
           .post(`${process.env.EXPO_LocalLan}/truck/truckpost/new/${id}`, {
             title,
@@ -92,7 +93,7 @@ const SubmitOverlay = ({
   };
 
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -109,7 +110,7 @@ const SubmitOverlay = ({
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -122,121 +123,162 @@ const SubmitOverlay = ({
     getUserIdWithGoogleUserId();
   }, [googleUserId]);
 
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      backgroundColor: colors.background,
+    },
+    verticalPadding: {
+      paddingVertical: 10,
+    },
+    threeBottomButtons: {
+      marginBottom: 250,
+    },
+    slightVerticalPadding: {
+      padding: 20,
+      paddingVertical: 2,
+      borderRadius: 30,
+    },
+    reviewButton: {
+      borderRadius: 15,
+      backgroundColor: colors.background,
+    },
+    postButton: {
+      borderRadius: 15,
+      backgroundColor: colors.button,
+    },
+    overlayButton: {
+      borderRadius: 15,
+      paddingVertical: 10,
+      width: 300,
+      alignSelf: 'center',
+      backgroundColor: colors.button,
+    },
+    overlayContainer: {
+      backgroundColor: colors.background,
+    },
+    centerText: {
+      flex: 0.4,
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+    searchBarContainer: {
+      backgroundColor: colors.background,
+    },
+    searchBarInput: {
+      backgroundColor: colors.backgroundCard,
+      borderRadius: 10,
+    },
+    imageUploadOverlayContainer: {
+      marginTop: -150,
+      flex: 3,
+      padding: 10,
+    },
+    submitCloseButtonContainer: {
+      marginTop: -50,
+      flex: 3,
+      borderRadius: 30,
+    },
+    submitCloseButton: {
+      paddingVertical: 4,
+    },
+  });
+
   return (
     <View>
       {onReviews ? (
         <Button
           title="Write Review"
           onPress={toggleOverlay}
-          buttonStyle={styles.button}
+          buttonStyle={styles.reviewButton}
+          titleStyle={{ color: 'black' }}
         />
       ) : (
         <Button
           title="Write Post"
           onPress={toggleOverlay}
-          buttonStyle={styles.button}
+          buttonStyle={styles.postButton}
+          titleStyle={{ color: 'white' }}
         />
       )}
-      <Overlay
-        isVisible={visible}
-        onBackdropPress={toggleOverlay}
-        fullScreen={true}
-      >
-        <View style={styles.container}>
-          <View style={styles.centerText}>
-            <Text h3> 📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
-          </View>
-          {onReviews && (
+      <View style={styles.overlayContainer}>
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}
+          fullScreen
+          overlayStyle={styles.overlayContainer}
+        >
+          <View style={styles.container}>
+            <View style={styles.centerText}>
+              <Text h3> 📝 Write a {onReviews ? 'Review' : 'Post'} </Text>
+            </View>
+            {onReviews && (
             <AirbnbRating
               size={22}
               defaultRating={5}
               showRating
               onFinishRating={onFinishRating}
             />
-          )}
-          <View style={{ flex: 3 }}>
-            <SearchBar
-              placeholder="Title"
-              lightTheme
-              searchIcon={false}
-              onChangeText={updateTitle}
-              value={title}
-            />
-            <SearchBar
-              placeholder="Description"
-              lightTheme
-              searchIcon={false}
-              onChangeText={updateDescription}
-              value={description}
-            />
-          </View>
-          <View style={styles.threeBottomButtons}>
-            <View style={{ marginTop: -150, flex: 3, padding: 10 }}>
-              <ImageUploadOverlay
-                imageUploadOverlayVisible={imageUploadOverlayVisible}
-                fullScreen={false}
-                onReviews={onReviews}
-                toggleImageUploadOverlay={toggleImageUploadOverlay}
-                keywords={keywords}
-                setKeywords={setKeywords}
-                photo={photo}
-                setPhoto={setPhoto}
+            )}
+            <View style={{ flex: 3 }}>
+              <SearchBar
+                placeholder="Title"
+                lightTheme
+                searchIcon={false}
+                onChangeText={updateTitle}
+                value={title}
+                containerStyle={styles.searchBarContainer}
+                inputContainerStyle={styles.searchBarInput}
+              />
+              <SearchBar
+                placeholder="Description"
+                lightTheme
+                searchIcon={false}
+                onChangeText={updateDescription}
+                value={description}
+                containerStyle={styles.searchBarContainer}
+                inputContainerStyle={styles.searchBarInput}
               />
             </View>
-            <View style={{ marginTop: -50, flex: 3, borderRadius: 30 }}>
-              <View style={{ paddingVertical: 4 }}>
-                <Button
-                  buttonStyle={styles.overlayButton}
-                  title={`✏️ Submit ${onReviews ? 'Review' : 'Post'} `}
-                  onPress={onSubmit}
+            <View style={styles.threeBottomButtons}>
+              <View style={styles.imageUploadOverlayContainer}>
+                <ImageUploadOverlay
+                  imageUploadOverlayVisible={imageUploadOverlayVisible}
+                  fullScreen={false}
+                  onReviews={onReviews}
+                  toggleImageUploadOverlay={toggleImageUploadOverlay}
+                  keywords={keywords}
+                  setKeywords={setKeywords}
+                  photo={photo}
+                  setPhoto={setPhoto}
                 />
               </View>
-              <View style={{ paddingVertical: 4 }}>
-                <Button
-                  title="❌ Close"
-                  onPress={toggleOverlay}
-                  buttonStyle={styles.overlayButton}
-                />
+              <View style={styles.submitCloseButtonContainer}>
+                <View style={styles.submitCloseButton}>
+                  <Button
+                    buttonStyle={styles.overlayButton}
+                    title={`✏️ Submit ${onReviews ? 'Review' : 'Post'} `}
+                    onPress={onSubmit}
+                  />
+                </View>
+                <View style={styles.submitCloseButton}>
+                  <Button
+                    title="❌ Close"
+                    onPress={toggleOverlay}
+                    buttonStyle={styles.overlayButton}
+                  />
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      </Overlay>
+        </Overlay>
+      </View>
     </View>
   );
 };
 
 export default SubmitOverlay;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-  },
-  verticalPadding: {
-    paddingVertical: 10,
-  },
-  threeBottomButtons: {
-    marginBottom: 250,
-  },
-  slightVerticalPadding: {
-    padding: 20,
-    paddingVertical: 2,
-    borderRadius: 30,
-  },
-  button: {
-    borderRadius: 15,
-  },
-  overlayButton: {
-    borderRadius: 15,
-    paddingVertical: 10,
-    width: 300,
-    alignSelf: 'center',
-  },
-  centerText: {
-    flex: .4,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});

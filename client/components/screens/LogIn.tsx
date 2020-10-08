@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, AsyncStorage } from 'react-native';
+import { StyleSheet, AsyncStorage, Button } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import GoogleLogIn from '../dropIns/GoogleLogIn';
 import RootDrawerNavigator from '../routes/drawer';
@@ -30,7 +30,8 @@ export default function LogIn(props) {
   }, [accessToken]);
 
   useEffect(() => {
-     console.log(isTruckOwnerLoggedIn);
+     console.log('isTruckOwnerLoggedIn', isTruckOwnerLoggedIn);
+     console.log('google owner id in truckowner loggedin use  effect', ownerGoogleId)
   }, [isTruckOwnerLoggedIn]);
 
   const retrieveData = async() => {
@@ -95,7 +96,7 @@ export default function LogIn(props) {
           setAccessToken={setAccessToken}
         />
         ) }
-        { (isTruckOwnerLoggedIn && ownerGoogleId !== null)
+        { (isTruckOwnerLoggedIn === true && ownerGoogleId !== null)
         && <TruckOwnerRouter googleId={ownerGoogleId} /> }
       </>
     </>
