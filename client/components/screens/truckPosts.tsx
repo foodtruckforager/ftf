@@ -48,8 +48,11 @@ export default function TruckPosts({ navigation }) {
 
   const styles = StyleSheet.create({
     posts: {
-      flex: 0.4,
+      paddingTop: 32,
+      flex: 0.2,
       flexGrow: 10,
+      marginHorizontal: -12.5,
+      marginBottom: -10,
     },
     container: {
       flex: 1,
@@ -65,6 +68,7 @@ export default function TruckPosts({ navigation }) {
       flexGrow: 10,
     },
     infoWindowShell: {
+      marginTop: -5,
       flex: 4,
       alignItems: 'center',
       justifyContent: 'flex-start',
@@ -75,10 +79,12 @@ export default function TruckPosts({ navigation }) {
       justifyContent: 'space-between',
     },
     buttonsContainer: {
-      flex: 2,
+      flex: 1.4,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: -2,
+      marginTop: -2,
     },
     buttonContainer: {
       flex: 1,
@@ -127,45 +133,3 @@ export default function TruckPosts({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  posts: {
-    flexGrow: 10,
-    paddingTop: 30,
-    flex: 0.2,
-    marginBottom: -20,
-    marginHorizontal: -12,
-  },
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  modal: {
-    flex: 0.1,
-    flexGrow: 1.4,
-  },
-  infoWindow: {
-    flex: 0.2,
-    flexGrow: 10,
-  },
-  infoWindowShell: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonsContainer: {
-    flex: 1.18,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    flex: 1,
-    paddingHorizontal: 1,
-  },
-});

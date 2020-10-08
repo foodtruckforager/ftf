@@ -5,8 +5,6 @@ import {
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { useTheme } from 'react-native-paper';
-import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
-import { Button, Icon, Card } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -157,7 +155,6 @@ export default function TruckDetails({ navigation }) {
       borderRadius: 10,
     },
     buffer: {
-      // padding:10
     },
     container: {
       flex: 1,
@@ -168,7 +165,9 @@ export default function TruckDetails({ navigation }) {
       flex: 4,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      marginTop: 100,
+      marginTop: -140,
+      marginHorizontal: 2,
+      marginBottom: 2,
     },
     innerMap: {
       ...StyleSheet.absoluteFillObject,
@@ -180,8 +179,8 @@ export default function TruckDetails({ navigation }) {
       flexDirection: 'column',
     },
     favorite: {
-      width: 180,
-      marginTop: 63,
+      width: 260,
+      paddingTop: 20,
       flexDirection: 'row',
       justifyContent: 'flex-end',
     },
@@ -198,10 +197,9 @@ export default function TruckDetails({ navigation }) {
       justifyContent: 'space-around',
       flex: 1,
       alignItems: 'flex-end',
-      paddingLeft: 40,
-      paddingRight: 40,
     },
     infoWindowShell: {
+      marginTop: -24,
       flex: 4,
       alignItems: 'center',
       justifyContent: 'flex-start',
@@ -221,10 +219,11 @@ export default function TruckDetails({ navigation }) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: -20,
       paddingBottom: -20,
     },
     buttonContainer: {
-      paddingBottom: 10,
+      paddingBottom: 0,
       flex: 1,
       paddingHorizontal: 1,
     },
@@ -252,7 +251,6 @@ export default function TruckDetails({ navigation }) {
           <Button title="Posts" onPress={pressHandlerPost} />
         </View>
       </View>
-      {/* <Card> */}
       <View style={styles.infoWindowShell}>
         <InfoWindow
           currentTruck={currentTruck}
@@ -278,15 +276,11 @@ export default function TruckDetails({ navigation }) {
               color="gray"
               underlayColor="#BCD6F0"
               containerStyle={styles.iconContainer}
-              // iconStyle={{color: colors.background, borderColor: 'green'}}
-              // size={50}
               onPress={toggleFavorite}
             />
           )}
-          {/* </Text> */}
         </View>
       </View>
-      {/* </Card> */}
       <View style={styles.buffer} />
       <View style={styles.map}>
         <MapView
@@ -319,80 +313,3 @@ export default function TruckDetails({ navigation }) {
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  tabOutline: {
-    backgroundColor: 'lightgrey',
-    borderRadius: 10,
-  },
-  buffer: {},
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  map: {
-    flex: 4,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: -130,
-    marginHorizontal: 5,
-    marginBottom: 5,
-  },
-  innerMap: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  navigation: {
-    flex: 0.5,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  favorite: {
-    width: 260,
-    paddingTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  infoWindow: {
-    flexGrow: 10,
-  },
-  customView: {
-    width: 280,
-    height: 140,
-  },
-  tabs: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  infoWindowShell: {
-    marginTop: -20,
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  buttonsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: -20,
-    paddingBottom: -20,
-  },
-  buttonContainer: {
-    paddingBottom: 0,
-    flex: 1,
-    paddingHorizontal: 1,
-  },
-});
