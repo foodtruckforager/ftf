@@ -77,8 +77,10 @@ export default function TruckReviews({ navigation }) {
       backgroundColor: colors.backgroundCard,
     },
     reviews: {
-      flex: 0.4,
+      paddingTop: 53,
+      flex: 0.2,
       flexGrow: 10,
+      marginHorizontal: -12.5,
     },
     modal: {
       flex: 0.1,
@@ -89,6 +91,7 @@ export default function TruckReviews({ navigation }) {
       flexGrow: 10,
     },
     infoWindowShell: {
+      marginTop: -5,
       flex: 4,
       alignItems: 'center',
       justifyContent: 'flex-start',
@@ -99,10 +102,11 @@ export default function TruckReviews({ navigation }) {
       justifyContent: 'space-between',
     },
     buttonsContainer: {
-      flex: 2,
+      flex: 1.4,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+      paddingBottom: -20,
     },
     buttonContainer: {
       flex: 1,
@@ -162,45 +166,3 @@ export default function TruckReviews({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  reviews: {
-    paddingTop: 53,
-    flex: 0.2,
-    flexGrow: 10,
-    marginHorizontal: -12,
-  },
-  modal: {
-    flex: 0.1,
-    flexGrow: 1.4,
-  },
-  infoWindow: {
-    flex: 0.2,
-    flexGrow: 10,
-  },
-  infoWindowShell: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonsContainer: {
-    flex: 1.3,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: -20,
-  },
-  buttonContainer: {
-    flex: 1,
-    paddingHorizontal: 1,
-  },
-});

@@ -122,7 +122,7 @@ export default function GoogleLogIn({
       color: '#384E77',
     },
     truckGif: {
-      width: 250,
+      width: 390,
       height: 200,
       marginBottom: 50,
     },
