@@ -43,7 +43,7 @@ export default function TruckDetails({ navigation }) {
   const { colors } = useTheme();
 
   useEffect(() => {
-    const retrieveCurrentUserId = async () => {
+    const retrieveCurrentUserId = async() => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -60,7 +60,7 @@ export default function TruckDetails({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async () => {
+    const getUserIdWithGoogleUserId = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -74,7 +74,7 @@ export default function TruckDetails({ navigation }) {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async () => {
+    const retrieveCurrentUserFavorites = async() => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -90,10 +90,10 @@ export default function TruckDetails({ navigation }) {
     };
     if (userId) {
       retrieveCurrentUserFavorites();
-      const createUserFavorite = async () => {
+      const createUserFavorite = async() => {
         axios
           .post(
-            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
+            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`,
           )
           .then(() => {})
           .catch((err) => {
@@ -109,11 +109,11 @@ export default function TruckDetails({ navigation }) {
   };
 
   useEffect(() => {
-    const updateUserFavorite = async () => {
+    const updateUserFavorite = async() => {
       const favoriteRemove = favorite ? 'favorite' : 'remove';
       axios
         .put(
-          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
+          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`,
         )
         .then((response) => {
           console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
@@ -230,13 +230,24 @@ export default function TruckDetails({ navigation }) {
     iconContainer: {
       backgroundColor: colors.background,
     },
+    topButtons: {
+      backgroundColor: colors.background,
+    },
+    topButtonsTitle: {
+      color: 'black',
+    },
   });
 
   return (
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <Button title="Reviews" onPress={pressHandler} />
+          <Button
+            title="Reviews"
+            onPress={pressHandler}
+            buttonStyle={styles.topButtons}
+            titleStyle={styles.topButtonsTitle}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Button
@@ -248,7 +259,12 @@ export default function TruckDetails({ navigation }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Posts" onPress={pressHandlerPost} />
+          <Button
+            title="Posts"
+            onPress={pressHandlerPost}
+            buttonStyle={styles.topButtons}
+            titleStyle={styles.topButtonsTitle}
+          />
         </View>
       </View>
       <View style={styles.infoWindowShell}>

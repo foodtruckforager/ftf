@@ -90,16 +90,32 @@ export default function TruckPosts({ navigation }) {
       flex: 1,
       paddingHorizontal: 1,
     },
+    topButtons: {
+      backgroundColor: colors.background,
+    },
+    topButtonsTitle: {
+      color: 'black',
+    },
   });
 
   return (
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <Button title="Reviews" onPress={pressHandler} />
+          <Button
+            title="Reviews"
+            onPress={pressHandler}
+            buttonStyle={styles.topButtons}
+            titleStyle={styles.topButtonsTitle}
+          />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Details" onPress={pressHandlerDetails} />
+          <Button
+            title="Details"
+            onPress={pressHandlerDetails}
+            buttonStyle={styles.topButtons}
+            titleStyle={styles.topButtonsTitle}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Button
@@ -116,7 +132,7 @@ export default function TruckPosts({ navigation }) {
           currentTruck={currentTruck}
           navigation={navigation}
           style={styles.infoWindow}
-          onDetails={true}
+          onDetails
         />
       </View>
       <View style={styles.posts}>
