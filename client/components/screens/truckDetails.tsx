@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  StyleSheet, View, AsyncStorage, Dimensions,
-} from 'react-native';
+import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
 import { Button, Icon, Card } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
@@ -38,7 +36,7 @@ export default function TruckDetails({ navigation }) {
     longitudeDelta: LONGITUDE_DELTA,
   };
   useEffect(() => {
-    const retrieveCurrentUserId = async() => {
+    const retrieveCurrentUserId = async () => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -55,7 +53,7 @@ export default function TruckDetails({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async() => {
+    const getUserIdWithGoogleUserId = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -69,7 +67,7 @@ export default function TruckDetails({ navigation }) {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async() => {
+    const retrieveCurrentUserFavorites = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -85,13 +83,12 @@ export default function TruckDetails({ navigation }) {
     };
     if (userId) {
       retrieveCurrentUserFavorites();
-      const createUserFavorite = async() => {
+      const createUserFavorite = async () => {
         axios
           .post(
-            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`,
+            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
           )
-          .then(() => {
-          })
+          .then(() => {})
           .catch((err) => {
             console.log(err);
           });
@@ -105,11 +102,11 @@ export default function TruckDetails({ navigation }) {
   };
 
   useEffect(() => {
-    const updateUserFavorite = async() => {
+    const updateUserFavorite = async () => {
       const favoriteRemove = favorite ? 'favorite' : 'remove';
       axios
         .put(
-          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`,
+          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
         )
         .then((response) => {
           console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
@@ -124,14 +121,22 @@ export default function TruckDetails({ navigation }) {
   const pressHandler = () => {
     navigation.navigate('TruckReviews', {
       params: {
-        currentTruck, id, navigation, onReviews: true, onDetails: true,
+        currentTruck,
+        id,
+        navigation,
+        onReviews: true,
+        onDetails: true,
       },
     });
   };
   const pressHandlerPost = () => {
     navigation.navigate('TruckPosts', {
       params: {
-        currentTruck, id, navigation, onPosts: true, onDetails: true,
+        currentTruck,
+        id,
+        navigation,
+        onPosts: true,
+        onDetails: true,
       },
     });
   };
@@ -221,9 +226,7 @@ const style = StyleSheet.create({
     backgroundColor: 'lightgrey',
     borderRadius: 10,
   },
-  buffer: {
-    // padding:10
-  },
+  buffer: {},
   container: {
     flex: 1,
     padding: 10,
@@ -232,7 +235,9 @@ const style = StyleSheet.create({
     flex: 4,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: -130,
+    marginHorizontal: 5,
+    marginBottom: 5,
   },
   innerMap: {
     ...StyleSheet.absoluteFillObject,
@@ -250,7 +255,6 @@ const style = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   infoWindow: {
-    flex: 1,
     flexGrow: 10,
   },
   customView: {
@@ -262,16 +266,13 @@ const style = StyleSheet.create({
     justifyContent: 'space-around',
     flex: 1,
     alignItems: 'flex-end',
-    paddingLeft: 40,
-    paddingRight: 40,
   },
   infoWindowShell: {
+    marginTop: -20,
     flex: 4,
     alignItems: 'center',
     justifyContent: 'flex-start',
     flexDirection: 'column',
-    // marginBottom: 100,
-    // paddingBottom: 100,
   },
   title: {
     textAlign: 'center',
@@ -287,10 +288,11 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: -20,
     paddingBottom: -20,
   },
   buttonContainer: {
-    paddingBottom: 10,
+    paddingBottom: 0,
     flex: 1,
     paddingHorizontal: 1,
   },
