@@ -127,3 +127,45 @@ export default function TruckPosts({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  posts: {
+    flexGrow: 10,
+    paddingTop: 30,
+    flex: 0.2,
+    marginBottom: -20,
+    marginHorizontal: -12,
+  },
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  modal: {
+    flex: 0.1,
+    flexGrow: 1.4,
+  },
+  infoWindow: {
+    flex: 0.2,
+    flexGrow: 10,
+  },
+  infoWindowShell: {
+    flex: 4,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+  },
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonsContainer: {
+    flex: 1.18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    paddingHorizontal: 1,
+  },
+});

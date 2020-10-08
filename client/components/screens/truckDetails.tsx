@@ -5,6 +5,8 @@ import {
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { useTheme } from 'react-native-paper';
+import { StyleSheet, View, AsyncStorage, Dimensions } from 'react-native';
+import { Button, Icon, Card } from 'react-native-elements';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import InfoWindow from '../dropIns/InfoWindow';
 import foodIcons from '../../../assets/mapIcons.js';
@@ -43,7 +45,7 @@ export default function TruckDetails({ navigation }) {
   const { colors } = useTheme();
 
   useEffect(() => {
-    const retrieveCurrentUserId = async() => {
+    const retrieveCurrentUserId = async () => {
       try {
         let value = await AsyncStorage.getItem('userData');
         if (value !== null) {
@@ -60,7 +62,7 @@ export default function TruckDetails({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const getUserIdWithGoogleUserId = async() => {
+    const getUserIdWithGoogleUserId = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleUserId}`)
         .then((response) => {
@@ -74,7 +76,7 @@ export default function TruckDetails({ navigation }) {
   }, [googleUserId]);
 
   useEffect(() => {
-    const retrieveCurrentUserFavorites = async() => {
+    const retrieveCurrentUserFavorites = async () => {
       axios
         .get(`${process.env.EXPO_LocalLan}/user/favorites/${userId}`)
         .then((response) => {
@@ -90,13 +92,12 @@ export default function TruckDetails({ navigation }) {
     };
     if (userId) {
       retrieveCurrentUserFavorites();
-      const createUserFavorite = async() => {
+      const createUserFavorite = async () => {
         axios
           .post(
-            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`,
+            `${process.env.EXPO_LocalLan}/user/update/favoritetruck/add/${userId}/${id}`
           )
-          .then(() => {
-          })
+          .then(() => {})
           .catch((err) => {
             console.log(err);
           });
@@ -110,11 +111,11 @@ export default function TruckDetails({ navigation }) {
   };
 
   useEffect(() => {
-    const updateUserFavorite = async() => {
+    const updateUserFavorite = async () => {
       const favoriteRemove = favorite ? 'favorite' : 'remove';
       axios
         .put(
-          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`,
+          `${process.env.EXPO_LocalLan}/user/update/favoritetruck/${favoriteRemove}/${userId}/${id}`
         )
         .then((response) => {
           console.log(`updateUserFavorite: ${favoriteRemove}/${userId}/${id}`);
@@ -129,7 +130,11 @@ export default function TruckDetails({ navigation }) {
   const pressHandler = () => {
     navigation.navigate('TruckReviews', {
       params: {
-        currentTruck, id, navigation, onReviews: true, onDetails: true,
+        currentTruck,
+        id,
+        navigation,
+        onReviews: true,
+        onDetails: true,
       },
     });
   };
@@ -137,7 +142,11 @@ export default function TruckDetails({ navigation }) {
   const pressHandlerPost = () => {
     navigation.navigate('TruckPosts', {
       params: {
-        currentTruck, id, navigation, onPosts: true, onDetails: true,
+        currentTruck,
+        id,
+        navigation,
+        onPosts: true,
+        onDetails: true,
       },
     });
   };
@@ -310,3 +319,80 @@ export default function TruckDetails({ navigation }) {
     </View>
   );
 }
+
+const style = StyleSheet.create({
+  tabOutline: {
+    backgroundColor: 'lightgrey',
+    borderRadius: 10,
+  },
+  buffer: {},
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  map: {
+    flex: 4,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: -130,
+    marginHorizontal: 5,
+    marginBottom: 5,
+  },
+  innerMap: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  navigation: {
+    flex: 0.5,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  favorite: {
+    width: 260,
+    paddingTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  infoWindow: {
+    flexGrow: 10,
+  },
+  customView: {
+    width: 280,
+    height: 140,
+  },
+  tabs: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  infoWindowShell: {
+    marginTop: -20,
+    flex: 4,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+  },
+  title: {
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: -20,
+    paddingBottom: -20,
+  },
+  buttonContainer: {
+    paddingBottom: 0,
+    flex: 1,
+    paddingHorizontal: 1,
+  },
+});
