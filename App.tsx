@@ -25,6 +25,7 @@ export default function App() {
       background: '#BCD6F0', // screen background, light blue
       backgroundCard: '#384E77', // dark blue
       button: '#384E77',
+      pressedButton: '#18314F',
       backgroundMap: '#384E77',
       surface: 'white',
       error: '#B00020',

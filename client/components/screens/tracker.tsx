@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View,
+  StyleSheet, View, ActivityIndicator,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import Constants from 'expo-constants';
 import Map from '../dropIns/Map';
 import MapSearch from '../dropIns/MapSearch';
-import Constants from 'expo-constants';
 
 export default function Tracker({ navigation }) {
   const [truckMarkers, setTruckMarkers] = useState([]);
@@ -18,11 +18,14 @@ export default function Tracker({ navigation }) {
       padding: 18,
       flex: 1,
       backgroundColor: colors.background,
+      // flexDirection: 'row',
     },
     search: {
-      flex: 0.08,
-      alignItems: 'stretch',
-      justifyContent: 'center',
+      // flex: 0.08,
+      // flex: 1,
+      // alignItems: 'stretch',
+      // justifyContent: 'center',
+      // flexDirection: 'row',
     },
     map: {
       flex: 0.92,
@@ -35,7 +38,11 @@ export default function Tracker({ navigation }) {
   return (
     <View style={style.container}>
       <View style={style.search}>
-        <MapSearch search={search} setSearch={setSearch} />
+        <MapSearch
+          search={search}
+          setSearch={setSearch}
+          truckMarkers={truckMarkers}
+        />
       </View>
       <View style={style.map}>
         <Map

@@ -121,7 +121,7 @@ export default function TruckPosts({ navigation }) {
           <Button
             title="Posts"
             buttonStyle={{
-              backgroundColor: 'darkblue',
+              backgroundColor: colors.pressedButton,
             }}
             onPress={() => {}}
           />
