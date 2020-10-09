@@ -65,7 +65,7 @@ const screens = {
 const TrackerStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#FFFFFF',
-    headerStyle: { backgroundColor: '#2DC86E', height: 90 },
+    headerStyle: { backgroundColor: '#5497A7', height: 90 },
     headerBackTitleVisible: false,
     headerTitleAlign: 'left',
     headerMode: 'screen',

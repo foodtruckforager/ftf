@@ -19,7 +19,7 @@ export default function App() {
     roundness: 15,
     colors: {
       ...DefaultTheme.colors,
-      primary: '#2DC86E', // header, lighter emerald green
+      primary: '#5497A7', // blue munsell (turquoise)
       loginScreen: '#27AE5F', // gif color, sea green
       accent: '#03dac4',
       background: '#BCD6F0', // screen background, light blue

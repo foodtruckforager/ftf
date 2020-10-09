@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Image } from 'react-native-elements';
+import { Image, Avatar } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
   },
   tinyLogo: {
     width: 90,
-    height: 70,
+    height: 65,
+    // borderRadius:
   },
   logo: {
     width: 66,
@@ -27,11 +28,19 @@ const styles = StyleSheet.create({
 
 const Thumbnail = ({ logo, title }) => (
   <View style={styles.container}>
-    <Text style={title ? styles.title : styles.noTitle}>{title ? title : ''}</Text>
-    <Image
+    <Text style={title ? styles.title : styles.noTitle}>{title || ''}</Text>
+    {/* <Image
       style={styles.tinyLogo}
       source={{
         uri: logo,
+      }}
+    /> */}
+    <Avatar
+      rounded
+      size="large"
+      source={{
+        uri:
+    logo,
       }}
     />
   </View>

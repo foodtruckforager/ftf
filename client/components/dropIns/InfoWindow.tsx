@@ -130,7 +130,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
       },
       badge: {
         right: 10,
-        top: -10,
+        top: -3,
       },
       card: {
         width: 400,
