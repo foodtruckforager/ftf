@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, View, Switch, SafeAreaView, ScrollView,
+  StyleSheet,
+  View,
+  Switch,
+  SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import {
-  Card, ListItem, Button, Text,
-} from 'react-native-elements';
+import { Card, ListItem, Button, Text } from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
@@ -47,7 +49,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     setIsVisible(!isVisible);
   };
 
-  const getTruckPosts = async() => {
+  const getTruckPosts = async () => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${truckId}`)
       .then((response) => {
@@ -60,8 +62,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getTruckPosts();
   }, []);
 
-  const getData = async() => {
-    await axios.get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
+  const getData = async () => {
+    await axios
+      .get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
       .then((response) => {
         setCurrentTruck(response.data);
         setTruckName(response.data.full_name);
@@ -97,7 +100,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
     if (latitude && longitude) {
-      const updateOpenAndLocation = async() => {
+      const updateOpenAndLocation = async () => {
         await axios
           .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
             latitude,
@@ -116,11 +119,15 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   const toggleSwitch = () => setOpenStatus((previousState) => !previousState);
 
   const renderViewMore = (onPress) => (
-    <Text style={styles.renderViewBlurb} onPress={onPress}>View More</Text>
+    <Text style={styles.renderViewBlurb} onPress={onPress}>
+      View More
+    </Text>
   );
 
   const renderViewLess = (onPress) => (
-    <Text style={styles.renderViewBlurb} onPress={onPress}>View Less</Text>
+    <Text style={styles.renderViewBlurb} onPress={onPress}>
+      View Less
+    </Text>
   );
 
   const styles = StyleSheet.create({
@@ -187,7 +194,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     },
     listItemSubTitlePhoneNumber: {
       marginTop: 2,
-      marginLeft: 50,
+      marginLeft: 58,
     },
     listItemSubTitleText: {
       fontSize: 22,
@@ -200,11 +207,11 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     },
     listItemSubTitleOpenTime: {
       marginTop: 2,
-      marginLeft: 155,
+      marginLeft: 133,
     },
     listItemSubTitleCloseTime: {
       marginTop: 2,
-      marginLeft: 163,
+      marginLeft: 137,
     },
     stars: {
       flexDirection: 'row',
@@ -235,24 +242,22 @@ const TruckOwnerProfile = ({ navigation, route }) => {
         <ScrollView style={styles.scrollView}>
           <View>
             {latitude && longitude && (
-            <View style={styles.map}>
-              <LocationSelectionMap
-                latitude={latitude}
-                longitude={longitude}
-                navigation={navigation}
-                setLatitude={setLatitude}
-                setLongitude={setLongitude}
-              />
-            </View>
+              <View style={styles.map}>
+                <LocationSelectionMap
+                  latitude={latitude}
+                  longitude={longitude}
+                  navigation={navigation}
+                  setLatitude={setLatitude}
+                  setLongitude={setLongitude}
+                />
+              </View>
             )}
             <View>
               <Card containerStyle={styles.cardContainer}>
                 <View style={styles.topTitleCard}>
                   <View style={styles.businessTitle}>
                     <Card.Title>
-                      <Text h2>
-                        {truckName}
-                      </Text>
+                      <Text h2>{truckName}</Text>
                     </Card.Title>
                   </View>
                 </View>
@@ -292,45 +297,48 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   <ListItem containerStyle={styles.listItemContainerStyle}>
                     <ListItem.Content style={styles.listItemContainerStyle}>
                       <View style={styles.listItemTitle}>
-                        <ListItem.Title><Text h4>Phone#:</Text></ListItem.Title>
+                        <ListItem.Title>
+                          <Text h4>Phone#:</Text>
+                        </ListItem.Title>
                         <View style={styles.listItemSubTitlePhoneNumber}>
                           <ListItem.Subtitle>
-                            <Text h4>
-                              {phoneNumber}
-                            </Text>
+                            <Text h4>{phoneNumber}</Text>
                           </ListItem.Subtitle>
                         </View>
                       </View>
                       <Card.Divider />
                       <View style={styles.listItemTitle}>
-                        <ListItem.Title><Text h4>Food:</Text></ListItem.Title>
+                        <ListItem.Title>
+                          <Text h4>Food:</Text>
+                        </ListItem.Title>
                         <View style={styles.listItemSubTitleFoodGenre}>
                           <ListItem.Subtitle>
                             <Text h4>
-                              {foodGenre}
+                              {foodGenre.charAt(0).toUpperCase()}
+                              {foodGenre.slice(1)}
                             </Text>
                           </ListItem.Subtitle>
                         </View>
                       </View>
                       <Card.Divider />
                       <View style={styles.listItemTitle}>
-                        <ListItem.Title><Text h4>Open:</Text></ListItem.Title>
+                        <ListItem.Title>
+                          <Text h4>Open:</Text>
+                        </ListItem.Title>
                         <View style={styles.listItemSubTitleOpenTime}>
                           <ListItem.Subtitle>
-                            <Text h4>
-                              {openTime}
-                            </Text>
+                            <Text h4>{openTime}</Text>
                           </ListItem.Subtitle>
                         </View>
                       </View>
                       <Card.Divider />
                       <View style={styles.listItemTitle}>
-                        <ListItem.Title><Text h4>Close:</Text></ListItem.Title>
+                        <ListItem.Title>
+                          <Text h4>Close:</Text>
+                        </ListItem.Title>
                         <View style={styles.listItemSubTitleCloseTime}>
                           <ListItem.Subtitle>
-                            <Text h4>
-                              {closeTime}
-                            </Text>
+                            <Text h4>{closeTime}</Text>
                           </ListItem.Subtitle>
                         </View>
                       </View>
@@ -343,9 +351,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   renderViewLess={renderViewLess}
                   textStyle={{ textAlign: 'left' }}
                 >
-                  <Text>
-                    {blurb}
-                  </Text>
+                  <Text>{blurb}</Text>
                 </ViewMoreText>
                 <Card.Divider />
                 <Button
