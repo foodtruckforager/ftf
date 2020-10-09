@@ -165,8 +165,8 @@ export default function TruckDetails({ navigation }) {
       flex: 4,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      marginTop: -140,
-      marginHorizontal: 2,
+      marginTop: -120,
+      marginHorizontal: 2.5,
       marginBottom: 2,
     },
     innerMap: {
@@ -199,7 +199,7 @@ export default function TruckDetails({ navigation }) {
       alignItems: 'flex-end',
     },
     infoWindowShell: {
-      marginTop: -24,
+      marginTop: -20,
       flex: 4,
       alignItems: 'center',
       justifyContent: 'flex-start',
@@ -219,8 +219,8 @@ export default function TruckDetails({ navigation }) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: -20,
-      paddingBottom: -20,
+      marginTop: -16,
+      marginBottom: 0,
     },
     buttonContainer: {
       paddingBottom: 0,
@@ -271,7 +271,8 @@ export default function TruckDetails({ navigation }) {
         <InfoWindow
           currentTruck={currentTruck}
           navigation={navigation}
-          onDetails={onDetails}
+          onDetails={true}
+          details={true}
           style={styles.infoWindow}
         />
         <View style={styles.favorite}>
@@ -319,6 +320,8 @@ export default function TruckDetails({ navigation }) {
                   <InfoWindow
                     currentTruck={currentTruck}
                     navigation={navigation}
+                    details={true}
+                    onDetails={true}
                   />
                 </View>
               </Callout>
