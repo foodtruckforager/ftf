@@ -111,7 +111,7 @@ export default function Settings({ navigation, onSettings }) {
       height: 126,
       borderRadius: 63,
       borderWidth: 4,
-      borderColor: colors.backgroundCard,
+      borderColor: colors.primary,
       marginBottom: 10,
       alignSelf: 'center',
       position: 'absolute',

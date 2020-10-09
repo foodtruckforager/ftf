@@ -31,7 +31,8 @@ export default ({ transition }: ChevronProps) => {
     // { r: 82, g: 82, b: 81 },
     // {r: 24, g: 49, b: 79},
     // {r: 249, g: 7, b: 76}, // red
-    {r: 39, g: 174, b: 95}
+    {r: 84, g: 151, b: 167},  // turquoise
+    // {r: 39, g: 174, b: 95} // green
     // { r: 15, g: 123, b: 215 } // original blue button
   ) as Animated.Node<number>;
   return (
