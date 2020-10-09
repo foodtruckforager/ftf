@@ -31,7 +31,7 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
       flex: 1,
     },
     cardContainerStyle: {
-      backgroundColor: colors.background,
+      backgroundColor: 'white',
     },
     avatarNameBadge: {
       justifyContent: 'flex-start',
@@ -102,7 +102,6 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
         </View>
         <Card.Divider />
         <Text>{review_description}</Text>
-        <Text>{`${upvotes} 👍`}</Text>
         <Card.Image source={{ uri: reviewPhoto }} resizeMode="cover" />
         <View style={styles.stars}>
           <Text>{keywordsMapped}</Text>

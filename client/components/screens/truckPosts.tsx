@@ -48,7 +48,7 @@ export default function TruckPosts({ navigation }) {
 
   const styles = StyleSheet.create({
     posts: {
-      paddingTop: 32,
+      paddingTop: 34,
       flex: 0.2,
       flexGrow: 10,
       marginHorizontal: -12.5,
