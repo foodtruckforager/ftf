@@ -77,7 +77,8 @@ export default function TruckReviews({ navigation }) {
       backgroundColor: colors.backgroundCard,
     },
     reviews: {
-      paddingTop: 50,
+      paddingTop: 0,
+      marginTop: -4,
       marginBottom: -10,
       flex: 0.2,
       flexGrow: 10,
@@ -108,6 +109,8 @@ export default function TruckReviews({ navigation }) {
       alignItems: 'center',
       justifyContent: 'center',
       paddingBottom: -20,
+      marginTop: 0,
+      marginBottom: 0,
     },
     buttonContainer: {
       flex: 1,

@@ -51,6 +51,7 @@ export default function Tracker({ navigation }) {
           truckMarkers={truckMarkers}
           setTruckMarkers={setTruckMarkers}
           navigation={navigation}
+          onMap={true}
         />
       </View>
     </View>

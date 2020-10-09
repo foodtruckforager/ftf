@@ -48,7 +48,7 @@ export default function TruckPosts({ navigation }) {
 
   const styles = StyleSheet.create({
     posts: {
-      paddingTop: 34,
+      marginTop: -26,
       flex: 0.2,
       flexGrow: 10,
       marginHorizontal: -12.5,
@@ -68,7 +68,7 @@ export default function TruckPosts({ navigation }) {
       flexGrow: 10,
     },
     infoWindowShell: {
-      marginTop: -5,
+      marginTop: -2,
       flex: 4,
       alignItems: 'center',
       justifyContent: 'flex-start',
@@ -83,8 +83,8 @@ export default function TruckPosts({ navigation }) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      marginBottom: -2,
-      marginTop: -2,
+      marginBottom: -6,
+      marginTop: -4,
     },
     buttonContainer: {
       flex: 1,
