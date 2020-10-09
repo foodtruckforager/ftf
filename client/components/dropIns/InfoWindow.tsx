@@ -15,7 +15,7 @@ import { useTheme } from 'react-native-paper';
 import { Callout } from 'react-native-maps';
 import Thumbnail from './Thumbnail';
 
-export default function InfoWindow({ currentTruck, navigation, onDetails }) {
+export default function InfoWindow({ currentTruck, navigation, onDetails, onMap, details }) {
   if (currentTruck) {
     const [currentTruckAverageRating, setCurrentTruckAverageRating] = useState(
       0,
@@ -136,7 +136,6 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
         width: 400,
       },
     });
-
     if (onDetails) {
       return (
         <Callout
@@ -149,6 +148,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                 id,
                 navigation,
                 onDetails: true,
+                details: true,
               },
             });
           }}
@@ -188,21 +188,21 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
                     </View>
                   </View>
                 </View>
-              </View>
-              <SafeAreaView>
+              </View> 
+              {(details) &&
+              (<SafeAreaView>
                 <ScrollView>
                   <Text style={styles.blurb}>{blurb}</Text>
                 </ScrollView>
-              </SafeAreaView>
+              </SafeAreaView>)}
             </Card>
           </View>
         </Callout>
       );
     }
+    
     return (
-      // <View>
       <Callout
-      // containerStyle={{backgroundColor: colors.background}}
         style={onDetails ? styles.customView : styles.customDetailsView}
         onPress={() => {
           const { id } = currentTruck;
@@ -212,6 +212,7 @@ export default function InfoWindow({ currentTruck, navigation, onDetails }) {
               id,
               navigation,
               onDetails: true,
+              details: true,
             },
           });
         }}
