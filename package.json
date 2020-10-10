@@ -76,8 +76,7 @@
     "react-navigation": "^4.4.0",
     "react-navigation-drawer": "^2.5.0",
     "react-navigation-stack": "^2.8.2",
-    "sequelize": "^6.3.4",
-    "tcomb-form-native": "^0.6.20"
+    "sequelize": "^6.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
