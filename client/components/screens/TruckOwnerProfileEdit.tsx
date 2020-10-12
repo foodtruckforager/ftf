@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import t from 'tcomb-form-native';
 import {
-  StyleSheet, Text, ScrollView, KeyboardAvoidingView, Platform,
+  StyleSheet, View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView,
 } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import Constants from 'expo-constants';
-import * as ImagePicker from 'expo-image-picker';
 
-const TruckOwnerProfileEdit = ({ navigation, route, currentTruck }) => {
+const { Form } = t.form;
+
+const TruckOwnerProfileEdit = ({ navigation, route }) => {
   const [cameFromProfile, setCameFromProfile] = useState(false);
   const [cameFromCreate, setCameFromCreate] = useState(false);
-  const [businessName, setBusinessName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [foodGenre, setFoodGenre] = useState('');
-  const [blurb, setBlurb] = useState('');
-  const [openTime, setOpenTime] = useState('');
-  const [closeTime, setCloseTime] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [logo, setLogo] = useState('');
 
   const { colors } = useTheme();
 
   useEffect(() => {
-    // alert(JSON.stringify(route.params));
     if (route.params.cameFromProfile) {
       setCameFromProfile(true);
     }
@@ -33,55 +25,43 @@ const TruckOwnerProfileEdit = ({ navigation, route, currentTruck }) => {
     }
   }, []);
 
-  const openImagePickerAsync = async() => {
-    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`;
+  const Owner = t.struct({
+    business_name: t.String,
+    phone_number: t.maybe(t.Number),
+    logo: t.maybe(t.String),
+    food_genre: t.String,
+    blurb: t.maybe(t.String),
+    open_time: t.maybe(t.String),
+    close_time: t.maybe(t.String),
+    latitude: t.maybe(t.String),
+    longitude: t.maybe(t.String),
+  });
 
-    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
-      return;
-    }
-    const pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      base64: true,
-    });
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-
-    const base64Img = `data:image/jpg;base64,${pickerResult.base64}`;
-
-    const data = {
-      file: base64Img,
-      upload_preset: `${process.env.CLOUDINARY_UPLOAD_PRESET}`,
-    };
-
-    fetch(CLOUDINARY_URL, {
-      body: JSON.stringify(data),
-      headers: {
-        'content-type': 'application/json',
+  const options = {
+    auto: 'placeholders',
+    fields: {
+      blurb: {
+        multiline: true,
       },
-      method: 'POST',
-    })
-      .then(async(response) => {
-        const responseData = await response.json();
-        setLogo(responseData.url);
-      })
-      .catch((err) => console.log(err));
+    },
   };
 
   const handleLoginSubmit = () => {
+    const value = this._form.getValue();
+    console.log('click');
+    console.log(route.params.googleId);
+    console.log(value);
+    console.log(process.env.EXPO_LocalLan);
     axios.put(`${process.env.EXPO_LocalLan}/truck/create/${route.params.googleId}`, {
-      fullName: businessName,
-      phoneNumber,
-      foodGenre,
-      logo,
-      blurb,
-      openTime,
-      closeTime,
-      latitude: +latitude,
-      longitude: +longitude,
+      fullName: value.business_name,
+      phoneNumber: value.phone_number.toString(),
+      logo: value.logo,
+      foodGenre: value.food_genre,
+      blurb: value.blurb,
+      openTime: value.open_time,
+      closeTime: value.close_time,
+      latitude: +value.latitude,
+      longitude: +value.longitude,
     })
       .then(() => {
         console.log('truck was created!');
@@ -92,175 +72,42 @@ const TruckOwnerProfileEdit = ({ navigation, route, currentTruck }) => {
 
   const styles = StyleSheet.create({
     container: {
+      flex: 1,
       marginTop: Constants.statusBarHeight,
-      backgroundColor: colors.background,
     },
     scrollView: {
-      backgroundColor: colors.background,
+      marginHorizontal: 20,
     },
     logInPrompt: {
       margin: 24,
       fontSize: 18,
       fontWeight: 'bold',
       textAlign: 'center',
-      color: colors.backgroundCard,
-    },
-    input: {
-      color: colors.backgroundCard,
-    },
-    button: {
-      backgroundColor: colors.button,
-      borderRadius: 15,
-      width: 330,
-      alignSelf: 'center',
-      marginBottom: 23,
     },
   });
-  if (cameFromProfile === true) {
-    return (
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+
+  return (
+    // <KeyboardAvoidingView>
+    <View>
+      <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           { cameFromCreate && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
           { cameFromProfile && <Text style={styles.logInPrompt}>Update Your Info Below</Text> }
-          {cameFromProfile
-        && (
-        <Input
-          label="Truck Name"
-          labelStyle={styles.input}
-          placeholder={route.params.currentTruck.full_name}
-          onChangeText={(value) => setBusinessName(value)}
-          inputStyle={styles.input}
-        />
-        )}
-          <Input
-            label="Phone Number"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.phone_number}
-            keyboardType="phone-pad"
-            onChangeText={(value) => setPhoneNumber(value)}
-          />
-          <Input
-            label="Food Genre"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.food_genre}
-            onChangeText={(value) => setFoodGenre(value)}
-          />
-          <Input
-            label="Blurb"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.blurb}
-            onChangeText={(value) => setBlurb(value)}
-            multiline
-          />
-          <Input
-            label="Open Time"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.open_time}
-            onChangeText={(value) => setOpenTime(value)}
-          />
-          <Input
-            label="Close Time"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.close_time}
-            onChangeText={(value) => setCloseTime(value)}
-          />
-          <Input
-            label="Latitude"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.latitude}
-            onChangeText={(value) => setLatitude(value)}
-          />
-          <Input
-            label="Longitude"
-            labelStyle={styles.input}
-            placeholder={route.params.currentTruck.longitude}
-            onChangeText={(value) => setLongitude(value)}
-          />
-          <Button
-            title="Upload Logo Here"
-            type="clear"
-            buttonStyle={{ alignSelf: 'flex-start', marginTop: -10, marginBottom: 10 }}
-            onPress={openImagePickerAsync}
-          />
+          <KeyboardAvoidingView behavior="padding">
+            <Form
+              type={Owner}
+              ref={(c) => this._form = c}
+              options={options}
+            />
+          </KeyboardAvoidingView>
           <Button
             title="Save"
             onPress={handleLoginSubmit}
-            buttonStyle={styles.button}
           />
         </ScrollView>
-      </KeyboardAvoidingView>
-    );
-  }
-  return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-      <ScrollView style={styles.scrollView}>
-        { cameFromCreate && <Text style={styles.logInPrompt}>Add Your Business Info Below</Text> }
-        { cameFromProfile && <Text style={styles.logInPrompt}>Update Your Info Below</Text> }
-        <Input
-          label="Truck Name"
-          labelStyle={styles.input}
-          placeholder="Enter Truck Name"
-          onChangeText={(value) => setBusinessName(value)}
-          inputStyle={styles.input}
-        />
-        {/* )} */}
-        <Input
-          label="Phone Number"
-          labelStyle={styles.input}
-          placeholder="Enter Phone Number"
-          keyboardType="phone-pad"
-          onChangeText={(value) => setPhoneNumber(value)}
-        />
-        <Input
-          label="Food Genre"
-          labelStyle={styles.input}
-          placeholder="Enter Food Genre"
-          onChangeText={(value) => setFoodGenre(value)}
-        />
-        <Input
-          label="Blurb"
-          labelStyle={styles.input}
-          placeholder="Enter Blurb"
-          onChangeText={(value) => setBlurb(value)}
-          multiline
-        />
-        <Input
-          label="Open Time"
-          labelStyle={styles.input}
-          placeholder="Enter Open Time"
-          onChangeText={(value) => setOpenTime(value)}
-        />
-        <Input
-          label="Close Time"
-          labelStyle={styles.input}
-          placeholder="Enter Close Time"
-          onChangeText={(value) => setCloseTime(value)}
-        />
-        <Input
-          label="Latitude"
-          labelStyle={styles.input}
-          placeholder="Enter Latitude"
-          onChangeText={(value) => setLatitude(value)}
-        />
-        <Input
-          label="Longitude"
-          labelStyle={styles.input}
-          placeholder="Enter Longitude"
-          onChangeText={(value) => setLongitude(value)}
-        />
-        <Button
-          title="Upload Logo Here"
-          type="clear"
-          buttonStyle={{ alignSelf: 'flex-start', marginTop: -10, marginBottom: 10 }}
-          onPress={openImagePickerAsync}
-        />
-        <Button
-          title="Save"
-          onPress={handleLoginSubmit}
-          buttonStyle={styles.button}
-        />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </SafeAreaView>
+    </View>
+    // </KeyboardAvoidingView>
   );
 };
 

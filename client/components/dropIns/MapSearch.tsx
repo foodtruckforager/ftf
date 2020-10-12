@@ -1,17 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import { Input } from 'react-native-elements';
 
-export default function MapSearch({ search, setSearch, truckMarkers }) {
-  const styles = StyleSheet.create({
-    spinner: {
-      alignSelf: 'flex-end',
-      right: 65,
-      bottom: 40,
-      position: 'absolute',
-    },
-  });
-
+export default function MapSearch({ search, setSearch }) {
   return (
     <View>
       <Input
@@ -20,9 +11,6 @@ export default function MapSearch({ search, setSearch, truckMarkers }) {
         value={search}
         leftIcon={{ type: 'material', name: 'search', color: 'grey' }}
       />
-      <View style={styles.spinner}>
-        {!truckMarkers.length && <ActivityIndicator size="small" />}
-      </View>
     </View>
   );
 }

@@ -100,11 +100,7 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
         <Text>{review_description}</Text>
         <Card.Image source={{ uri: reviewPhoto }} resizeMode="cover" />
         <View style={styles.stars}>
-<<<<<<< HEAD
         {keywords && (<Text>{keywords.map((prediction: Object) => `${prediction.class}, `).join('')
-=======
-          {keywords && (<Text>{keywords.map((prediction: Object) => `${prediction.class}, `).join('')
->>>>>>> ba14708f4d446557c04fc730e83a6596af3f1085
     .slice(0, -2)}</Text>)}
         </View>
       </Card>

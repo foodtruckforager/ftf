@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, ScrollView, AsyncStorage, ActivityIndicator,
+  StyleSheet, View, ScrollView, AsyncStorage,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
@@ -324,12 +324,6 @@ export default () => {
       backgroundColor: colors.background,
       marginTop: 2,
     },
-    spinner: {
-      position: 'absolute',
-      alignSelf: 'center',
-      zIndex: 15,
-      marginTop: 130,
-    },
   });
 
   return (
@@ -337,7 +331,6 @@ export default () => {
       <View style={styles.settings}>
         <UserSettings />
       </View>
-      {!googleUserId && <ActivityIndicator style={styles.spinner} size="large" />}
       <View style={styles.favTrucksBadgesView}>
         {favorite && <FavoriteTruck {...{ favoriteTrucks }} />}
         <Badges {...{ badges }} />
@@ -347,7 +340,6 @@ export default () => {
           toggleOverlay={toggleOverlay}
           setIsVisible={setIsVisible}
           isVisible={isVisible}
-          userId={userId.toString()}
         />
       </View>
     </ScrollView>
