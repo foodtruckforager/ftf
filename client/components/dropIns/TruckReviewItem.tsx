@@ -22,10 +22,6 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
 
   const { colors } = useTheme();
 
-  const keywordsMapped = keywords
-    .map((prediction: Object) => `${prediction.class}, `).join('')
-    .slice(0, -2);
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -104,7 +100,8 @@ const TruckReviewItem = ({ review, currentTruck, currentTruckReviewers }) => {
         <Text>{review_description}</Text>
         <Card.Image source={{ uri: reviewPhoto }} resizeMode="cover" />
         <View style={styles.stars}>
-          <Text>{keywordsMapped}</Text>
+          {keywords && (<Text>{keywords.map((prediction: Object) => `${prediction.class}, `).join('')
+    .slice(0, -2)}</Text>)}
         </View>
       </Card>
     </View>

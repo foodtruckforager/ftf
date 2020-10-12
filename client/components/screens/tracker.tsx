@@ -21,6 +21,7 @@ export default function Tracker({ navigation }) {
       // flexDirection: 'row',
     },
     search: {
+      marginTop: -10,
       // flex: 0.08,
       // flex: 1,
       // alignItems: 'stretch',
@@ -32,6 +33,8 @@ export default function Tracker({ navigation }) {
       justifyContent: 'center',
       paddingTop: Constants.statusBarHeight,
       backgroundColor: '#ecf0f1',
+      marginBottom: -40,
+      marginTop: -4,
     },
   });
 
