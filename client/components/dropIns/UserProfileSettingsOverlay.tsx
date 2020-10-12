@@ -7,14 +7,14 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import UserSettings from '../screens/settings';
 
-const UserProfileSettingsOverlay = () => {
+const UserProfileSettingsOverlay = ({ userId }) => {
   const [pushNotifications, setPushNotifications] = useState(false);
   const [visible, setVisible] = useState(false);
   const [username, setUsername] = useState('');
-  const [userId, setUserId] = useState('');
   const [googleUserId, setGoogleUserId] = useState(0);
   const [date, setDate] = useState(new Date(1598051730000)); // lunch start new Date(1598051730000)
   const [time, setTime] = useState(new Date(1598051730000)); // lunch end
@@ -23,6 +23,7 @@ const UserProfileSettingsOverlay = () => {
   const [show, setShow] = useState(false);
 
   const { colors } = useTheme();
+  const isFocused = useIsFocused();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -56,6 +57,13 @@ const UserProfileSettingsOverlay = () => {
   };
 
   const onSubmit = () => {
+    axios.put(`${process.env.EXPO_LocalLan}/user/update/${userId}`, {
+      fullName: username,
+    })
+      .then((response) => {
+        console.log('name successfully updated');
+      })
+      .catch((err) => console.log(err));
     toggleOverlay();
   };
 
@@ -102,12 +110,14 @@ const UserProfileSettingsOverlay = () => {
     },
     searchBarContainer: {
       backgroundColor: colors.backgroundCard,
+      width: 230,
+      alignSelf: 'center',
+      borderRadius: 5,
     },
     nameInputContainerStyle: {
       backgroundColor: colors.backgroundCard,
-      width: 230,
       alignSelf: 'center',
-      borderRadius: 2,
+      borderRadius: 10,
     },
     verticalPadding: {
       paddingVertical: 10,
