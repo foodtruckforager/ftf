@@ -575,7 +575,7 @@ function doStuffWithUserModel() {
 
   Review.findOrCreate({
     where: {
-      review_title: 'I LOVE Frencheeze!! THEYRE INCREDIBLE',
+      review_title: 'I LOVE this food truck!!',
       review_description:
         "This is some of the most edible dairy I've been able to find in New Orleans!! I can't stop!",
       review_star: 5,
