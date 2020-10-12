@@ -110,6 +110,7 @@ const ImageUploadOverlay = ({
       const imageTensor = imageToTensor(rawImageData);
       const newPredictions = await model.detect(imageTensor);
       setPredictions(newPredictions);
+      setKeywords(newPredictions);
 
       console.log('----------- predictions: ', newPredictions);
     } catch (error) {
