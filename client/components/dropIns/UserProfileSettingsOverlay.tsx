@@ -102,12 +102,13 @@ const UserProfileSettingsOverlay = () => {
     },
     searchBarContainer: {
       backgroundColor: colors.backgroundCard,
+      width: 230,
+      alignSelf: 'center',
+      borderRadius: 5,
     },
     nameInputContainerStyle: {
       backgroundColor: colors.backgroundCard,
-      width: 230,
       alignSelf: 'center',
-      borderRadius: 2,
     },
     verticalPadding: {
       paddingVertical: 10,
