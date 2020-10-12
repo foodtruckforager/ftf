@@ -110,7 +110,7 @@ export default () => {
       if (visits.length > 10) {
         setBadgeParliamentTruckaDelic(true);
       }
-      if (visits.length > 15) {
+      if (visits.length > 30) {
         setBadgeFeastMode(true);
       }
       if (
