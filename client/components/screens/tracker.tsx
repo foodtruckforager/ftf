@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet, View,
+  StyleSheet, View, ActivityIndicator,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import Constants from 'expo-constants';
 import Map from '../dropIns/Map';
 import MapSearch from '../dropIns/MapSearch';
-import Constants from 'expo-constants';
 
 export default function Tracker({ navigation }) {
   const [truckMarkers, setTruckMarkers] = useState([]);
@@ -35,7 +35,11 @@ export default function Tracker({ navigation }) {
   return (
     <View style={style.container}>
       <View style={style.search}>
-        <MapSearch search={search} setSearch={setSearch} />
+        <MapSearch
+          search={search}
+          setSearch={setSearch}
+          truckMarkers={truckMarkers}
+        />
       </View>
       <View style={style.map}>
         <Map
@@ -44,7 +48,7 @@ export default function Tracker({ navigation }) {
           truckMarkers={truckMarkers}
           setTruckMarkers={setTruckMarkers}
           navigation={navigation}
-          onMap={true}
+          onMap
         />
       </View>
     </View>

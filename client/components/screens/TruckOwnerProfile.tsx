@@ -5,9 +5,12 @@ import {
   Switch,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { Card, ListItem, Button, Text } from 'react-native-elements';
+import {
+  Card, ListItem, Button, Text,
+} from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
@@ -45,11 +48,17 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     });
   };
 
+  const navigateToEdit = () => {
+    navigation.navigate('TruckOwnerProfileEdit', {
+      currentTruck,
+    });
+  };
+
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
 
-  const getTruckPosts = async () => {
+  const getTruckPosts = async() => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${truckId}`)
       .then((response) => {
@@ -62,7 +71,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getTruckPosts();
   }, []);
 
-  const getData = async () => {
+  const getData = async() => {
     await axios
       .get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
       .then((response) => {
@@ -93,14 +102,14 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getData();
   }, [isFocused]);
 
-  useEffect(() => {
-    console.log('current truck in profile', currentTruck);
-  }, [currentTruck]);
+  // useEffect(() => {
+  //   console.log('current truck in profile', currentTruck);
+  // }, [currentTruck]);
 
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
     if (latitude && longitude) {
-      const updateOpenAndLocation = async () => {
+      const updateOpenAndLocation = async() => {
         await axios
           .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
             latitude,
@@ -234,6 +243,12 @@ const TruckOwnerProfile = ({ navigation, route }) => {
       marginBottom: 0,
       backgroundColor: colors.backgroundCard,
     },
+    spinner: {
+      alignSelf: 'center',
+      position: 'absolute',
+      marginTop: 180,
+      zIndex: 5,
+    },
   });
 
   return (
@@ -292,6 +307,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                       value={openStatus}
                     />
                   </View>
+                </View>
+                <View style={styles.spinner}>
+                  {!Object.keys(currentTruck).length && <ActivityIndicator size="large" />}
                 </View>
                 <View style={styles.listItem}>
                   <ListItem containerStyle={styles.listItemContainerStyle}>
@@ -356,7 +374,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 <Card.Divider />
                 <Button
                   title="Edit"
-                  onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
+                  onPress={navigateToEdit}
                   buttonStyle={styles.button}
                 />
                 <Card.Divider />
