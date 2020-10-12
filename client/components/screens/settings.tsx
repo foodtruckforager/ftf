@@ -2,21 +2,19 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, View, Text, Image, AsyncStorage,
 } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
-import { Icon } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function Settings({ onSettings }) {
+export default function Settings({ navigation, onSettings }) {
+  const [profile, setProfile] = useState(true);
   const [getUser, setGetUser] = useState([]);
   const [picture, setPicture] = useState('');
   const [userHasChangedPhoto, setUserHasChangedPhoto] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
   const { colors } = useTheme();
-
-  const isFocused = useIsFocused();
 
   const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`;
 
@@ -51,10 +49,10 @@ export default function Settings({ onSettings }) {
       },
       method: 'POST',
     })
-      .then(async(response) => {
-        const responseData = await response.json();
+      .then(async(r) => {
+        const data = await r.json();
         setUserHasChangedPhoto(true);
-        setPicture(responseData.url);
+        setPicture(data.url);
       })
       .catch((err) => console.log(err));
   };
@@ -74,35 +72,35 @@ export default function Settings({ onSettings }) {
   }, [picture]);
   // NOT BELOW THIS POINT THOUGH
   let googleData;
-
-  const retrieveData = async() => {
-    try {
-      const value = await AsyncStorage.getItem('userData');
-      if (value !== null) {
-        googleData = JSON.parse(value);
-        googleData = googleData.user;
-        return googleData;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  let userData;
 
   useEffect(() => {
+    const retrieveData = async() => {
+      try {
+        const value = await AsyncStorage.getItem('userData');
+        if (value !== null) {
+          googleData = JSON.parse(value);
+          googleData = googleData.user;
+          return googleData;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     retrieveData()
-      .then(() => {
+      .then((response) => {
+        console.log('response in user settings', response);
+        console.log('googleData', googleData);
         axios
           .get(`${process.env.EXPO_LocalLan}/user/googleId/${googleData.id}`)
           .then((response) => {
+            console.log('log after get', response);
+            userData = response.data[0].id;
             setGetUser(response.data);
             setPicture(response.data[0].profile_photo_url);
           });
       });
   }, []);
-
-  useEffect(() => {
-    retrieveData();
-  }, [isFocused]);
 
   const styles = StyleSheet.create({
     camera: {
@@ -204,3 +202,76 @@ export default function Settings({ onSettings }) {
     </View>
   );
 }
+
+// const styles = StyleSheet.create({
+//   camera: {
+//     marginLeft: 118,
+//   },
+//   avatar: {
+//     width: 130,
+//     height: 130,
+//     borderRadius: 63,
+//     borderWidth: 4,
+//     borderColor: 'white',
+//     marginBottom: 10,
+//     alignSelf: 'center',
+//     position: 'absolute',
+//     marginTop: 40,
+//   },
+//   name: {
+//     fontSize: 22,
+//     color: '#FFFFFF',
+//     fontWeight: '600',
+//   },
+//   bottom: {
+//     position: 'absolute',
+//     bottom: 0,
+//   },
+//   body: {
+//     marginTop: 40,
+//   },
+//   bodyContent: {
+//     flex: 1,
+//     alignItems: 'center',
+//     padding: 30,
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     alignSelf: 'center',
+//     marginTop: 70,
+//   },
+//   editProfile: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   info: {
+//     fontSize: 16,
+//     color: '#00BFFF',
+//     marginTop: 10,
+//   },
+//   description: {
+//     fontSize: 16,
+//     color: '#696969',
+//     marginTop: 10,
+//     textAlign: 'center',
+//   },
+//   buttonContainer: {
+//     marginTop: 40,
+//     height: 45,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginBottom: 0,
+//     width: 250,
+//     borderRadius: 30,
+//     backgroundColor: '#00BFFF',
+//   },
+//   picture: {
+//     width: 50,
+//     height: 50,
+//   },
+//   title: {
+//     alignSelf: 'center',
+//     fontSize: 32,
+//     fontWeight: 'bold',
+//   },
+// });

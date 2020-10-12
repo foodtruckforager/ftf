@@ -5,12 +5,9 @@ import {
   Switch,
   SafeAreaView,
   ScrollView,
-  ActivityIndicator,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import {
-  Card, ListItem, Button, Text,
-} from 'react-native-elements';
+import { Card, ListItem, Button, Text } from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
@@ -48,17 +45,11 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     });
   };
 
-  const navigateToEdit = () => {
-    navigation.navigate('TruckOwnerProfileEdit', {
-      currentTruck,
-    });
-  };
-
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
 
-  const getTruckPosts = async() => {
+  const getTruckPosts = async () => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${truckId}`)
       .then((response) => {
@@ -68,11 +59,10 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    console.log(route.params);
     getTruckPosts();
   }, []);
 
-  const getData = async() => {
+  const getData = async () => {
     await axios
       .get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
       .then((response) => {
@@ -110,7 +100,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
     if (latitude && longitude) {
-      const updateOpenAndLocation = async() => {
+      const updateOpenAndLocation = async () => {
         await axios
           .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
             latitude,
@@ -241,13 +231,8 @@ const TruckOwnerProfile = ({ navigation, route }) => {
       borderRadius: 15,
       marginLeft: 0,
       marginRight: 0,
+      marginBottom: 0,
       backgroundColor: colors.backgroundCard,
-    },
-    spinner: {
-      alignSelf: 'center',
-      position: 'absolute',
-      marginTop: 180,
-      zIndex: 5,
     },
   });
 
@@ -278,11 +263,11 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 </View>
                 {/* <View style={styles.stars}>
                 <Text style={{ color: 'orange' }}>
-                  {String.fromCharCode(9733).repeat(Math.floor(3.0))}
+                  {String.fromCharCode(9733).repeat(Math.floor(starAverage))}
                 </Text>
                 <Text style={{ color: 'lightgrey' }}>
                   {String.fromCharCode(9733).repeat(
-                    5 - Math.floor(5.0),
+                    5 - Math.floor(starAverage),
                   )}
                 </Text>
               </View> */}
@@ -308,9 +293,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                     />
                   </View>
                 </View>
-                <View style={styles.spinner}> 
-                      {!Object.keys(currentTruck).length && <ActivityIndicator size="large" />}
-                    </View>
                 <View style={styles.listItem}>
                   <ListItem containerStyle={styles.listItemContainerStyle}>
                     <ListItem.Content style={styles.listItemContainerStyle}>
@@ -374,8 +356,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 <Card.Divider />
                 <Button
                   title="Edit"
-                  onPress={navigateToEdit}
-                  // onPress={() => { console.log('click')}}
+                  onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
                   buttonStyle={styles.button}
                 />
                 <Card.Divider />
@@ -391,7 +372,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 <Button
                   title="Generate QR Code"
                   onPress={navigateToQrGenerate}
-                  // onPress={() => console.log('click')}
                   buttonStyle={styles.button}
                 />
                 <Card.Divider />
@@ -402,7 +382,6 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                   }}
                   buttonStyle={styles.button}
                 />
-
               </Card>
             </View>
           </View>

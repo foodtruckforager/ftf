@@ -131,7 +131,7 @@ export default function TruckReviews({ navigation }) {
           <Button
             title="Reviews"
             buttonStyle={{
-              backgroundColor: colors.pressedButton,
+              backgroundColor: 'darkblue',
             }}
             onPress={() => {}}
           />

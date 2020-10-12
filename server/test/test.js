@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-const {
-  User, Truck, Review, Post, Visit,
-} = require('../db/db');
+const { User, Truck, Review, Post, Visit } = require('../db/db');
 
 function doStuffWithUserModel() {
   User.findOrCreate({
@@ -100,7 +98,7 @@ function doStuffWithUserModel() {
         'https://rh-vendoradmin.s3.amazonaws.com/trucks/original/1006/5ca28545-91ec-42d2-8054-43d746204482.jpg',
       food_genre: 'american',
       blurb:
-        'Lucky Dogs hot dog cart is a unique fast food company offering an impulse item that serves as a snack, an appetizer, or a meal in itself. We are ideally suited for the modern craze called “grazing” or eating on the run…A Lucky Dog in one hand, a soft drink in the other. We have proven to be highly successful in airports, casinos, malls, sport stadiums, and numerous other heavily trafficked areas where service and speed are at a premium.Were an old company, but we have exciting new concepts. We\'ve sold over 21 million hot dogs in the past fifty years.',
+        "Lucky Dogs hot dog cart is a unique fast food company offering an impulse item that serves as a snack, an appetizer, or a meal in itself. We are ideally suited for the modern craze called “grazing” or eating on the run…A Lucky Dog in one hand, a soft drink in the other. We have proven to be highly successful in airports, casinos, malls, sport stadiums, and numerous other heavily trafficked areas where service and speed are at a premium.Were an old company, but we have exciting new concepts. We've sold over 21 million hot dogs in the past fifty years.",
       open_time: '11',
       close_time: '11',
       latitude: 29.9510660269581,
@@ -548,14 +546,41 @@ function doStuffWithUserModel() {
     .then((found) => console.log(`✅ Found truck by name ${found}`))
     .catch((err) => console.log(`❌${err}`));
 
+  Truck.findOrCreate({
+    where: {
+      full_name: "Bob's Burgers",
+      phone_number: '5042856543',
+      google_id: `${process.env.PERSONAL_GOOGLE_ID}`,
+      qr_code: 'qrCode17',
+      logo:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.VJDlOjo_PyQUYJJRWGN4awHaHa%26pid%3DApi&f=1',
+      food_genre: 'american',
+      blurb:
+        "Bob's Burgers is one of the most exemplary grass fed burgers one can find in the city. Come get your fix from the greatest mustache'd chef around!",
+      open_time: '11:00 am',
+      close_time: '8:00 pm',
+      latitude: 29.97217589,
+      longitude: -90.09846987,
+      star_average: 4,
+    },
+  })
+    .then((newTruck) => {
+      console.log(`✅ New Truck Created: ${newTruck}`);
+    })
+    .catch((err) => {
+      console.log(`❌${err}`);
+    });
+
   if (foundTruck === null) return;
 
   Review.findOrCreate({
     where: {
       review_title: 'I LOVE Frencheeze!! THEYRE INCREDIBLE',
-      review_description: 'This is some of the most edible dairy I\'ve been able to find in New Orleans!! I can\'t stop!',
+      review_description:
+        "This is some of the most edible dairy I've been able to find in New Orleans!! I can't stop!",
       review_star: 5,
-      review_photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
+      review_photo:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRTmpzHIZ9FYP3DqV-ahD1ngl9CwAmRmjsAhQ&usqp=CAU',
       id_user: 1,
       id_truck: 2,
       upvotes: 4,
