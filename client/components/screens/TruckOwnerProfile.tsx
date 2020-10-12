@@ -5,9 +5,12 @@ import {
   Switch,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { Card, ListItem, Button, Text } from 'react-native-elements';
+import {
+  Card, ListItem, Button, Text,
+} from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
@@ -51,12 +54,11 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     });
   };
 
-
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
 
-  const getTruckPosts = async () => {
+  const getTruckPosts = async() => {
     axios
       .get(`${process.env.EXPO_LocalLan}/truck/truckpost/${truckId}`)
       .then((response) => {
@@ -69,7 +71,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getTruckPosts();
   }, []);
 
-  const getData = async () => {
+  const getData = async() => {
     await axios
       .get(`${process.env.EXPO_LocalLan}/truck/login/${route.params.googleId}`)
       .then((response) => {
@@ -107,7 +109,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
     if (latitude && longitude) {
-      const updateOpenAndLocation = async () => {
+      const updateOpenAndLocation = async() => {
         await axios
           .put(`${process.env.EXPO_LocalLan}/truck/update/${truckId}`, {
             latitude,
@@ -305,6 +307,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                       value={openStatus}
                     />
                   </View>
+                </View>
+                <View style={styles.spinner}>
+                  {!Object.keys(currentTruck).length && <ActivityIndicator size="large" />}
                 </View>
                 <View style={styles.listItem}>
                   <ListItem containerStyle={styles.listItemContainerStyle}>
