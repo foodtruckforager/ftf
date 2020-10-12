@@ -4,9 +4,6 @@ import { Text, Card } from 'react-native-elements';
 import TimeAgo from 'react-native-timeago';
 
 const TruckPostItem = ({ post }) => {
-  const keywordsMapped = post.keywords
-    .map((prediction: Object) => `${prediction.class}, `).join('')
-    .slice(0, -2);
 
   return (
     <View key={post.id} style={styles.container}>
@@ -22,7 +19,10 @@ const TruckPostItem = ({ post }) => {
           resizeMode="cover"
         />
         <View style={styles.stars}>
+<<<<<<< HEAD
           <Text>{keywordsMapped}</Text>
+=======
+>>>>>>> ba14708f4d446557c04fc730e83a6596af3f1085
         {post.keywords && (<Text>{post.keywords.map((prediction: Object) => `${prediction.class}, `).join('')
     .slice(0, -2)}</Text>)}
         </View>

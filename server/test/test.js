@@ -515,6 +515,31 @@ function doStuffWithUserModel() {
       console.log(`❌${err}`);
     });
 
+  Truck.findOrCreate({
+    where: {
+      full_name: 'Bob\'s Burgers',
+      phone_number: '5042856543',
+      google_id: `${process.env.PERSONAL_GOOGLE_ID}`,
+      qr_code: 'qrCode17',
+      logo:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.VJDlOjo_PyQUYJJRWGN4awHaHa%26pid%3DApi&f=1',
+      food_genre: 'american',
+      blurb:
+        'Bob\'s Burgers is one of the most exemplary grass fed burgers one can find in the city. Come get your fix from the greatest mustache\'d chef around!',
+      open_time: '11:00 am',
+      close_time: '8:00 pm',
+      latitude: 29.97217589,
+      longitude: -90.09846987,
+      star_average: 4,
+    },
+  })
+    .then((newTruck) => {
+      console.log(`✅ New Truck Created: ${newTruck}`);
+    })
+    .catch((err) => {
+      console.log(`❌${err}`);
+    });
+
   const foundTruck = Truck.findOne({
     where: { full_name: 'Rolling Fatties' },
   })
