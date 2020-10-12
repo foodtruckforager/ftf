@@ -23,11 +23,14 @@ const TruckPostItem = ({ post }) => {
         />
         <View style={styles.stars}>
           <Text>{keywordsMapped}</Text>
+        {post.keywords && (<Text>{post.keywords.map((prediction: Object) => `${prediction.class}, `).join('')
+    .slice(0, -2)}</Text>)}
         </View>
       </Card>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
