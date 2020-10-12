@@ -14,7 +14,7 @@ export default function MapSearch({ search, setSearch, truckMarkers }) {
   return (
     <View>
       <Input
-        placeholder="Search by Type of Food..."
+        placeholder="Search by Cuisine or Truck..."
         onChangeText={(text) => setSearch(text.toLowerCase())}
         value={search}
         leftIcon={{ type: 'material', name: 'search', color: 'grey' }}

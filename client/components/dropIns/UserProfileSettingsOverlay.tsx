@@ -56,6 +56,13 @@ const UserProfileSettingsOverlay = () => {
   };
 
   const onSubmit = () => {
+    axios.put(`${process.env.EXPO_LocalLan}/user/update/${userId}`, {
+      fullName: username,
+    })
+      .then(() => {
+        console.log('name successfully updated');
+      })
+      .catch((err) => console.log(err));
     toggleOverlay();
   };
 
