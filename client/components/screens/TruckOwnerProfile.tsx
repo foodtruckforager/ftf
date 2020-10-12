@@ -45,6 +45,13 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     });
   };
 
+  const navigateToEdit = () => {
+    navigation.navigate('TruckOwnerProfileEdit', {
+      currentTruck,
+    });
+  };
+
+
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
@@ -93,9 +100,9 @@ const TruckOwnerProfile = ({ navigation, route }) => {
     getData();
   }, [isFocused]);
 
-  useEffect(() => {
-    console.log('current truck in profile', currentTruck);
-  }, [currentTruck]);
+  // useEffect(() => {
+  //   console.log('current truck in profile', currentTruck);
+  // }, [currentTruck]);
 
   // TODO: update open status and latitude/longitude in database
   useEffect(() => {
@@ -234,6 +241,12 @@ const TruckOwnerProfile = ({ navigation, route }) => {
       marginBottom: 0,
       backgroundColor: colors.backgroundCard,
     },
+    spinner: {
+      alignSelf: 'center',
+      position: 'absolute',
+      marginTop: 180,
+      zIndex: 5,
+    },
   });
 
   return (
@@ -356,7 +369,7 @@ const TruckOwnerProfile = ({ navigation, route }) => {
                 <Card.Divider />
                 <Button
                   title="Edit"
-                  onPress={() => navigation.navigate('TruckOwnerProfileEdit')}
+                  onPress={navigateToEdit}
                   buttonStyle={styles.button}
                 />
                 <Card.Divider />
