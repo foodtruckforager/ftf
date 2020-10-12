@@ -57,7 +57,8 @@ export default function ScanQRCode() {
         console.log('req.parmas scan', response);
       })
       .catch((err) => console.log(err));
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert('Thank you for visiting this food truck!')
   };
 
   if (hasPermission === null) {

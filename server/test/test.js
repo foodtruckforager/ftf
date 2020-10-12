@@ -517,7 +517,7 @@ function doStuffWithUserModel() {
 
   Truck.findOrCreate({
     where: {
-      full_name: 'Bob\'s Burgers',
+      full_name: "Bob's Burgers",
       phone_number: '5042856543',
       google_id: `${process.env.PERSONAL_GOOGLE_ID}`,
       qr_code: 'qrCode17',
@@ -525,7 +525,7 @@ function doStuffWithUserModel() {
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.VJDlOjo_PyQUYJJRWGN4awHaHa%26pid%3DApi&f=1',
       food_genre: 'american',
       blurb:
-        'Bob\'s Burgers is one of the most exemplary grass fed burgers one can find in the city. Come get your fix from the greatest mustache\'d chef around!',
+        "Bob's Burgers is one of the most exemplary grass fed burgers one can find in the city. Come get your fix from the greatest mustache'd chef around!",
       open_time: '11:00 am',
       close_time: '8:00 pm',
       latitude: 29.97217589,
@@ -575,7 +575,7 @@ function doStuffWithUserModel() {
 
   Review.findOrCreate({
     where: {
-      review_title: 'I LOVE Frencheeze!! THEYRE INCREDIBLE',
+      review_title: 'I LOVE this food truck!!',
       review_description:
         "This is some of the most edible dairy I've been able to find in New Orleans!! I can't stop!",
       review_star: 5,
