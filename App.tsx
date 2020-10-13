@@ -1,10 +1,12 @@
 import * as React from 'react';
-import color from 'color';
-import { StyleSheet } from 'react-native';
-import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { StyleSheet, Appearance } from 'react-native';
+import {
+  configureFonts, DefaultTheme, DarkTheme, Provider as PaperProvider,
+} from 'react-native-paper';
 import LogIn from './client/components/screens/LogIn';
 
 export default function App() {
+  const [darkMode, setDarkMode] = React.useState(false);
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -43,8 +45,13 @@ export default function App() {
     },
   };
 
+  const colorScheme = Appearance.getColorScheme();
+  if (colorScheme === 'dark') {
+    setDarkMode(true);
+  }
+
   return (
-    <PaperProvider theme={customTheme}>
+    <PaperProvider theme={darkMode ? DarkTheme : customTheme}>
       <LogIn />
     </PaperProvider>
   );

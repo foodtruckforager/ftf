@@ -6,26 +6,28 @@ Application for live tracking food trucks
 
 # Description
 
-Welcome to Food Truck Forager. Food Truck Forager provides users access to food trucks in their area. Food trucks load automatically as a user traverses to new areas within Google Maps or Apple Maps. Users can save their favorite trucks, review trucks, and earn achievements based on how often they visit food trucks. Additionally, users can receive push notifications for trucks in their area! All photos uploaded are automatically tagged via machine learning AI image classification for screen reader accessibility options and photo content search.
+Welcome to Food Truck Forager. Food Truck Forager provides users access to food trucks in their area. Food trucks load automatically as a user traverses to new areas within Google Maps or Apple Maps. Users can save their favorite trucks, review trucks, and earn achievements based on how often they visit food trucks via QR code scanning. Additionally, users can receive push notifications for trucks in their area! All photos uploaded are automatically tagged via machine learning AI image classification for screen reader accessibility options and photo content search. Food Truck Forager also allows food truck owners to create a business account and easily connect to current and potential customers. Truck owners can create posts and generate QR codes for user badge earning. Owners can also easily update their location on the map via marker dragging and update their open/closed status instantly.
 
 # Dependencies
 
  - Babel
  - Eslint
- - Expo
  - Express
- - Fetch
  - Node
+ - Axios
  - PostgreSQL
  - Sequelize
+ - Expo
  - React Native
  - React Native Maps
  - React Navigation
+ - React Native Paper
  - TensorFlow.js
 
 ```javascript
 "dependencies": {
-    "@react-native-community/async-storage": "^1.12.0",
+    "@react-native-community/async-storage": "~1.11.0",
+    "@react-native-community/datetimepicker": "^2.4.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
@@ -46,8 +48,8 @@ Welcome to Food Truck Forager. Food Truck Forager provides users access to food 
     "expo-gl": "^8.3.1",
     "expo-google-app-auth": "^8.1.2",
     "expo-image-picker": "~8.3.0",
-    "expo-notifications": "^0.5.0",
-    "expo-permissions": "^9.1.0",
+    "expo-notifications": "~0.3.3",
+    "expo-permissions": "~9.0.1",
     "expo-status-bar": "^1.0.2",
     "expo-web-browser": "~8.3.1",
     "express": "^4.17.1",
@@ -65,19 +67,23 @@ Welcome to Food Truck Forager. Food Truck Forager provides users access to food 
     "react-native-gesture-handler": "~1.6.0",
     "react-native-maps": "0.27.1",
     "react-native-masked-view": "^0.2.0",
-    "react-native-material-dropdown": "^0.11.1",
+    "react-native-paper": "^4.2.0",
+    "react-native-qrcode-svg": "^6.0.6",
     "react-native-reanimated": "~1.9.0",
     "react-native-redash": "^8.0.0",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~2.9.0",
     "react-native-svg": "12.1.0",
+    "react-native-timeago": "^0.5.0",
+    "react-native-view-more-text": "^2.1.0",
     "react-native-web": "~0.11.7",
+    "react-native-webview": "^9.4.0",
+    "react-native-word-cloud": "^1.0.7",
     "react-navigation": "^4.4.0",
     "react-navigation-drawer": "^2.5.0",
     "react-navigation-stack": "^2.8.2",
-    "sequelize": "^6.3.4",
-    "tcomb-form-native": "^0.6.20"
+    "sequelize": "^6.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -130,8 +136,11 @@ env_variables:
   EXPO_iosClientId               // Google Development Console iOS Client ID
   EXPO_androidClientId           // Google Development Console Android Client ID
   EXPO_LocalLan                  // localLanAddress:ServerPort (find via ipconfig or ifconfig, default port:8080)
-  CLOUDINARY_KEY                 // key for Cloudinary image uploads
-  CLOUDINARY_PRESET              // preset for Cloudinary image uploads
+  CLOUDINARY_NAME                // name to use for Cloudinary image uploads
+  CLOUDINARY_URL                 // URL to use for Cloudinary image uploads
+  CLOUDINARY_API_KEY             // key for Cloudinary image uploads
+  CLOUDINARY_API_SECRET          // secret to use for Cloudinary image uploads 
+  CLOUDINARY_UPLOAD_PRESET       // preset for Cloudinary image uploads
   DB_USERNAME                    // PostgreSQL login username
   DB_PASSWORD                    // PostgreSQL password
   DB_HOST                        // database host (default=localhost)
