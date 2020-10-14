@@ -1,21 +1,10 @@
 import * as React from 'react';
-import { StyleSheet, Appearance } from 'react-native';
 import {
-  configureFonts, DefaultTheme, DarkTheme, Provider as PaperProvider,
+  configureFonts, DefaultTheme, Provider as PaperProvider,
 } from 'react-native-paper';
 import LogIn from './client/components/screens/LogIn';
 
 export default function App() {
-  const [darkMode, setDarkMode] = React.useState(false);
-  const theme = {
-    ...DefaultTheme,
-    colors: {
-      ...DefaultTheme.colors,
-      primary: 'tomato',
-      accent: 'yellow',
-    },
-  };
-
   const customTheme = {
     dark: false,
     roundness: 15,
@@ -45,23 +34,9 @@ export default function App() {
     },
   };
 
-  const colorScheme = Appearance.getColorScheme();
-  if (colorScheme === 'dark') {
-    setDarkMode(true);
-  }
-
   return (
-    <PaperProvider theme={darkMode ? DarkTheme : customTheme}>
+    <PaperProvider theme={customTheme}>
       <LogIn />
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
