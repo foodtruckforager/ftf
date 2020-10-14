@@ -6,7 +6,7 @@ export default function MapSearch({ search, setSearch, truckMarkers }) {
   const styles = StyleSheet.create({
     spinner: {
       alignSelf: 'flex-end',
-      right: 65,
+      right: 45,
       bottom: 40,
       position: 'absolute',
     },
