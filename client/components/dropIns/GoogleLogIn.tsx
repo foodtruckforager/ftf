@@ -74,8 +74,6 @@ export default function GoogleLogIn({
       if (result.type === 'success') {
         storeData('ownerData', JSON.stringify(result));
         setAccessToken(result.accessToken);
-        setIsTruckOwnerLoggedIn(true);
-        setOwnerGoogleId(result.user.id);
 
         axios.post(`${process.env.EXPO_LocalLan}/truck/register`, {
           googleId: result.user.id,
@@ -83,8 +81,12 @@ export default function GoogleLogIn({
           .then((response) => {
             if (!response.data[1]) {
               console.log('You have logged in. Welcome Back!');
+              setOwnerGoogleId(result.user.id);
+              setIsTruckOwnerLoggedIn(true);
             } else {
               console.log('Truck successfully registered');
+              setOwnerGoogleId(result.user.id);
+              setIsTruckOwnerLoggedIn(true);
             }
           })
           .catch((err) => console.log(err));
