@@ -163,6 +163,7 @@ const SubmitOverlay = ({
     },
     centerText: {
       flex: 0.4,
+      marginTop: 12,
       flexDirection: 'row',
       justifyContent: 'center',
     },

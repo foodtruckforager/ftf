@@ -33,6 +33,7 @@ export default function App() {
       scale: 1.0,
     },
   };
+  console.disableYellowBox = true; 
 
   return (
     <PaperProvider theme={customTheme}>
