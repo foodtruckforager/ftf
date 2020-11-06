@@ -152,6 +152,8 @@ env_variables:
 
 [Download PostgreSQL](https://www.postgresql.org/download/)
 
+<img src="https://raw.githubusercontent.com/JSteigner/ftf/adding-screenshot-branch/assets/ForagerSixScreenShotsCollageFinal.png" width="700" height="700" >
+
 # Contact
 
 - ioctosteigner@gmail.com
