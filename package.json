@@ -30,7 +30,7 @@
     "@tensorflow/tfjs-backend-webgl": "^2.3.0",
     "@tensorflow/tfjs-core": "^2.3.0",
     "@tensorflow/tfjs-react-native": "^0.3.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "babel-plugin-inline-dotenv": "^1.6.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
